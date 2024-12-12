@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C - H Portfolio</title>
+
+
+     <!-- Bootstrap CSS -->
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+     <!-- Font Awesome -->
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+     <!-- AOS CSS -->
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+   
+  
+
+    <style>
+            /* Animations des particules de fond */
+            body {
+            margin: 0;
+            background: #0a192f;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background: rgba(10, 25, 47, 0.95);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(10, 25, 47, 0.98);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-brand, .nav-link {
+            color: #64ffda !important;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #ffffff !important;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-image {
+            border: 3px solid #64ffda;
+            box-shadow: 0 0 20px rgba(100, 255, 218, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.02);
+        }
+
+        /* Typing Animation */
+        .typing-text::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Projects Section */
+        .projects-section {
+            padding: 100px 0;
+            background: rgba(10, 25, 47, 0.8);
+        }
+
+        .project-card {
+            background: rgba(17, 34, 64, 0.95);
+            border: 1px solid #64ffda;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(100, 255, 218, 0.2);
+        }
+
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        /* Skills Section */
+       
+
+        .skills-section {
+            padding: 100px 0;
+            background: rgba(10, 25, 47, 0.9);
+            position: relative;
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .skill-card {
+            background: rgba(17, 34, 64, 0.95);
+            border: 2px solid #64ffda;
+            border-radius: 15px;
+            padding: 25px;
+            width: 300px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                45deg,
+                transparent 20%,
+                rgba(100, 255, 218, 0.1) 40%,
+                rgba(100, 255, 218, 0.1) 60%,
+                transparent 80%
+            );
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(100, 255, 218, 0.2);
+        }
+
+        .skill-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .skill-icon {
+            font-size: 3rem;
+            color: #64ffda;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-card:hover .skill-icon {
+            transform: scale(1.1);
+        }
+
+        .skill-name {
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .skill-percentage {
+            font-size: 1rem;
+            color: #64ffda;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.3s ease;
+        }
+
+        .skill-card:hover .skill-percentage {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .progress-bar-container {
+            background: rgba(100, 255, 218, 0.1);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #64ffda, #00fff2);
+            width: 0;
+            border-radius: 4px;
+            position: relative;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: shimmer 2s infinite;
+        }
+
+        .details-container {
+            margin-top: 15px;
+            height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .skill-card:hover .details-container {
+            height: 60px;
+            opacity: 1;
+        }
+
+        .skill-details {
+            color: #a8b2d1;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(100, 255, 218, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(100, 255, 218, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(100, 255, 218, 0);
+            }
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 100px 0;
+            background: rgba(10, 25, 47, 0.8);
+        }
+
+        .contact-form .form-control {
+            background: rgba(17, 34, 64, 0.95);
+            border: 1px solid #64ffda;
+            color: #fff;
+            padding: 12px;
+        }
+
+        .contact-form .form-control:focus {
+            box-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+        }
+
+        .btn-primary {
+            background: transparent;
+            border: 2px solid #64ffda;
+            color: #64ffda;
+            padding: 10px 25px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: rgba(100, 255, 218, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Modal Styles */
+        .modal-content {
+            background: rgba(10, 25, 47, 0.95);
+            border: 1px solid #64ffda;
+            color: #fff;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid rgba(100, 255, 218, 0.2);
+        }
+
+        .modal-footer {
+            border-top: 1px solid rgba(100, 255, 218, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(10, 25, 47, 0.98);
+            color: #64ffda;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+
+
+    </head>
+
+  
+<body>
+  
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">C - H Portfolio</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Accueil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#projects">Projets</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">Skills</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="CV-Youssef-Cherkaoui.pdf" download><i class="fas fa-download"></i> CV</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+  </div>
+
+  
+
+  
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6" data-aos="fade-right">
+                 
+
+                    <h1 class="display-4 fw-bold mb-4" style="margin-top: 70px;"><span class="typing-text"></span></h1>
+                    <p class="lead mb-4" style="color: aquamarine;">Passionné par le développement web fullstack Java/Angular</p>
+                    <div class="social-links">
+                        <div style="display: flex; align-items: center; color: #eee;">
+                            <a href="https://github.com/youssef-cherkaoui?tab=repositories" target="_blank" style="margin-right: 8px;">
+                                <i class="fab fa-github" style="color: #eee;"></i>
+                            </a>
+                            <p style="margin: 0;">youssef-cherkaoui</p>
+                        </div>
+
+                        <div style="display: flex; align-items: center; color: #eee;">
+                            <a href="https://www.linkedin.com/in/youssef-cherkaoui-4008b12ab/" target="_blank" style="margin-right: 8px;">
+                                <i class="fab fa-linkedin" style="color: #eee;"></i>
+                            </a>
+                            <p style="margin: 0;">Youssef CHERKAOUI</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <img src="Image11.jfif" alt="Profile" class="img-fluid profile-image" style=" border-radius: 10px; margin-top: 20px;">
+                </div>
+            </div>
+        </div>
+    </section>
+  
+    <!-- Projects Section -->
+    <section id="projects" class="projects-section">
+        <div class="container">
+            <h2 class="text-center mb-5" data-aos="fade-up">Mes Projets</h2>
+            <div class="row g-4">
+                <!-- Project Card Template -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                    <div class="project-card">
+                        <img src="leo5.jpg" class="card-img-top" alt="Project 1">
+                        <div class="card-body">
+                            <h5 class="card-title">Projet Donneur Du Sang</h5>
+                            <p class="card-text">Le projet Plateforme de gestion de dons de sang est une application web destinée à faciliter et à organiser les dons de sang.</p>
+                            <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#project1Modal">
+                                En savoir plus
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Content -->
+                <div class="modal fade" id="project1Modal" tabindex="-1" aria-labelledby="project1ModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="project1ModalLabel">En savoir plus sur le Projet Donneur Du Sang</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h5>Description du projet :</h5>
+                                <p>Le projet Plateforme de gestion de dons de sang est une application web destinée à faciliter et à organiser les dons de sang.</p>
+                                <h5>Technologies utilisées :</h5>
+                                <ul class="list-unstyled">
+                                    <li><strong>Frontend :</strong> Angular</li>
+                                    <li><strong>Backend :</strong> Spring Boot</li>
+                                    <li><strong>Base de Données :</strong> MySQL</li>
+                                    <li><strong>Tests :</strong> JUnit</li>
+                                    <li><strong>CI/CD :</strong> Jenkins</li>
+                                    <li><strong>Containerisation :</strong> Docker</li>
+                                    <li><strong>Analyse de Code :</strong> SonarQube</li>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                <a href="https://github.com/ton-repository" target="_blank" class="btn btn-primary">Voir le repository GitHub</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                <div class="project-card">
+                    <img src="IT-Support-Services-Detailed-IT-Services.jpg" class="card-img-top" alt="Project - Gestion des équipements informatiques">
+                    <div class="card-body">
+                        <h5 class="card-title">Gestion des Équipements Informatiques</h5>
+                        <p class="card-text">Système de gestion des équipements informatiques permettant le suivi des pannes, des tickets de support, et la génération de rapports et statistiques.</p>
+                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#project3Modal">
+                            En savoir plus
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal fade" id="project3Modal" tabindex="-1" aria-labelledby="project3ModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="project3ModalLabel">En savoir plus sur la Gestion des Équipements Informatiques</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h5>Description du projet :</h5>
+                            <p>
+                                Le projet de gestion des équipements informatiques permet à une organisation de suivre l’état des équipements, de gérer les pannes, et d'assurer le suivi des tickets de support. Ce système permet également de générer des rapports détaillés et des statistiques pour une gestion optimale des ressources et des incidents. L'objectif est de garantir une prise en charge rapide des problèmes et de maintenir un suivi de la performance de l'infrastructure informatique.
+                            </p>
+            
+                            <h5>Technologies utilisées :</h5>
+                            <ul class="list-unstyled">
+                                <li><strong>Backend :</strong> Spring Boot, Spring Data JPA, Spring Security</li>
+                                <li><strong>Frontend :</strong> Angular 16</li>
+                                <li><strong>Base de Données :</strong> MySQL</li>
+                                <li><strong>Test Unitaire :</strong> JUnit</li>
+                                <li><strong>Conteneurisation :</strong> Docker</li>
+                            </ul>
+            
+                            <h5>Fonctionnalités :</h5>
+                            <ul class="list-unstyled">
+                                <li>Suivi et gestion des équipements informatiques</li>
+                                <li>Gestion des pannes et tickets de support</li>
+                                <li>Génération de rapports et de statistiques sur les équipements</li>
+                                <li>Tableau de bord pour l'administration et la gestion des tickets</li>
+                                <li>Notifications et rappels pour les maintenances et réparations</li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                            <a href="https://github.com/youssef-cherkaoui/IT_Support_App" target="_blank" class="btn btn-primary">Voir le repository GitHub</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+<div class="col-lg-4 col-md-6" data-aos="fade-up">
+                <div class="project-card">
+                    <img src="F12.On-Site-IT-Support.woman-office-laptop.jpg" class="card-img-top" alt="ConstructionXpert Project">
+                    <div class="card-body">
+                        <h5 class="card-title">ConstructionXpert Services</h5>
+                        <p class="card-text">Application de gestion de projets de construction. Permet de planifier, organiser et suivre les projets de construction.</p>
+                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#project2Modal">
+                            En savoir plus
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal fade" id="project2Modal" tabindex="-1" aria-labelledby="project2ModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="project2ModalLabel">En savoir plus sur ConstructionXpert Services</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h5>Description du projet :</h5>
+                            <p>
+                                L'application ConstructionXpert Services est un outil de gestion de projets de construction. Elle permet à l'équipe de gestion de projets de suivre et d'organiser les différentes étapes d'un projet de construction, de la planification à la réalisation, en passant par le suivi des ressources et des tâches.
+                            </p>
+            
+                            <h5>Technologies utilisées :</h5>
+                            <ul class="list-unstyled">
+                                <li><strong>Frontend :</strong> HTML, CSS, Bootstrap, Tailwind, JavaScript</li>
+                                <li><strong>Backend :</strong> Java EE (Servlets, JSP)</li>
+                                <li><strong>Base de Données :</strong> MySQL</li>
+                                <li><strong>Communication avec la base de données :</strong> JDBC API</li>
+                                <li><strong>Serveur d'Application :</strong> Apache Tomcat</li>
+                                <li><strong>Outils de Développement :</strong> IntelliJ IDEA, Maven</li>
+                                <li><strong>Système de Gestion de Versions :</strong> Git</li>
+                            </ul>
+            
+                            <h5>Fonctionnalités :</h5>
+                            <ul class="list-unstyled">
+                                <li>Gestion des projets de construction</li>
+                                <li>Suivi des tâches et des ressources</li>
+                                <li>Interface conviviale et facile à utiliser</li>
+                                <li>Gestion des utilisateurs et des rôles</li>
+                                <li>Système de notifications et rappels pour les deadlines</li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                            <a href="https://github.com/youssef-cherkaoui/FILROUGE_DONNEURSANG" target="_blank" class="btn btn-primary">Voir le repository GitHub</a>
+
+                            </div>
+                    </div>
+                </div>
+            </div>
+  
+            </div>
+        </div>
+    </section>
+
+    
+<section id="skills" class="skills-section py-5">
+  <div class="container">
+      <h2 class="text-center mb-5" data-aos="fade-up">Mes Compétences</h2>
+      <div class="row justify-content-center">
+              <div class="skills-container">
+               
+          </div>
+      </div>
+  </div>
+</section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="text-center mb-5" data-aos="fade-up">Contactez-moi</h2>
+            <div class="row g-4">
+                <div class="col-lg-5" data-aos="fade-right">
+                    <div class="contact-info">
+                        <h4 class="mb-4">Mes Coordonnées</h4>
+                        <div class="d-flex align-items-center mb-4">
+                            <i class="fas fa-map-marker-alt" style="margin-right: 12px;"></i>
+                            <div>
+                                <h6 class="mb-0">Adresse</h6>
+                                <p class="mb-0">Casablanca</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-4">
+                            <i class="fas fa-envelope" style="margin-right: 12px;"></i>
+                            <div>
+                                <h6 class="mb-0">Email</h6>
+                                <p class="mb-0">Youssefesaaddik.cherkaoui@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-phone" style="margin-right: 12px;"></i>
+                            <div>
+                                <h6 class="mb-0">Téléphone</h6>
+                                <p class="mb-0">+212691176140</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7" data-aos="fade-left">
+                    <form class="contact-form" id="contactForm" novalidate>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="name" placeholder="Votre nom" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="email" class="form-control" id="email" placeholder="Votre email" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <textarea class="form-control" id="message" rows="5" placeholder="Votre message" required></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary w-100">Envoyer le message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+  
+    <!-- Footer -->
+    <footer class="text-center py-4">
+        <p>&copy; 2024 Youssef Cherkaoui. Tous droits réservés.</p>
+    </footer>
+
+    <div id="particles-js"></div>
+
+
+        <!-- Scripts nécessaires -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    
+
+    <script>
+           AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // Configuration des particules
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: '#64ffda'
+                },
+                shape: {
+                    type: 'circle'
+                },
+                opacity: {
+                    value: 0.5,
+                    random: false
+                },
+                size: {
+                    value: 3,
+                    random: true
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#64ffda',
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: false,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'grab'
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push'
+                    },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+
+        // Animation de typing
+        document.addEventListener('DOMContentLoaded', function() {
+            new Typed('.typing-text', {
+                strings: ["Bonjour, je suis Youssef Cherkaoui", "Développeur Full Stack", "Junior Java/Angular","explorateur du code","Fier de chaque ligne que j'écris","Convaincue que chaque bug est une opportunité d’apprendre"],
+                typeSpeed: 50,
+                backSpeed: 30,
+                backDelay: 1000,
+                loop: true,
+            
+            });
+        });
+
+        // Animation des barres de compétences
+        function animateSkills() {
+            document.querySelectorAll('.skill-progress').forEach(progress => {
+                const value = progress.getAttribute('data-progress');
+                progress.style.width = value + '%';
+            });
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                document.querySelector('.navbar').classList.add('scrolled');
+            } else {
+                document.querySelector('.navbar').classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll pour les liens de navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+       
+
+        // Validation du formulaire de contact
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Ajoutez ici votre logique de validation et d'envoi du formulaire
+            alert('Message envoyé avec succès!');
+            this.reset();
+        });
+
+
+
+
+        class SkillBar {
+            constructor(element) {
+                this.element = element;
+                this.skillValue = parseInt(element.dataset.progress);
+                this.progressBar = element.querySelector('.progress-bar');
+                this.animated = false;
+                this.init();
+            }
+
+            init() {
+                // Configuration de l'observateur d'intersection
+                const options = {
+                    root: null,
+                    rootMargin: '0px',
+                    threshold: 0.5
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && !this.animated) {
+                            this.animate();
+                            this.animated = true;
+                        }
+                    });
+                }, options);
+
+                observer.observe(this.element);
+
+                // Ajout des événements hover
+                this.element.addEventListener('mouseenter', () => this.onHover());
+                this.element.addEventListener('mouseleave', () => this.onLeave());
+            }
+
+            animate() {
+                // Animation initiale
+                this.progressBar.style.width = `${this.skillValue}%`;
+                
+                // Animation du compteur
+                let counter = 0;
+                const percentage = this.element.querySelector('.skill-percentage');
+                
+                const interval = setInterval(() => {
+                    if (counter >= this.skillValue) {
+                        clearInterval(interval);
+                    } else {
+                        counter++;
+                        percentage.textContent = `${counter}%`;
+                    }
+                }, 20);
+            }
+
+            onHover() {
+                // Effet de surbrillance supplémentaire
+                this.progressBar.style.filter = 'brightness(1.2)';
+                
+                // Animation pulse
+                this.element.style.animation = 'pulse 2s infinite';
+            }
+
+            onLeave() {
+                this.progressBar.style.filter = 'brightness(1)';
+                this.element.style.animation = 'none';
+            }
+        }
+
+        // Initialisation des barres de compétences
+        document.addEventListener('DOMContentLoaded', () => {
+            const skills = [
+    { name: 'HTML5', progress: 85, icon: 'fab fa-html5', details: 'Structure sémantique, Formulaires, Médias' },
+    { name: 'CSS3', progress: 85, icon: 'fab fa-css3-alt', details: 'Flexbox, Grid, Animations' },
+    { name: 'JavaScript', progress: 70, icon: 'fab fa-js', details: 'ES6+, DOM, Async/Await' },
+    { name: 'Angular', progress: 65, icon: 'fab fa-angular', details: 'Components, Services, RxJS' },
+    { name: 'Docker', progress: 65, icon: 'fab fa-docker', details: 'Containers, Docker-compose' },
+    { name: 'MySQL', progress: 70, icon: 'fas fa-database', details: 'Queries, Optimization' },
+    { name: 'Postman', progress: 73, icon: 'fas fa-paper-plane', details: 'API Testing, Collections, Automation' },
+    { name: 'Jenkins', progress: 60, icon: 'fas fa-cogs', details: 'CI/CD, Pipelines, Automation' },
+    { name: 'SonarQube', progress: 60, icon: 'fas fa-shield-alt', details: 'Code Quality, Static Analysis, Metrics' },
+    { name: 'JUnit', progress: 70, icon: 'fas fa-asterisk', details: 'Unit Testing, Test Cases, Assertions' },
+    { name: 'Spring', progress: 80, icon: 'fas fa-leaf', details: 'Spring Boot, Spring Security, Spring MVC, Spring Data, RESTful APIs' },
+    { name: 'Figma', progress: 85, icon: 'fab fa-figma', details: 'Prototyping, UI Design, Collaboration' },
+];
+
+
+            const container = document.querySelector('.skills-container');
+            
+            skills.forEach(skill => {
+                const skillCard = document.createElement('div');
+                skillCard.className = 'skill-card';
+                skillCard.setAttribute('data-progress', skill.progress);
+                
+                skillCard.innerHTML = `
+                    <div class="skill-icon">
+                        <i class="${skill.icon}"></i>
+                    </div>
+                    <div class="skill-name">
+                        ${skill.name}
+                        <span class="skill-percentage">0%</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar"></div>
+                    </div>
+                    <div class="details-container">
+                        <p class="skill-details">${skill.details}</p>
+                    </div>
+                `;
+
+                container.appendChild(skillCard);
+                new SkillBar(skillCard);
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>
