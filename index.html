@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C - H Portfolio</title>
+    <title>C-H Portfolio</title>
 
 
      <!-- Bootstrap CSS -->
@@ -114,6 +114,10 @@
         }
 
         /* Skills Section */
+
+
+
+        /************/
        
 
         .skills-section {
@@ -341,6 +345,64 @@
         .fade-in-up {
             animation: fadeInUp 0.6s ease forwards;
         }
+
+
+/* Section Formations */
+.formations-section {
+    padding: 100px 0;
+    background: rgba(10, 25, 47, 0.9);
+    position: relative;
+}
+
+.formation-card {
+    background: rgba(17, 34, 64, 0.95);
+    border: 2px solid #64ffda;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+}
+
+.formation-card h3 {
+    color: #64ffda;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.formation-card p {
+    color: #a8b2d1;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.formation-date {
+    font-size: 0.9rem;
+    color: #64ffda;
+    opacity: 0.8;
+}
+
+.formation-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(100, 255, 218, 0.2);
+}
+
+.formation-card .btn-primary {
+    background: transparent;
+    border: 2px solid #64ffda;
+    color: #64ffda;
+    padding: 10px 25px;
+    transition: all 0.3s ease;
+}
+
+.formation-card .btn-primary:hover {
+    background: rgba(100, 255, 218, 0.1);
+    transform: translateY(-2px);
+}
+
+
     </style>
 
 
@@ -360,8 +422,10 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#home">Accueil</a></li>
                     <li class="nav-item"><a class="nav-link" href="#projects">Projets</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#formation">Diplômes|Formation</a></li>
                     <li class="nav-item"><a class="nav-link" href="#about">Skills</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="CV-Youssef-Cherkaoui.pdf" download><i class="fas fa-download"></i> CV</a>
                     </li>
@@ -538,7 +602,7 @@
             
                             <h5>Technologies utilisées :</h5>
                             <ul class="list-unstyled">
-                                <li><strong>Frontend :</strong> HTML, CSS, Bootstrap, Tailwind, JavaScript</li>
+                                
                                 <li><strong>Backend :</strong> Java EE (Servlets, JSP)</li>
                                 <li><strong>Base de Données :</strong> MySQL</li>
                                 <li><strong>Communication avec la base de données :</strong> JDBC API</li>
@@ -564,15 +628,241 @@
                     </div>
                 </div>
             </div>
+
+
+
+
+            <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                <div class="project-card">
+                    <img src="farm-management-software.jpg.webp" class="card-img-top" alt="Project 4">
+                    <div class="card-body">
+                        <h5 class="card-title">FreshFarm</h5>
+                        <p class="card-text">Le projet de gestion des fermes est une application backend destinée à faciliter et à organiser les fermes.</p>
+                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#project4Modal">
+                            En savoir plus
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Content -->
+            <div class="modal fade" id="project4Modal" tabindex="-1" aria-labelledby="project4ModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="project4ModalLabel">Stage en 3 mois </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h5>Description du projet :</h5>
+                            <p> un projet informatique dédié à la gestion agricole, combinant analyse des données, automatisation et optimisation des processus.</p>
+
+                               <p> 🎯 Missions réalisées</p>
+                                <p>✅ Développement d’un système de gestion des fermes, champs et arbres avec des règles métier adaptées.</p>
+                                <p>✅ Mise en place de fonctionnalités pour le suivi des récoltes et des ventes, avec calculs automatiques et validations spécifiques.</p>
+                               <p>✅ Conception et optimisation de la base de données et implémentation des bonnes pratiques backend.</p>
+
+
+                               <h2>🚀 Fonctionnalités</h2>
+
+<h5>🌾 Gestion des Fermes</h5>
+<ul>
+    <li>🛠️ <strong>CRUD :</strong> Créer, mettre à jour et supprimer des fermes.</li>
+    <li>📊 <strong>Validation :</strong> Vérifier que la somme des surfaces des champs est inférieure à la surface totale de la ferme.</li>
+    <li>🔍 <strong>Recherche :</strong> Recherche multicritères des fermes.</li>
+</ul>
+
+<h5>🌱 Gestion des Champs</h5>
+<ul>
+    <li>🛠️ Ajouter des champs à une ferme avec des contraintes sur les surfaces.</li>
+    <li>🔢 Limiter chaque ferme à un maximum de 10 champs.</li>
+</ul>
+
+<h5>🌳 Gestion des Arbres</h5>
+<ul>
+    <li>🌿 <strong>Suivi des arbres :</strong> date de plantation, âge et champ assigné.</li>
+    <li>📈 <strong>Calcul de la productivité des arbres :</strong></li>
+    <ul>
+        <li>Jeunes arbres (&lt; 3 ans) : 2,5 kg/saison</li>
+        <li>Arbres matures (3-10 ans) : 12 kg/saison</li>
+        <li>Vieux arbres (&gt; 10 ans) : 20 kg/saison</li>
+    </ul>
+    <li>📅 <strong>Validation des dates de plantation :</strong> uniquement entre mars et mai.</li>
+</ul>
+
+<h5>🌦️ Gestion des Récoltes</h5>
+<ul>
+    <li>🛠️ Enregistrer les détails des récoltes, y compris la quantité et la saison.</li>
+    <li>🕒 Assurer une seule récolte par saison et par champ.</li>
+</ul>
+
+<h5>💰 Gestion des Ventes</h5>
+<ul>
+    <li>🛒 Enregistrer les ventes avec les détails des clients et le prix unitaire.</li>
+    <li>💵 <strong>Calcul du revenu total :</strong> quantité × prix unitaire.</li>
+</ul>
+
+
+                            <h2>🛠️Technologies utilisées :</h2>
+                            <ul class="list-unstyled">
+                                <li><strong>Backend :</strong>Java | Spring Boot</li>
+                                <li><strong>Base de Données :</strong> MySQL</li>
+                                <li><strong>Tests :</strong> JUnit</li>
+                                <li><strong>CI/CD :</strong> Jenkins</li>
+                                <li><strong>Analyse de Code :</strong> SonarQube</li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                            <a href="https://github.com/ton-repository" target="_blank" class="btn btn-primary">Voir le repository GitHub</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                
   
             </div>
         </div>
     </section>
+    
+
+
+    <section id="formations" class="formations-section">
+        <div class="container">
+            <h2 class="text-center mb-5" data-aos="fade-up">Mes formations</h2>
+            <div class="row g-4">
+                <!-- Baccalauréat -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                    <div class="formation-card">
+                        <h3 class="card-title">Baccalauréat</h3>
+                        <p class="card-text">Baccalauréat sciences physiques et chimies</p>
+                        <span class="formation-date">2019 - 2020</span>
+                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#bacModal1">
+                            En savoir plus
+                        </button>
+                    </div>
+                </div>
+    
+                <!-- Modal Baccalauréat -->
+                <div class="modal fade" id="bacModal1" tabindex="-1" aria-labelledby="bacModalLabel1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="bacModalLabel1">Baccalauréat sciences physiques et chimies</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h3>Mention Très Bien</h3>
+                                <p><strong>Période :</strong> Octobre 2019 - Juillet 2020</p>
+                                <p><strong>Établissement :</strong> Complexe Achchourouk, Khouribga, Maroc</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Deust -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                    <div class="formation-card">
+                        <h3 class="card-title">DEUST branche(MIPC) </h3>
+                        <p class="card-text">Mathématique Informatique Physique Chimie</p>
+                        <span class="formation-date">2020 - 2023</span>
+                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#ingModal">
+                            En savoir plus
+                        </button>
+                    </div>
+                </div>
+    
+                <!-- Modal Ingénierie Logicielle -->
+
+               <!--
+                <div class="modal fade" id="ingModal" tabindex="-1" aria-labelledby="ingModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="ingModalLabel">Ingénierie Logicielle</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h3>Analyse UML, Design Patterns, Testing</h3>
+                                <p><strong>Période :</strong> 2021 - 2022</p>
+                                <p><strong>Compétences acquises :</strong></p>
+                                <ul>
+                                    <li>Modélisation UML</li>
+                                    <li>Développement en Java et Spring Boot</li>
+                                    <li>Tests Unitaires et d’Intégration (JUnit)</li>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                
+    
+    
+                 <!-- CERTIF -->
+                 <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                    <div class="formation-card">
+                        <h3 class="card-title">Certificat</h3>
+                        <p class="card-text">Certificat Simplon FullStack développement web/mobile Java|Angular</p>
+                        <span class="formation-date">2023 - 2024</span>
+                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#bacModal2">
+                            En savoir plus
+                        </button>
+                    </div>
+                </div>
+    
+                <!-- Modal CERTIF -->
+                <div class="modal fade" id="bacModal2" tabindex="-1" aria-labelledby="bacModalLabel2" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="bacModalLabel2"></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h3>Développeur fullStack Web mobile Java SpringBoot | Angular</h3>
+                                <p><strong>Période :</strong> décembre 2023 - Octobre 2024</p>
+                                <p><strong>Établissement : École numérique Ahmed AlHanssali | Simplon</strong> </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                    <div class="formation-card">
+                        <h3 class="card-title">Licence Informatique FST  </h3>
+                        <p class="card-text">Licence Informatique FST BENIMELLAL</p>
+                        <span class="formation-date">2024 - 2025</span>
+                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#ingModal">
+                            En savoir plus
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+    
+    
+  
+    
+    
 
     
 <section id="skills" class="skills-section py-5">
   <div class="container">
-      <h2 class="text-center mb-5" data-aos="fade-up">Mes Compétences</h2>
+      <h2 class="text-center mb-5 animated-title" data-aos="fade-up">Mes Compétences</h2>
       <div class="row justify-content-center">
               <div class="skills-container">
                
@@ -722,7 +1012,7 @@
         // Animation de typing
         document.addEventListener('DOMContentLoaded', function() {
             new Typed('.typing-text', {
-                strings: ["Bonjour, je suis Youssef Cherkaoui", "Développeur Full Stack", "Junior Java/Angular","explorateur du code","Fier de chaque ligne que j'écris","Convaincue que chaque bug est une opportunité d’apprendre"],
+                strings: ["Bonjour, je suis Youssef Cherkaoui", "Développeur Full Stack", "Junior Java/Angular","Explorateur du code","Fier de chaque ligne que j'écris","Convaincue que chaque bug est une opportunité d’apprendre"],
                 typeSpeed: 50,
                 backSpeed: 30,
                 backDelay: 1000,
@@ -844,6 +1134,17 @@
             const skills = [
     { name: 'HTML5', progress: 85, icon: 'fab fa-html5', details: 'Structure sémantique, Formulaires, Médias' },
     { name: 'CSS3', progress: 85, icon: 'fab fa-css3-alt', details: 'Flexbox, Grid, Animations' },
+    { name: 'Java', progress: 90, icon: 'fab fa-java', details: 'Programmation orientée objet, Concurrence, Collections' },
+    { name: 'Spring Framework', progress: 85, icon: 'fab fa-leaf', details: 'Spring Boot, Spring Security, Spring Data' },
+    { name: 'Spring Boot', progress: 85, icon: 'fab fa-leaf', details: 'Développement rapide d’applications web' },
+    { name: 'Spring Security', progress: 80, icon: 'fas fa-shield-alt', details: 'Authentification, Autorisation, JWT' },
+    { name: 'Spring Data', progress: 80, icon: 'fas fa-database', details: 'JPA, Requêtes personnalisées' },
+    { name: 'Maven', progress: 80, icon: 'fas fa-cogs', details: 'Gestion des dépendances, Construction de projet' },
+    { name: 'Bootstrap', progress: 80, icon: 'fab fa-bootstrap', details: 'Responsive Design, Composants UI' },
+    { name: 'RESTful API', progress: 85, icon: 'fas fa-network-wired', details: 'Endpoints, Méthodes HTTP, JSON' },
+    { name: 'Mockito', progress: 70, icon: 'fas fa-vial', details: 'Tests unitaires, Mocking, Stubbing' },
+    { name: 'Hibernate', progress: 75, icon: 'fas fa-database', details: 'Mapping objet-relationnel (ORM), HQL' },
+    { name: 'Microservices', progress: 75, icon: 'fas fa-cloud', details: 'Architecture distribuée, Communication inter-services' },
     { name: 'JavaScript', progress: 70, icon: 'fab fa-js', details: 'ES6+, DOM, Async/Await' },
     { name: 'Angular', progress: 65, icon: 'fab fa-angular', details: 'Components, Services, RxJS' },
     { name: 'Docker', progress: 65, icon: 'fab fa-docker', details: 'Containers, Docker-compose' },
@@ -884,6 +1185,8 @@
                 new SkillBar(skillCard);
             });
         });
+
+
 
     </script>
 
