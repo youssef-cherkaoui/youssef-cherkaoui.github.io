@@ -1,1324 +1,1696 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C-H Portfolio</title>
-
-
-     <!-- Bootstrap CSS -->
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-     <!-- Font Awesome -->
-     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-     <!-- AOS CSS -->
-     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
-   
-     <link href="https://fonts.cdnfonts.com/css/callahan-2" rel="stylesheet">  
-
-    <style>
-            /* Animations des particules de fond */
-            body {
-            margin: 0;
-            background: #0a192f;
-            color: #fff;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        #particles-js {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-
-        /* Navbar Styles */
-        .navbar {
-            background: rgba(10, 25, 47, 0.95);
-            padding: 1rem 0;
-            transition: all 0.3s ease;
-        }
-
-        .navbar.scrolled {
-            background: rgba(10, 25, 47, 0.98);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .navbar-brand, .nav-link {
-            color: #64ffda !important;
-            transition: color 0.3s ease;
-        }
-
-        .nav-link:hover {
-            color: #ffffff !important;
-            transform: translateY(-2px);
-        }
-
-        /* Hero Section */
-        .hero-section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 100px 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .profile-image {
-            border: 3px solid #64ffda;
-            box-shadow: 0 0 20px rgba(100, 255, 218, 0.3);
-            transition: transform 0.3s ease;
-        }
-
-        .profile-image:hover {
-            transform: scale(1.02);
-        }
-
-        /* Typing Animation */
-        .typing-text::after {
-            content: '|';
-            animation: blink 0.7s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        /* Projects Section */
-        .projects-section {
-            padding: 100px 0;
-            background: rgba(10, 25, 47, 0.8);
-        }
-
-        .project-card {
-            background: rgba(17, 34, 64, 0.95);
-            border: 1px solid #64ffda;
-            border-radius: 10px;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            height: 100%;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(100, 255, 218, 0.2);
-        }
-
-        .card-img-top {
-            height: 200px;
-            object-fit: cover;
-        }
-
-        /* Skills Section */
-
-
-
-        /************/
-       
-
-        .skills-section {
-            padding: 100px 0;
-            background: rgba(10, 25, 47, 0.9);
-            position: relative;
-        }
-
-        .skills-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .skill-card {
-            background: rgba(17, 34, 64, 0.95);
-            border: 2px solid #64ffda;
-            border-radius: 15px;
-            padding: 25px;
-            width: 300px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .skill-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                45deg,
-                transparent 20%,
-                rgba(100, 255, 218, 0.1) 40%,
-                rgba(100, 255, 218, 0.1) 60%,
-                transparent 80%
-            );
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(100, 255, 218, 0.2);
-        }
-
-        .skill-card:hover::before {
-            transform: translateX(100%);
-        }
-
-        .skill-icon {
-            font-size: 3rem;
-            color: #64ffda;
-            margin-bottom: 20px;
-            transition: transform 0.3s ease;
-        }
-
-        .skill-card:hover .skill-icon {
-            transform: scale(1.1);
-        }
-
-        .skill-name {
-            color: #fff;
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .skill-percentage {
-            font-size: 1rem;
-            color: #64ffda;
-            opacity: 0;
-            transform: translateX(20px);
-            transition: all 0.3s ease;
-        }
-
-        .skill-card:hover .skill-percentage {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .progress-bar-container {
-            background: rgba(100, 255, 218, 0.1);
-            height: 8px;
-            border-radius: 4px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #64ffda, #00fff2);
-            width: 0;
-            border-radius: 4px;
-            position: relative;
-            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .progress-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.3),
-                transparent
-            );
-            animation: shimmer 2s infinite;
-        }
-
-        .details-container {
-            margin-top: 15px;
-            height: 0;
-            opacity: 0;
-            overflow: hidden;
-            transition: all 0.4s ease;
-        }
-
-        .skill-card:hover .details-container {
-            height: 60px;
-            opacity: 1;
-        }
-
-        .skill-details {
-            color: #a8b2d1;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        @keyframes shimmer {
-            0% {
-                transform: translateX(-100%);
-            }
-            100% {
-                transform: translateX(100%);
-            }
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(100, 255, 218, 0.4);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(100, 255, 218, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(100, 255, 218, 0);
-            }
-        }
-
-        /* Contact Section */
-        .contact-section {
-            padding: 100px 0;
-            background: rgba(10, 25, 47, 0.8);
-        }
-
-        .contact-form .form-control {
-            background: rgba(17, 34, 64, 0.95);
-            border: 1px solid #64ffda;
-            color: #fff;
-            padding: 12px;
-        }
-
-        .contact-form .form-control:focus {
-            box-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
-        }
-
-        .btn-primary {
-            background: transparent;
-            border: 2px solid #64ffda;
-            color: #64ffda;
-            padding: 10px 25px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            background: rgba(100, 255, 218, 0.1);
-            transform: translateY(-2px);
-        }
-
-        /* Modal Styles */
-        .modal-content {
-            background: rgba(10, 25, 47, 0.95);
-            border: 1px solid #64ffda;
-            color: #fff;
-        }
-
-        .modal-header {
-            border-bottom: 1px solid rgba(100, 255, 218, 0.2);
-        }
-
-        .modal-footer {
-            border-top: 1px solid rgba(100, 255, 218, 0.2);
-        }
-
-        /* Footer */
-        footer {
-            background: rgba(10, 25, 47, 0.98);
-            color: #64ffda;
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in-up {
-            animation: fadeInUp 0.6s ease forwards;
-        }
-
-
-/* Section Formations */
-.formations-section {
-    padding: 100px 0;
-    background: rgba(10, 25, 47, 0.9);
-    position: relative;
-}
-
-.formation-card {
-    background: rgba(17, 34, 64, 0.95);
-    border: 2px solid #64ffda;
-    border-radius: 15px;
-    padding: 25px;
-    text-align: center;
-    transition: all 0.4s ease;
-    position: relative;
-    overflow: hidden;
-    height: 100%;
-}
-
-.formation-card h3 {
-    color: #64ffda;
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-}
-
-.formation-card p {
-    color: #a8b2d1;
-    font-size: 1rem;
-    margin-bottom: 15px;
-}
-
-.formation-date {
-    font-size: 0.9rem;
-    color: #64ffda;
-    opacity: 0.8;
-}
-
-.formation-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(100, 255, 218, 0.2);
-}
-
-.formation-card .btn-primary {
-    background: transparent;
-    border: 2px solid #64ffda;
-    color: #64ffda;
-    padding: 10px 25px;
-    transition: all 0.3s ease;
-}
-
-.formation-card .btn-primary:hover {
-    background: rgba(100, 255, 218, 0.1);
-    transform: translateY(-2px);
-}
-
-
-
-.brand-style {
-            font-family: 'Callahan', sans-serif; /* Utiliser la police chargée */
-            font-weight: bold; /* Gras */
-            font-style: italic; /* Italique */
-        }
-
-
-    </style>
-
-
-    </head>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Youssef Cherkaoui | FullStack Developer - Dev Samurai</title>
   
+  <!-- Fonts & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/callahan-2" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ===== VARIABLES ===== */
+    :root {
+      --primary: #64ffda;
+      --primary-glow: rgba(100, 255, 218, 0.4);
+      --bg-dark: #0a0a0a;
+      --bg-card: rgba(20, 20, 30, 0.9);
+      --text-primary: #ffffff;
+      --text-secondary: #8892b0;
+      --accent: #ff0040;
+      --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    
+    body {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+      line-height: 1.6;
+    }
+
+    /* ===== LOADER ===== */
+    #loader {
+      position: fixed; inset: 0;
+      background: var(--bg-dark);
+      display: flex; justify-content: center; align-items: center;
+      z-index: 9999;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    
+    .loader-content { text-align: center; }
+    .loader-kanji {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 4rem;
+      color: var(--accent);
+      animation: pulse 2s infinite;
+      margin-bottom: 1rem;
+    }
+    .loader-text {
+      font-family: 'Callahan', sans-serif;
+      color: var(--text-secondary);
+      letter-spacing: 4px;
+      font-size: 0.9rem;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    /* ===== CUSTOM CURSOR ===== */
+    #cursor, #cursor-dot {
+      position: fixed; pointer-events: none; z-index: 10000;
+      transform: translate(-50%, -50%);
+      transition: transform 0.15s ease, opacity 0.2s ease;
+    }
+    #cursor {
+      width: 40px; height: 40px;
+      border: 1px solid var(--primary);
+      border-radius: 50%;
+      transition: all 0.2s ease;
+      mix-blend-mode: difference;
+    }
+    #cursor.hover {
+      width: 60px; height: 60px;
+      background: rgba(255, 0, 64, 0.2);
+      border-color: var(--accent);
+    }
+    #cursor-dot {
+      width: 4px; height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    /* ===== THREE.JS CANVAS ===== */
+    #canvas-container {
+      position: fixed; inset: 0; z-index: -1;
+      pointer-events: none;
+    }
+
+    /* ===== MARQUEE ===== */
+    .marquee {
+      overflow: hidden; white-space: nowrap;
+      padding: 12px 0;
+      background: rgba(255, 0, 64, 0.05);
+      border-bottom: 1px solid rgba(255, 0, 64, 0.2);
+      position: relative;
+      z-index: 100;
+    }
+    .marquee-content {
+      display: inline-flex;
+      animation: marquee 25s linear infinite;
+      gap: 3rem;
+    }
+    .marquee-content span {
+      font-family: 'Callahan', sans-serif;
+      font-size: 0.85rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      opacity: 0.9;
+    }
+    .marquee-content span::after {
+      content: '•'; margin-left: 3rem; color: var(--text-secondary);
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: fixed; top: 0; width: 100%;
+      padding: 1.2rem 0;
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 0, 64, 0.2);
+      transition: var(--transition);
+      z-index: 999;
+    }
+    .navbar.scrolled { padding: 0.8rem 0; background: rgba(10, 10, 15, 0.95); }
+    
+    .navbar-brand {
+      font-family: 'Callahan', sans-serif;
+      font-size: 1.6rem;
+      color: var(--accent) !important;
+      letter-spacing: 2px;
+    }
+    
+    .nav-link {
+      color: var(--text-secondary) !important;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 0.5rem 1.2rem !important;
+      position: relative;
+      transition: var(--transition);
+    }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: 0; left: 50%;
+      width: 0; height: 1px; background: var(--accent);
+      transition: var(--transition); transform: translateX(-50%);
+    }
+    .nav-link:hover, .nav-link.active {
+      color: var(--accent) !important;
+    }
+    .nav-link:hover::after, .nav-link.active::after { width: 60%; }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 120px 0 80px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, #0a0a0a 0%, #1a0000 100%);
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(255, 0, 64, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(255, 100, 0, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    .hero-jp {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 1.2rem;
+      color: var(--accent);
+      letter-spacing: 8px;
+      margin-bottom: 1rem;
+      opacity: 0.7;
+    }
+    
+    .hero h1 {
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      letter-spacing: -2px;
+      animation: textReveal 1s ease-out 0.5s both;
+    }
+    
+    .hero h1 .highlight {
+      color: var(--accent);
+      position: relative;
+      text-shadow: 0 0 30px rgba(255, 0, 64, 0.6);
+    }
+    .hero h1 .highlight::after {
+      content: ''; position: absolute;
+      bottom: 8px; left: 0;
+      width: 100%; height: 12px;
+      background: rgba(255, 0, 64, 0.2);
+      z-index: -1;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.3rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+    }
+    
+    .hero-cta {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+    }
+    
+    .btn-primary {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 14px 32px;
+      border-radius: 0;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::before {
+      content: ''; position: absolute; inset: 0;
+      background: var(--accent);
+      transform: scaleX(0); transform-origin: right;
+      transition: transform 0.3s ease;
+      z-index: -1;
+    }
+    .btn-primary:hover {
+      color: var(--bg-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(255, 0, 64, 0.4);
+    }
+    .btn-primary:hover::before {
+      transform: scaleX(1); transform-origin: left;
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--text-secondary);
+      color: var(--text-secondary);
+      padding: 14px 32px;
+      border-radius: 0;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: var(--transition);
+    }
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .hero-image {
+      position: relative;
+      max-width: 500px;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 0, 64, 0.3);
+      box-shadow: 
+        0 0 40px rgba(255, 0, 64, 0.3),
+        inset 0 0 40px rgba(255, 0, 64, 0.1);
+      animation: samuraiGlow 4s ease-in-out infinite;
+      cursor: pointer;
+    }
+
+    @keyframes samuraiGlow {
+      0%, 100% { 
+        box-shadow: 0 0 40px rgba(255, 0, 64, 0.3), inset 0 0 40px rgba(255, 0, 64, 0.1);
+      }
+      50% { 
+        box-shadow: 0 0 70px rgba(255, 0, 64, 0.6), inset 0 0 60px rgba(255, 0, 64, 0.2);
+      }
+    }
+
+    .hero-image img {
+      width: 100%;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+
+    .hero-image:hover img {
+      transform: scale(1.03);
+    }
+
+    .hero-image::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        linear-gradient(135deg, 
+          rgba(255, 0, 64, 0.2) 0%, 
+          transparent 50%, 
+          rgba(255, 100, 0, 0.15) 100%);
+      mix-blend-mode: overlay;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .hero-image::after {
+      content: 'CYBER SAMURAI';
+      position: absolute;
+      top: 15%;
+      left: -60%;
+      width: 220%;
+      padding: 12px 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 0, 64, 0.8), transparent);
+      color: #fff;
+      font-family: 'Callahan', sans-serif;
+      font-size: 1.3rem;
+      font-weight: bold;
+      letter-spacing: 10px;
+      text-align: center;
+      transform: rotate(-25deg);
+      z-index: 3;
+      text-shadow: 0 0 20px rgba(255, 0, 64, 0.9);
+      animation: slideBanner 10s ease-in-out infinite;
+      -webkit-text-stroke: 1px rgba(255, 0, 64, 0.5);
+    }
+
+    @keyframes slideBanner {
+      0%, 100% { transform: translateX(-15%) rotate(-25deg); }
+      50% { transform: translateX(15%) rotate(-25deg); }
+    }
+
+    /* ===== MANIFESTO SECTION ===== */
+    .manifesto {
+      padding: 150px 0;
+      text-align: center;
+      background: linear-gradient(180deg, transparent, rgba(255,0,64,0.02), transparent);
+    }
+    
+    .manifesto-title {
+      display: flex; align-items: center; justify-content: center;
+      gap: 2rem; margin-bottom: 3rem;
+    }
+    .manifesto-title .jp {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 3rem; color: var(--accent); opacity: 0.5;
+    }
+    .manifesto-title .en {
+      font-size: 1rem; letter-spacing: 6px; text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    
+    .manifesto-quote {
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      max-width: 800px;
+      margin: 0 auto 4rem;
+      line-height: 1.7;
+      font-style: italic;
+    }
+    .manifesto-quote em {
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 600;
+    }
+    
+    .manifesto-principles {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .principle {
+      padding: 2rem;
+      border: 1px solid rgba(255, 0, 64, 0.2);
+      transition: var(--transition);
+      background: rgba(20, 20, 30, 0.5);
+    }
+    .principle:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      background: rgba(255, 0, 64, 0.05);
+      box-shadow: 0 10px 30px rgba(255, 0, 64, 0.2);
+    }
+    .principle-num {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 2.5rem;
+      color: var(--accent);
+      opacity: 0.6;
+      display: block;
+      margin-bottom: 1rem;
+    }
+    .principle h3 {
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+    .principle p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    /* ===== STATS SECTION ===== */
+    .stats {
+      padding: 100px 0;
+      border-top: 1px solid rgba(255, 0, 64, 0.2);
+      border-bottom: 1px solid rgba(255, 0, 64, 0.2);
+      background: rgba(255, 0, 64, 0.02);
+    }
+    .stats-title {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    .stats-title .jp {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 2rem; color: var(--accent); opacity: 0.5;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    
+    .stat-item { padding: 1.5rem; }
+    .stat-number {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+      text-shadow: 0 0 20px rgba(255, 0, 64, 0.4);
+    }
+    .stat-suffix {
+      font-size: 2rem; color: var(--accent); vertical-align: super;
+    }
+    .stat-label {
+      display: block;
+      margin-top: 0.5rem;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+    .stat-sub {
+      display: block;
+      margin-top: 0.3rem;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      opacity: 0.7;
+      font-style: italic;
+    }
+
+    /* ===== JOURNEY SECTION ===== */
+    .journey {
+      padding: 120px 0;
+    }
+    .journey-title {
+      display: flex; align-items: center; justify-content: center;
+      gap: 2rem; margin-bottom: 4rem;
+    }
+    .journey-title .jp {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 3rem; color: var(--accent); opacity: 0.5;
+    }
+    
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      padding-left: 2rem;
+    }
+    .timeline::before {
+      content: ''; position: absolute; left: 0; top: 0; height: 100%;
+      width: 2px; background: linear-gradient(180deg, var(--accent), transparent);
+    }
+    
+    .timeline-item {
+      position: relative;
+      padding: 1.5rem 0 1.5rem 3rem;
+      opacity: 0; transform: translateX(-20px);
+      transition: var(--transition);
+    }
+    .timeline-item.visible { opacity: 1; transform: translateX(0); }
+    
+    .timeline-item::before {
+      content: ''; position: absolute; left: -5px; top: 2rem;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--bg-dark); border: 2px solid var(--accent);
+      transition: var(--transition);
+    }
+    .timeline-item:hover::before {
+      background: var(--accent);
+      box-shadow: 0 0 20px var(--accent);
+    }
+    
+    .timeline-year {
+      font-family: 'Callahan', sans-serif;
+      font-size: 1.3rem; color: var(--accent);
+      letter-spacing: 2px;
+    }
+    .timeline-location {
+      display: block; margin: 0.3rem 0;
+      font-size: 1.1rem; font-weight: 500;
+    }
+    .timeline-desc {
+      color: var(--text-secondary); font-size: 0.95rem;
+    }
+    .timeline-item.active .timeline-desc { color: var(--accent); }
+    .timeline-item.future { opacity: 0.6; }
+    .timeline-item.future .timeline-year { color: var(--text-secondary); }
+
+    /* ===== PROJECTS SECTION ===== */
+    .projects {
+      padding: 120px 0;
+      background: rgba(15, 15, 25, 0.5);
+      position: relative;
+    }
+    
+    .section-header {
+      display: flex; align-items: center; justify-content: center;
+      gap: 2rem; margin-bottom: 4rem;
+    }
+    .section-header .jp {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 3rem; color: var(--accent); opacity: 0.5;
+    }
+    .section-header .en {
+      font-size: 1rem; letter-spacing: 6px; text-transform: uppercase;
+    }
+    
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 0, 64, 0.2);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: var(--transition);
+      position: relative;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+    
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-6px) rotateX(2deg);
+      box-shadow: 0 20px 50px rgba(255, 0, 64, 0.3);
+    }
+    
+    .project-image {
+      height: 220px; overflow: hidden;
+      position: relative;
+    }
+    .project-image img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .project-card:hover .project-image img { transform: scale(1.05); }
+    
+    .card-canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .project-card:hover .card-canvas {
+      opacity: 1;
+    }
+    
+    .project-content { 
+      padding: 1.8rem; 
+      position: relative;
+      z-index: 2;
+      transform: translateZ(30px);
+    }
+    
+    .project-title {
+      font-size: 1.3rem; margin-bottom: 0.8rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .project-title .jp {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.9rem; color: var(--accent); opacity: 0.7;
+    }
+    .project-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    
+    .project-tech {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .tech-tag {
+      font-size: 0.75rem;
+      padding: 4px 12px;
+      background: rgba(255, 0, 64, 0.15);
+      color: var(--accent);
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(255, 0, 64, 0.3);
+    }
+    
+    .project-links {
+      display: flex; gap: 1rem;
+    }
+    .project-links a {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: var(--transition);
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .project-links a:hover { color: var(--accent); }
+
+    /* ===== SKILLS SECTION ===== */
+    .skills {
+      padding: 120px 0;
+      background: linear-gradient(180deg, transparent, rgba(255,0,64,0.02), transparent);
+    }
+    
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .skill-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 0, 64, 0.2);
+      padding: 1.8rem;
+      border-radius: 4px;
+      transition: var(--transition);
+    }
+    .skill-card:hover {
+      border-color: var(--accent);
+      background: rgba(255, 0, 64, 0.05);
+      transform: translateY(-3px);
+    }
+    
+    .skill-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 1rem;
+    }
+    .skill-name {
+      display: flex; align-items: center; gap: 0.8rem;
+      font-size: 1.1rem; font-weight: 500;
+    }
+    .skill-name i { color: var(--accent); font-size: 1.3rem; }
+    .skill-percent {
+      color: var(--accent); font-weight: 600;
+      font-family: 'Callahan', sans-serif;
+    }
+    
+    .skill-bar {
+      height: 4px; background: rgba(255, 0, 64, 0.15);
+      border-radius: 2px; overflow: hidden;
+    }
+    .skill-progress {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #ff6b00);
+      width: 0;
+      transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 2px;
+    }
+    
+    .skill-details {
+      margin-top: 1rem;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: var(--transition);
+    }
+    .skill-card:hover .skill-details {
+      opacity: 1; transform: translateY(0);
+    }
+
+    /* ===== CONTACT SECTION ===== */
+    .contact {
+      padding: 120px 0;
+      background: rgba(15, 15, 25, 0.5);
+    }
+    
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 4rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .contact-info h3 {
+      font-size: 1.5rem; margin-bottom: 2rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .contact-info h3 .jp {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 1.8rem; color: var(--accent); opacity: 0.6;
+    }
+    
+    .contact-item {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1.2rem 0;
+      border-bottom: 1px solid rgba(255, 0, 64, 0.15);
+    }
+    .contact-item:last-child { border-bottom: none; }
+    .contact-item i {
+      color: var(--accent); font-size: 1.2rem;
+      margin-top: 4px;
+    }
+    .contact-item h4 {
+      font-size: 0.9rem; letter-spacing: 1px;
+      text-transform: uppercase; margin-bottom: 0.3rem;
+      color: var(--text-secondary);
+    }
+    .contact-item p {
+      font-size: 1.05rem; color: var(--text-primary);
+    }
+    .contact-item a {
+      color: var(--text-primary); text-decoration: none;
+      transition: var(--transition);
+    }
+    .contact-item a:hover { color: var(--accent); }
+    
+    .contact-form .form-control {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 0, 64, 0.3);
+      color: var(--text-primary);
+      padding: 14px 18px;
+      border-radius: 0;
+      margin-bottom: 1.2rem;
+      transition: var(--transition);
+    }
+    .contact-form .form-control:focus {
+      background: rgba(30, 30, 45, 0.9);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(255, 0, 64, 0.2);
+      outline: none;
+    }
+    .contact-form .form-control::placeholder {
+      color: var(--text-secondary); opacity: 0.7;
+    }
+    .contact-form textarea { min-height: 150px; resize: vertical; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      padding: 3rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255, 0, 64, 0.2);
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      background: rgba(10, 10, 15, 0.9);
+    }
+    footer a {
+      color: var(--accent); text-decoration: none;
+      transition: var(--transition);
+    }
+    footer a:hover { text-shadow: 0 0 15px rgba(255, 0, 64, 0.6); }
+    
+    .footer-links {
+      display: flex; justify-content: center; gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .footer-links a {
+      font-size: 1.3rem; color: var(--text-secondary);
+    }
+    .footer-links a:hover { color: var(--accent); transform: translateY(-3px); }
+
+    /* ===== MODAL ===== */
+    .modal-content {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 0, 64, 0.4);
+      border-radius: 8px;
+      color: var(--text-primary);
+    }
+    .modal-header { border-bottom-color: rgba(255, 0, 64, 0.3); }
+    .modal-footer { border-top-color: rgba(255, 0, 64, 0.3); }
+    .modal-title { color: var(--accent); }
+    .btn-close { filter: invert(1); }
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: #ff1a5c;
+      border-color: #ff1a5c;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 991px) {
+      .hero { text-align: center; padding-top: 140px; }
+      .hero-subtitle { margin: 0 auto 2rem; }
+      .hero-cta { justify-content: center; }
+      .hero-image { margin-top: 3rem; }
+      .manifesto-principles { grid-template-columns: 1fr; }
+    }
+    
+    @media (max-width: 768px) {
+      #cursor, #cursor-dot { display: none; }
+      body { cursor: auto; }
+      .marquee-content span { font-size: 0.75rem; gap: 1.5rem; }
+      .section-header .jp { font-size: 2rem; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .card-canvas { display: none; }
+    }
+
+    /* ===== UTILITIES ===== */
+    .text-primary { color: var(--accent) !important; }
+    .text-secondary { color: var(--text-secondary) !important; }
+    .text-accent { color: var(--accent) !important; }
+    
+    .fade-in {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ===== SAMURAI MODE EASTER EGG ===== */
+    body.samurai-mode {
+      background: #000 !important;
+    }
+    body.samurai-mode .hero h1 {
+      font-family: 'Noto Sans JP', sans-serif;
+      letter-spacing: 4px;
+    }
+    body.samurai-mode::before {
+      content: '侍モード';
+      position: fixed; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 8rem; color: rgba(255, 0, 64, 0.1);
+      z-index: -1; pointer-events: none;
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.05); } }
+
+    @keyframes textReveal {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
 <body>
-  
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-        <div class="container">
-            <a class="navbar-brand brand-style" href="#home"> Portfolio </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#home" >Accueil</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#projects">Projets</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#formation">Diplômes|Formation</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">Skills</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="CVyoussefCHERKAOUI.pdf" download><i class="fas fa-download"></i> CV</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+  <!-- Loader -->
+  <div id="loader">
+    <div class="loader-content">
+      <div class="loader-kanji">覇</div>
+      <div class="loader-text">CHARGEMENT...</div>
+    </div>
   </div>
 
-  
+  <!-- Custom Cursor -->
+  <div id="cursor"></div>
+  <div id="cursor-dot"></div>
 
-  
-    <!-- Hero Section -->
-    <section id="home" class="hero-section">
-        <div class="container">
-            <div class="row align-items-center min-vh-100">
-                <div class="col-lg-6" data-aos="fade-right">
-                 
+  <!-- Three.js Canvas -->
+  <div id="canvas-container"></div>
 
-                    <h1 class="display-4 fw-bold mb-4" style="margin-top: 70px;"><span class="typing-text"></span></h1>
-                    <p class="lead mb-4" style="color: aquamarine;">Passionné par le développement web fullstack Java/Angular</p>
-                    <div class="social-links">
-                        <div style="display: flex; align-items: center; color: #eee;">
-                            <a href="https://github.com/youssef-cherkaoui?tab=repositories" target="_blank" style="margin-right: 8px;">
-                                <i class="fab fa-github" style="color: #eee;"></i>
-                            </a>
-                            <p style="margin: 0;">youssef-cherkaoui</p>
-                        </div>
-
-                        <div style="display: flex; align-items: center; color: #eee;">
-                            <a href="https://www.linkedin.com/in/youssef-cherkaoui-4008b12ab/" target="_blank" style="margin-right: 8px;">
-                                <i class="fab fa-linkedin" style="color: #eee;"></i>
-                            </a>
-                            <p style="margin: 0;">Youssef CHERKAOUI</p>
-                        </div>
-                        <div style="display: flex; align-items: center; color: #eee;">
-                            <a href="CVyoussefCHERKAOUI.pdf" target="_blank" style="margin-right: 8px;">
-                                <i class="fas fa-download" style="color: #eee;"></i>
-                            </a>
-                            <p style="margin: 0;">Télécharger mon CV</p>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6" data-aos="fade-left">
-                    <img src="Image11.jfif" alt="Profile" class="img-fluid profile-image" style=" border-radius: 10px; margin-top: 20px;">
-                </div>
-            </div>
-        </div>
-    </section>
-  
-    <!-- Projects Section -->
-    <section id="projects" class="projects-section">
-        <div class="container">
-            <h2 class="text-center mb-5" data-aos="fade-up">Mes Projets</h2>
-            <div class="row g-4">
-                <!-- Project Card Template -->
-                <div class="col-lg-4 col-md-6" data-aos="fade-up">
-                    <div class="project-card">
-                        <img src="leo5.jpg" class="card-img-top" alt="Project 1">
-                        <div class="card-body">
-                            <h5 class="card-title">Projet Donneur Du Sang</h5>
-                            <p class="card-text">Le projet Plateforme de gestion de dons de sang est une application web destinée à faciliter et à organiser les dons de sang.</p>
-                            <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#project1Modal">
-                                En savoir plus
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal Content -->
-                <div class="modal fade" id="project1Modal" tabindex="-1" aria-labelledby="project1ModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="project1ModalLabel">En savoir plus sur le Projet Donneur Du Sang</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <h5>Description du projet :</h5>
-                                <p>Le projet Plateforme de gestion de dons de sang est une application web destinée à faciliter et à organiser les dons de sang.</p>
-                                <h5>Technologies utilisées :</h5>
-                                <ul class="list-unstyled">
-                                    <li><strong>Frontend :</strong> Angular</li>
-                                    <li><strong>Backend :</strong> Spring Boot</li>
-                                    <li><strong>Base de Données :</strong> MySQL</li>
-                                    <li><strong>Tests :</strong> JUnit</li>
-                                    <li><strong>CI/CD :</strong> Jenkins</li>
-                                    <li><strong>Containerisation :</strong> Docker</li>
-                                    <li><strong>Analyse de Code :</strong> SonarQube</li>
-                                </ul>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                                <a href="https://github.com/ton-repository" target="_blank" class="btn btn-primary">Voir le repository GitHub</a>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6" data-aos="fade-up">
-                <div class="project-card">
-                    <img src="IT-Support-Services-Detailed-IT-Services.jpg" class="card-img-top" alt="Project - Gestion des équipements informatiques">
-                    <div class="card-body">
-                        <h5 class="card-title">Gestion des Équipements Informatiques</h5>
-                        <p class="card-text">Système de gestion des équipements informatiques permettant le suivi des pannes, des tickets de support, et la génération de rapports et statistiques.</p>
-                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#project3Modal">
-                            En savoir plus
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="modal fade" id="project3Modal" tabindex="-1" aria-labelledby="project3ModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="project3ModalLabel">En savoir plus sur la Gestion des Équipements Informatiques</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <h5>Description du projet :</h5>
-                            <p>
-                                Le projet de gestion des équipements informatiques permet à une organisation de suivre l’état des équipements, de gérer les pannes, et d'assurer le suivi des tickets de support. Ce système permet également de générer des rapports détaillés et des statistiques pour une gestion optimale des ressources et des incidents. L'objectif est de garantir une prise en charge rapide des problèmes et de maintenir un suivi de la performance de l'infrastructure informatique.
-                            </p>
-            
-                            <h5>Technologies utilisées :</h5>
-                            <ul class="list-unstyled">
-                                <li><strong>Backend :</strong> Spring Boot, Spring Data JPA, Spring Security</li>
-                                <li><strong>Frontend :</strong> Angular 16</li>
-                                <li><strong>Base de Données :</strong> MySQL</li>
-                                <li><strong>Test Unitaire :</strong> JUnit</li>
-                                <li><strong>Conteneurisation :</strong> Docker</li>
-                            </ul>
-            
-                            <h5>Fonctionnalités :</h5>
-                            <ul class="list-unstyled">
-                                <li>Suivi et gestion des équipements informatiques</li>
-                                <li>Gestion des pannes et tickets de support</li>
-                                <li>Génération de rapports et de statistiques sur les équipements</li>
-                                <li>Tableau de bord pour l'administration et la gestion des tickets</li>
-                                <li>Notifications et rappels pour les maintenances et réparations</li>
-                            </ul>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                            <a href="https://github.com/youssef-cherkaoui/IT_Support_App" target="_blank" class="btn btn-primary">Voir le repository GitHub</a>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            
-            <div class="col-lg-4 col-md-6" data-aos="fade-up">
-                <div class="project-card">
-                    <img src="F12.On-Site-IT-Support.woman-office-laptop.jpg" class="card-img-top" alt="ConstructionXpert Project">
-                    <div class="card-body">
-                        <h5 class="card-title">ConstructionXpert Services</h5>
-                        <p class="card-text">Application de gestion de projets de construction. Permet de planifier, organiser et suivre les projets de construction.</p>
-                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#project2Modal">
-                            En savoir plus
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="modal fade" id="project2Modal" tabindex="-1" aria-labelledby="project2ModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="project2ModalLabel">En savoir plus sur ConstructionXpert Services</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <h5>Description du projet :</h5>
-                            <p>
-                                L'application ConstructionXpert Services est un outil de gestion de projets de construction. Elle permet à l'équipe de gestion de projets de suivre et d'organiser les différentes étapes d'un projet de construction, de la planification à la réalisation, en passant par le suivi des ressources et des tâches.
-                            </p>
-            
-                            <h5>Technologies utilisées :</h5>
-                            <ul class="list-unstyled">
-                                
-                                <li><strong>Backend :</strong> Java EE (Servlets, JSP)</li>
-                                <li><strong>Base de Données :</strong> MySQL</li>
-                                <li><strong>Communication avec la base de données :</strong> JDBC API</li>
-                                <li><strong>Serveur d'Application :</strong> Apache Tomcat</li>
-                                <li><strong>Outils de Développement :</strong> IntelliJ IDEA, Maven</li>
-                                <li><strong>Système de Gestion de Versions :</strong> Git</li>
-                            </ul>
-            
-                            <h5>Fonctionnalités :</h5>
-                            <ul class="list-unstyled">
-                                <li>Gestion des projets de construction</li>
-                                <li>Suivi des tâches et des ressources</li>
-                                <li>Interface conviviale et facile à utiliser</li>
-                                <li>Gestion des utilisateurs et des rôles</li>
-                                <li>Système de notifications et rappels pour les deadlines</li>
-                            </ul>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                            <a href="https://github.com/youssef-cherkaoui?tab=repositories" target="_blank" class="btn btn-primary">Voir le repository GitHub</a>
-
-                            </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up">
-                <div class="project-card">
-                    <img src="farm-management-software.jpg.webp" class="card-img-top" alt="Project 4">
-                    <div class="card-body">
-                        <h5 class="card-title">FreshFarm</h5>
-                        <p class="card-text">Le projet de gestion des fermes est une application backend destinée à faciliter et à organiser les fermes.</p>
-                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#project4Modal">
-                            En savoir plus
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal Content -->
-            <div class="modal fade" id="project4Modal" tabindex="-1" aria-labelledby="project4ModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="project4ModalLabel">Stage en 3 mois </h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <h5>Description du projet :</h5>
-                            <p> un projet informatique dédié à la gestion agricole, combinant analyse des données, automatisation et optimisation des processus.</p>
-
-                               <p> 🎯 Missions réalisées</p>
-                                <p>✅ Développement d’un système de gestion des fermes, champs et arbres avec des règles métier adaptées.</p>
-                                <p>✅ Mise en place de fonctionnalités pour le suivi des récoltes et des ventes, avec calculs automatiques et validations spécifiques.</p>
-                               <p>✅ Conception et optimisation de la base de données et implémentation des bonnes pratiques backend.</p>
-
-
-                               <h2>🚀 Fonctionnalités</h2>
-
-<h5>🌾 Gestion des Fermes</h5>
-<ul>
-    <li>🛠️ <strong>CRUD :</strong> Créer, mettre à jour et supprimer des fermes.</li>
-    <li>📊 <strong>Validation :</strong> Vérifier que la somme des surfaces des champs est inférieure à la surface totale de la ferme.</li>
-    <li>🔍 <strong>Recherche :</strong> Recherche multicritères des fermes.</li>
-</ul>
-
-<h5>🌱 Gestion des Champs</h5>
-<ul>
-    <li>🛠️ Ajouter des champs à une ferme avec des contraintes sur les surfaces.</li>
-    <li>🔢 Limiter chaque ferme à un maximum de 10 champs.</li>
-</ul>
-
-<h5>🌳 Gestion des Arbres</h5>
-<ul>
-    <li>🌿 <strong>Suivi des arbres :</strong> date de plantation, âge et champ assigné.</li>
-    <li>📈 <strong>Calcul de la productivité des arbres :</strong></li>
-    <ul>
-        <li>Jeunes arbres (&lt; 3 ans) : 2,5 kg/saison</li>
-        <li>Arbres matures (3-10 ans) : 12 kg/saison</li>
-        <li>Vieux arbres (&gt; 10 ans) : 20 kg/saison</li>
-    </ul>
-    <li>📅 <strong>Validation des dates de plantation :</strong> uniquement entre mars et mai.</li>
-</ul>
-
-<h5>🌦️ Gestion des Récoltes</h5>
-<ul>
-    <li>🛠️ Enregistrer les détails des récoltes, y compris la quantité et la saison.</li>
-    <li>🕒 Assurer une seule récolte par saison et par champ.</li>
-</ul>
-
-<h5>💰 Gestion des Ventes</h5>
-<ul>
-    <li>🛒 Enregistrer les ventes avec les détails des clients et le prix unitaire.</li>
-    <li>💵 <strong>Calcul du revenu total :</strong> quantité × prix unitaire.</li>
-</ul>
-
-
-                            <h2>🛠️Technologies utilisées :</h2>
-                            <ul class="list-unstyled">
-                                <li><strong>Backend :</strong>Java | Spring Boot</li>
-                                <li><strong>Base de Données :</strong> MySQL</li>
-                                <li><strong>Tests :</strong> JUnit</li>
-                                <li><strong>CI/CD :</strong> Jenkins</li>
-                                <li><strong>Analyse de Code :</strong> SonarQube</li>
-                            </ul>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                            <a href="https://github.com/youssef-cherkaoui/freshTree.git" target="_blank" class="btn btn-primary">Voir le repository GitHub</a>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up">
-                <div class="project-card">
-                    <img src="OCPExpedition.png" class="card-img-top" alt="Project - Gestion des expéditions e Phosphate">
-                    <div class="card-body">
-                        <h5 class="card-title">Gestion et d’analyse des
-                            expéditions de Phosphate</h5>
-                        <p class="card-text">Application WEB et Mobile de gestion et d’analyse des
-                            expéditions de Phosphate : automatisation des commandes, statistiques
-                            avancées avec un suivi des expéditions</p>
-                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#project5Modal">
-                            En savoir plus
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="project5Modal" tabindex="-1" aria-labelledby="project5ModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="project5ModalLabel">Stage en 2 mois</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <h5>Description du projet :</h5>
-                            <p>
-                                L’application permet aux agents du service Planification et la Gestion des Flux, de planifier les envois
-en fonction de plusieurs paramètres critiques tels que la destination (ex. : Jorf, Casablanca), la qualité du
-produit (K02, K09, K10), ou encore les volumes à expédier. Elle intègre plusieurs modules fonctionnels,
-notamment la gestion des clients, la création et le suivi des commandes, la visualisation des expéditions en
-temps réel, et la génération de statistiques détaillées via des représentations graphiques (camembert,
-histogramme, diagramme en anneau...).
-Un module de comparaison multicritères permet également d’analyser les performances selon la qualité ou
-la destination. Des filtres dynamiques et une interface ergonomique facilitent l’utilisation de l’outil au
-quotidien.
-                            </p>
-            
-                            <h5>Technologies utilisées :</h5>
-                            <ul class="list-unstyled">
-                                <li><strong>Backend :</strong> Spring Boot, Spring Data JPA, Spring Security</li>
-                                <li><strong>Frontend :</strong> Angular 16</li>
-                                <li><strong>Base de Données :</strong> MySQL</li>
-                                <li><strong>Test Unitaire :</strong> JUnit</li>
-                                <li><strong>Conteneurisation :</strong> Docker</li>
-                            </ul>
-            
-                            <h5>Fonctionnalités :</h5>
-                            <ul class="list-unstyled">
-                                <li>Planification & Gestion des Flux</li>
-                                <li>Planifier les envois
-                                    en fonction de plusieurs paramètres critiques tels que la destination</li>
-                                
-                                <li>Génération de statistiques détaillées via des représentations graphiques</li>
-                                <li>Analyser les performances selon la qualité oula destination</li>
-                                <li>Gestion des clients</li>
-                                <li>Suivi des commandes</li>
-                            </ul>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                            <a href="https://github.com/youssef-cherkaoui/yyyyyyyyyyy" target="_blank" class="btn btn-primary">Voir le repository GitHub</a>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-  
-            </div>
-        </div>
-    </section>
-    
-
-
-    <section id="formations" class="formations-section">
-        <div class="container">
-            <h2 class="text-center mb-5" data-aos="fade-up">Mes Formations</h2>
-            <div class="row g-4">
-                <!-- Baccalauréat -->
-                <div class="col-lg-4 col-md-6" data-aos="fade-up">
-                    <div class="formation-card">
-                        <h3 class="card-title">Baccalauréat</h3>
-                        <p class="card-text">Baccalauréat Sciences Physiques et Chimies</p>
-                        <span class="formation-date">2019 - 2020</span>
-                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#bacModal1">
-                            En savoir plus
-                        </button>
-                    </div>
-                </div>
-    
-                <!-- Modal Baccalauréat -->
-                <div class="modal fade" id="bacModal1" tabindex="-1" aria-labelledby="bacModalLabel1" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="bacModalLabel1">Baccalauréat sciences physiques et chimies</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <h3>Mention Très Bien</h3>
-                                <p><strong>Période :</strong> Octobre 2019 - Juillet 2020</p>
-                                <p><strong>Établissement :</strong> Complexe Achchourouk, Khouribga, Maroc</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-    
-                <!-- Deust -->
-                <div class="col-lg-4 col-md-6" data-aos="fade-up">
-                    <div class="formation-card">
-                        <h3 class="card-title">DEUST branche (MIPC) </h3>
-                        <p class="card-text">Mathématique Informatique Physique Chimie</p>
-                        <span class="formation-date">2020 - 2023</span>
-                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#ingModal">
-                            En savoir plus
-                        </button>
-                    </div>
-                </div>
-    
-                <!-- Modal Ingénierie Logicielle -->
-
-               <!--
-                <div class="modal fade" id="ingModal" tabindex="-1" aria-labelledby="ingModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="ingModalLabel">Ingénierie Logicielle</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <h3>Analyse UML, Design Patterns, Testing</h3>
-                                <p><strong>Période :</strong> 2021 - 2022</p>
-                                <p><strong>Compétences acquises :</strong></p>
-                                <ul>
-                                    <li>Modélisation UML</li>
-                                    <li>Développement en Java et Spring Boot</li>
-                                    <li>Tests Unitaires et d’Intégration (JUnit)</li>
-                                </ul>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-                
-    
-    
-                 <!-- CERTIF -->
-                 <div class="col-lg-4 col-md-6" data-aos="fade-up">
-                    <div class="formation-card">
-                        <h3 class="card-title">Certificat Simplon</h3>
-                        <p class="card-text">Certificat Simplon FullStack développement web/mobile Java | Angular</p>
-                        <span class="formation-date">2023 - 2024</span>
-                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#bacModal2">
-                            En savoir plus
-                        </button>
-                    </div>
-                </div>
-    
-                <!-- Modal CERTIF -->
-                <div class="modal fade" id="bacModal2" tabindex="-1" aria-labelledby="bacModalLabel2" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="bacModalLabel2"></h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <h3>Développeur fullStack Web mobile Java SpringBoot | Angular</h3>
-                                <p><strong>Période :</strong> Décembre 2023 - Octobre 2024</p>
-                                <p><strong>Établissement : École numérique Ahmed AlHanssali | Simplon</strong> </p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-                  <!-- Certificat SQL -->
-<div class="col-lg-4 col-md-6" data-aos="fade-up">
-    <div class="formation-card">
-        <h3 class="card-title">Certificat SQL</h3>
-        <p class="card-text">Certification SQL</p>
-        <span class="formation-date">23 Décembre 2024</span>
-        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#bacModal3">
-            En savoir plus
-        </button>
+  <!-- Marquee -->
+  <div class="marquee">
+    <div class="marquee-content">
+      <span>DISPONIBLE 2026</span>
+      <span>JAVA / ANGULAR</span>
+      <span>FULL STACK DEVELOPER</span>
+      <span>CYBER SAMURAI</span>
+      <span>CASABLANCA</span>
+      <span>OPEN TO WORK</span>
+      <span>CRAFT OVER HYPE</span>
+      <span>CODE WITH HONOR</span>
+      <span>DISPONIBLE 2026</span>
+      <span>JAVA / ANGULAR</span>
+      <span>FULL STACK DEVELOPER</span>
+      <span>CYBER SAMURAI</span>
+      <span>CASABLANCA</span>
+      <span>OPEN TO WORK</span>
     </div>
-</div>
+  </div>
 
-<!-- Modal Certificat SQL -->
-<div class="modal fade" id="bacModal3" tabindex="-1" aria-labelledby="bacModalLabel3" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="bacModalLabel3">Téléchargement du Certificat SQL</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center">
-                <h3>Certificat SQL chez SOLOLEARN</h3>
-                <p>J'ai complété avec succès la formation SQL chez SOLOLEARN. Cliquez ci-dessous pour télécharger mon certificat.</p>
-                <a href="certif.pdf" download="Certificat_SQL.pdf" class="btn btn-primary">
-                    📥 Télécharger le Certificat
-                </a>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-                <div class="col-lg-4 col-md-6" data-aos="fade-up">
-                    <div class="formation-card">
-                        <h3 class="card-title">Licence Informatique FST  </h3>
-                        <p class="card-text">Licence Informatique FST BENIMELLAL</p>
-                        <span class="formation-date">2024 - 2025</span>
-                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#ingModal">
-                            En savoir plus
-                        </button>
-                    </div>
-                </div>
-
-              
-
-
-               
-            </div>
-        </div>
-    </section>
-    
-    
-    
-    
-  
-    
-    
-
-    
-<section id="skills" class="skills-section py-5">
-  <div class="container">
-      <h2 class="text-center mb-5 animated-title" data-aos="fade-up">Mes Compétences</h2>
-      <div class="row justify-content-center">
-              <div class="skills-container">
-               
-          </div>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="#home">YC</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link active" href="#home">Accueil</a></li>
+          <li class="nav-item"><a class="nav-link" href="#manifesto">Philosophie</a></li>
+          <li class="nav-item"><a class="nav-link" href="#journey">Parcours</a></li>
+          <li class="nav-item"><a class="nav-link" href="#projects">Projets</a></li>
+          <li class="nav-item"><a class="nav-link" href="#skills">Compétences</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="CHERKAOUI ELMEKNASSI Youssef Essaddik.pdf" download>
+              <i class="fas fa-download me-1"></i>CV
+            </a>
+          </li>
+        </ul>
       </div>
-  </div>
-</section>
+    </div>
+  </nav>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact-section">
-        <div class="container">
-            <h2 class="text-center mb-5" data-aos="fade-up">Contactez-moi</h2>
-            <div class="row g-4">
-                <div class="col-lg-5" data-aos="fade-right">
-                    <div class="contact-info">
-                        <h4 class="mb-4">Mes Coordonnées</h4>
-                        <div class="d-flex align-items-center mb-4">
-                            <i class="fas fa-map-marker-alt" style="margin-right: 12px;"></i>
-                            <div>
-                                <h6 class="mb-0">Adresse</h6>
-                                <p class="mb-0">Casablanca</p>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center mb-4">
-                            <i class="fas fa-envelope" style="margin-right: 12px;"></i>
-                            <div>
-                                <h6 class="mb-0">Email</h6>
-                                <p class="mb-0">Youssefesaaddik.cherkaoui@gmail.com</p>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-phone" style="margin-right: 12px;"></i>
-                            <div>
-                                <h6 class="mb-0">Téléphone</h6>
-                                <p class="mb-0">+212691176140</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-7" data-aos="fade-left">
-                    <form class="contact-form" id="contactForm" novalidate>
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="name" placeholder="Votre nom" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <input type="email" class="form-control" id="email" placeholder="Votre email" required>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <textarea class="form-control" id="message" rows="5" placeholder="Votre message" required></textarea>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-primary w-100">Envoyer le message</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <div class="hero-jp">開発者 · フルスタック</div>
+          <h1>
+            Je forge du code<br>
+            comme un <span class="highlight">Samurai</span> forge son katana
+          </h1>
+          <p class="hero-subtitle">
+            Développeur FullStack Java/Angular passionné par le code clean, 
+            l'architecture robuste et les défis techniques.
+          </p>
+          <div class="hero-cta">
+            <a href="#projects" class="btn-primary">Voir mes projets</a>
+            <a href="#contact" class="btn-outline">Me contacter</a>
+          </div>
         </div>
-    </section>
-  
-    <!-- Footer -->
-    <footer class="text-center py-4">
-        <p>&copy; 2024 Youssef Cherkaoui. Tous droits réservés.</p>
-    </footer>
+        <div class="col-lg-6">
+          <div class="hero-image" id="heroImage">
+            <img src="Profil.jpeg" alt="Youssef Cherkaoui" id="profileImg" 
+                 onerror="this.src='https://via.placeholder.com/500x600/0a0a0a/ff0040?text=CYBER+SAMURAI'">
+            <canvas id="imageShader"></canvas>
+            <div class="image-overlay"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <div id="particles-js"></div>
+  <!-- Manifesto Section -->
+  <section id="manifesto" class="manifesto">
+    <div class="container">
+      <div class="manifesto-title">
+        <span class="jp">哲学</span>
+        <span class="en">Philosophy</span>
+      </div>
+      <blockquote class="manifesto-quote">
+        "Je code comme un Samurai forge son katana — 
+        <em>lent, obsessionnel, un peu dramatique.</em><br>
+        Chaque ligne est une promesse. Chaque pixel, un honneur."
+      </blockquote>
+      <div class="manifesto-principles">
+        <div class="principle fade-in">
+          <span class="principle-num">一</span>
+          <h3>Craft Over Hype</h3>
+          <p>La qualité avant la tendance. Je privilégie le code maintenable et bien pensé aux solutions à la mode.</p>
+        </div>
+        <div class="principle fade-in">
+          <span class="principle-num">二</span>
+          <h3>Pixels Are Promises</h3>
+          <p>Chaque détail compte. L'expérience utilisateur n'est pas un bonus, c'est la base.</p>
+        </div>
+        <div class="principle fade-in">
+          <span class="principle-num">三</span>
+          <h3>Code With Honor</h3>
+          <p>Clean code, tests, documentation. Parce que le code qu'on écrit aujourd'hui sera lu demain.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- Stats Section -->
+  <section class="stats">
+    <div class="container">
+      <div class="stats-title">
+        <span class="jp">数字</span>
+        <span class="en">By The Numbers</span>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-item fade-in">
+          <span class="stat-number" data-target="5">0</span><span class="stat-suffix">+</span>
+          <span class="stat-label">Projets Réalisés</span>
+        </div>
+        <div class="stat-item fade-in">
+          <span class="stat-number" data-target="2">0</span>
+          <span class="stat-label">Stages Professionnels</span>
+        </div>
+        <div class="stat-item fade-in">
+          <span class="stat-number" data-target="12">0</span><span class="stat-suffix">+</span>
+          <span class="stat-label">Technologies Maîtrisées</span>
+        </div>
+        <div class="stat-item fade-in">
+          <span class="stat-number">∞</span>
+          <span class="stat-label">Tasses de Café</span>
+          <span class="stat-sub">Fueled by caffeine & curiosity</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <!-- Scripts nécessaires -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
-    
+  <!-- Journey Section -->
+  <section id="journey" class="journey">
+    <div class="container">
+      <div class="journey-title">
+        <span class="jp">道</span>
+        <span class="en">The Road</span>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <span class="timeline-year">2019-2020</span>
+          <span class="timeline-location">Khouribga</span>
+          <span class="timeline-desc">Baccalauréat Sciences Physiques · Mention Très Bien</span>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-year">2020-2023</span>
+          <span class="timeline-location">Béni Mellal</span>
+          <span class="timeline-desc">DEUST MIPC · Mathématique Informatique Physique Chimie</span>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-year">2023-2024</span>
+          <span class="timeline-location">Béni Mellal</span>
+          <span class="timeline-desc">Simplon.co · FullStack Java/Angular</span>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-year">2024-2025</span>
+          <span class="timeline-location">Béni Mellal</span>
+          <span class="timeline-desc">Licence Informatique FST · Béni Mellal</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <script>
-           AOS.init({
-            duration: 1000,
-            once: true
-        });
+  <!-- Projects Section -->
+  <section id="projects" class="projects">
+    <div class="container">
+      <div class="section-header">
+        <span class="jp">作品</span>
+        <span class="en">Projects</span>
+      </div>
+      <div class="projects-grid">
+        
+        <!-- Project 1 -->
+        <div class="project-card fade-in">
+          <canvas class="card-canvas"></canvas>
+          <div class="project-image">
+            <img src="leo5.jpg" alt="Donneur de Sang" onerror="this.src='https://via.placeholder.com/400x220/0a0a0a/ff0040?text=Blood+Donation'">
+          </div>
+          <div class="project-content">
+            <h3 class="project-title">
+              <span class="jp">献血</span>
+              Plateforme Dons de Sang
+            </h3>
+            <p class="project-desc">Application web pour connecter donneurs et centres de collecte, avec gestion des rendez-vous et suivi en temps réel.</p>
+            <div class="project-tech">
+              <span class="tech-tag">Angular</span>
+              <span class="tech-tag">Spring Boot</span>
+              <span class="tech-tag">MySQL</span>
+              <span class="tech-tag">Docker</span>
+            </div>
+            <div class="project-links">
+              <a href="#" data-bs-toggle="modal" data-bs-target="#project1Modal"><i class="fas fa-eye"></i> Détails</a>
+              <a href="https://github.com/youssef-cherkaoui" target="_blank"><i class="fab fa-github"></i> Code</a>
+            </div>
+          </div>
+        </div>
 
-        // Configuration des particules
-        particlesJS('particles-js', {
-            particles: {
-                number: {
-                    value: 80,
-                    density: {
-                        enable: true,
-                        value_area: 800
-                    }
-                },
-                color: {
-                    value: '#64ffda'
-                },
-                shape: {
-                    type: 'circle'
-                },
-                opacity: {
-                    value: 0.5,
-                    random: false
-                },
-                size: {
-                    value: 3,
-                    random: true
-                },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: '#64ffda',
-                    opacity: 0.4,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 2,
-                    direction: 'none',
-                    random: false,
-                    straight: false,
-                    out_mode: 'out',
-                    bounce: false
-                }
-            },
-            interactivity: {
-                detect_on: 'canvas',
-                events: {
-                    onhover: {
-                        enable: true,
-                        mode: 'grab'
-                    },
-                    onclick: {
-                        enable: true,
-                        mode: 'push'
-                    },
-                    resize: true
-                }
-            },
-            retina_detect: true
-        });
+        <!-- Project 2 -->
+        <div class="project-card fade-in">
+          <canvas class="card-canvas"></canvas>
+          <div class="project-image">
+            <img src="IT-Support-Services-Detailed-IT-Services.jpg" alt="IT Support" onerror="this.src='https://via.placeholder.com/400x220/0a0a0a/ff0040?text=IT+Support'">
+          </div>
+          <div class="project-content">
+            <h3 class="project-title">
+              <span class="jp">支援</span>
+              Gestion Équipements IT
+            </h3>
+            <p class="project-desc">Système de gestion des équipements, tickets support et génération de rapports analytiques pour optimiser l'infrastructure.</p>
+            <div class="project-tech">
+              <span class="tech-tag">Spring Boot</span>
+              <span class="tech-tag">Angular 16</span>
+              <span class="tech-tag">JUnit</span>
+              <span class="tech-tag">SonarQube</span>
+            </div>
+            <div class="project-links">
+              <a href="#" data-bs-toggle="modal" data-bs-target="#project2Modal"><i class="fas fa-eye"></i> Détails</a>
+              <a href="https://github.com/youssef-cherkaoui/IT_Support_App" target="_blank"><i class="fab fa-github"></i> Code</a>
+            </div>
+          </div>
+        </div>
 
-        // Animation de typing
-        document.addEventListener('DOMContentLoaded', function() {
-            new Typed('.typing-text', {
-                strings: ["Bonjour, je suis Youssef Cherkaoui", "Développeur Full Stack", "Junior Java/Angular","Explorateur du code","Fier de chaque ligne que j'écris","Convaincue que chaque bug est une opportunité d’apprendre"],
-                typeSpeed: 50,
-                backSpeed: 30,
-                backDelay: 1000,
-                loop: true,
-            
-            });
-        });
+        <!-- Project 3 -->
+        <div class="project-card fade-in">
+          <canvas class="card-canvas"></canvas>
+          <div class="project-image">
+            <img src="farm-management-software.jpg.webp" alt="FreshFarm" onerror="this.src='https://via.placeholder.com/400x220/0a0a0a/ff0040?text=FreshFarm'">
+          </div>
+          <div class="project-content">
+            <h3 class="project-title">
+              <span class="jp">農場</span>
+              FreshFarm AgriTech
+            </h3>
+            <p class="project-desc">Backend intelligent pour la gestion agricole : suivi des récoltes, calcul de productivité, optimisation des ventes.</p>
+            <div class="project-tech">
+              <span class="tech-tag">Java</span>
+              <span class="tech-tag">Spring Boot</span>
+              <span class="tech-tag">MySQL</span>
+              <span class="tech-tag">Jenkins</span>
+            </div>
+            <div class="project-links">
+              <a href="#" data-bs-toggle="modal" data-bs-target="#project3Modal"><i class="fas fa-eye"></i> Détails</a>
+              <a href="https://github.com/youssef-cherkaoui/freshTree.git" target="_blank"><i class="fab fa-github"></i> Code</a>
+            </div>
+          </div>
+        </div>
 
-        // Animation des barres de compétences
-        function animateSkills() {
-            document.querySelectorAll('.skill-progress').forEach(progress => {
-                const value = progress.getAttribute('data-progress');
-                progress.style.width = value + '%';
-            });
+        <!-- Project 4 -->
+        <div class="project-card fade-in">
+          <canvas class="card-canvas"></canvas>
+          <div class="project-image">
+            <img src="OCPExpedition.png" alt="OCP Expedition" onerror="this.src='https://via.placeholder.com/400x220/0a0a0a/ff0040?text=OCP+Analytics'">
+          </div>
+          <div class="project-content">
+            <h3 class="project-title">
+              <span class="jp">分析</span>
+              OCP Expedition Analytics
+            </h3>
+            <p class="project-desc">Plateforme Web & Mobile pour la planification et l'analyse des expéditions de phosphate avec statistiques avancées.</p>
+            <div class="project-tech">
+              <span class="tech-tag">Spring Boot</span>
+              <span class="tech-tag">Angular</span>
+              <span class="tech-tag">Docker</span>
+              <span class="tech-tag">Charts.js</span>
+            </div>
+            <div class="project-links">
+              <a href="#" data-bs-toggle="modal" data-bs-target="#project4Modal"><i class="fas fa-eye"></i> Détails</a>
+              <a href="#" target="_blank"><i class="fab fa-github"></i> Code</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills" class="skills">
+    <div class="container">
+      <div class="section-header">
+        <span class="jp">技能</span>
+        <span class="en">Skills</span>
+      </div>
+      <div class="skills-grid" id="skillsContainer">
+        <!-- Skills injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact">
+    <div class="container">
+      <div class="section-header">
+        <span class="jp">連絡</span>
+        <span class="en">Contact</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h3><span class="jp">詳細</span> Coordonnées</h3>
+          <div class="contact-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <div><h4>Localisation</h4><p>Casablanca, Maroc</p></div>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-envelope"></i>
+            <div><h4>Email</h4><p><a href="mailto:Youssefesaaddik.cherkaoui@gmail.com">Youssefesaaddik.cherkaoui@gmail.com</a></p></div>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-phone"></i>
+            <div><h4>Téléphone</h4><p><a href="tel:+212691176140">+212 691-176140</a></p></div>
+          </div>
+          <div class="contact-item">
+            <i class="fab fa-github"></i>
+            <div><h4>GitHub</h4><p><a href="https://github.com/youssef-cherkaoui" target="_blank">youssef-cherkaoui</a></p></div>
+          </div>
+          <div class="contact-item">
+            <i class="fab fa-linkedin"></i>
+            <div><h4>LinkedIn</h4><p><a href="https://www.linkedin.com/in/youssef-cherkaoui-4008b12ab/" target="_blank">Youssef CHERKAOUI</a></p></div>
+          </div>
+        </div>
+        
+        <form class="contact-form" id="contactForm">
+          <input type="text" class="form-control" placeholder="Votre nom *" id="name" required>
+          <input type="email" class="form-control" placeholder="Votre email *" id="email" required>
+          <input type="text" class="form-control" placeholder="Sujet" id="subject">
+          <textarea class="form-control" placeholder="Votre message *" id="message" required></textarea>
+          <button type="submit" class="btn-primary w-100">
+            <i class="fas fa-paper-plane me-2"></i>Envoyer
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://github.com/youssef-cherkaoui" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/youssef-cherkaoui-4008b12ab/" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="CHERKAOUI ELMEKNASSI Youssef Essaddik.pdf" download><i class="fas fa-file-pdf"></i></a>
+      </div>
+      <p>&copy; 2026 <strong class="text-primary">Youssef Cherkaoui</strong>. Crafted with honor.</p>
+      <p style="margin-top: 0.5rem; font-size: 0.8rem;">
+        <a href="#home"><i class="fas fa-arrow-up me-1"></i>Retour en haut</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Project Modals -->
+  <div class="modal fade" id="project1Modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">🩸 Plateforme Dons de Sang</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Description :</strong> Application web pour faciliter et organiser les dons de sang entre donneurs et centres de collecte.</p>
+          <h6 class="mt-4">🛠️ Stack Technique :</h6>
+          <ul>
+            <li><strong>Frontend:</strong> Angular 16, Bootstrap, RxJS</li>
+            <li><strong>Backend:</strong> Spring Boot, Spring Security, Spring Data JPA</li>
+            <li><strong>Database:</strong> MySQL</li>
+            <li><strong>DevOps:</strong> Docker, Jenkins, SonarQube</li>
+            <li><strong>Testing:</strong> JUnit, Mockito</li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+          <a href="https://github.com/youssef-cherkaoui" target="_blank" class="btn btn-primary">
+            <i class="fab fa-github me-1"></i>Voir sur GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="project2Modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">💻 Gestion Équipements IT</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Description :</strong> Système complet pour le suivi des équipements informatiques, gestion des pannes et génération de rapports analytiques.</p>
+          <h6 class="mt-4">🛠️ Stack Technique :</h6>
+          <ul>
+            <li><strong>Backend:</strong> Spring Boot, Spring Security, JPA</li>
+            <li><strong>Frontend:</strong> Angular 16, RxJS, Chart.js</li>
+            <li><strong>Database:</strong> MySQL</li>
+            <li><strong>DevOps:</strong> Docker, JUnit, SonarQube</li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+          <a href="https://github.com/youssef-cherkaoui/IT_Support_App" target="_blank" class="btn btn-primary">
+            <i class="fab fa-github me-1"></i>Voir sur GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="project3Modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">🌾 FreshFarm AgriTech</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Description :</strong> Backend intelligent pour la gestion agricole avec règles métier complexes et calculs automatiques.</p>
+          <h6 class="mt-4">🛠️ Stack :</h6>
+          <p>Java 17 | Spring Boot 3 | MySQL | JUnit 5 | Jenkins | SonarQube</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+          <a href="https://github.com/youssef-cherkaoui/freshTree.git" target="_blank" class="btn btn-primary">
+            <i class="fab fa-github me-1"></i>Voir sur GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="project4Modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">🚢 OCP Expedition Analytics</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Description :</strong> Plateforme de planification et d'analyse des expéditions de phosphate avec statistiques avancées et suivi en temps réel.</p>
+          <h6 class="mt-4">🛠️ Stack :</h6>
+          <p>Spring Boot | Angular 16 | MySQL | Docker | Chart.js</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+          <a href="#" class="btn btn-primary">
+            <i class="fab fa-github me-1"></i>Voir sur GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // ===== LOADER =====
+    window.addEventListener('load', () => {
+      setTimeout(() => document.getElementById('loader').classList.add('hidden'), 1200);
+    });
+
+    // ===== CUSTOM CURSOR =====
+    const cursor = document.getElementById('cursor');
+    const cursorDot = document.getElementById('cursor-dot');
+    let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX; mouseY = e.clientY;
+      cursorDot.style.left = mouseX + 'px';
+      cursorDot.style.top = mouseY + 'px';
+    });
+
+    function animateCursor() {
+      cursorX += (mouseX - cursorX) * 0.15;
+      cursorY += (mouseY - cursorY) * 0.15;
+      cursor.style.left = cursorX + 'px';
+      cursor.style.top = cursorY + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    document.querySelectorAll('a, button, .project-card, .skill-card, input, textarea, .nav-link').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+
+    // ===== THREE.JS BACKGROUND (Particles Only) =====
+    function initThreeJS() {
+      const container = document.getElementById('canvas-container');
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      container.appendChild(renderer.domElement);
+
+      // Lights
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.25);
+      scene.add(ambientLight);
+      
+      const pointLight = new THREE.PointLight(0xff0040, 0.8, 15);
+      pointLight.position.set(3, 3, 3);
+      scene.add(pointLight);
+
+      // Background particles
+      const particlesGeometry = new THREE.BufferGeometry();
+      const particlesCount = 1200;
+      const posArray = new Float32Array(particlesCount * 3);
+      for(let i = 0; i < particlesCount * 3; i++) {
+        posArray[i] = (Math.random() - 0.5) * 30;
+      }
+      particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+      const particlesMaterial = new THREE.PointsMaterial({
+        size: 0.025, color: 0xff0040, transparent: true, opacity: 0.5,
+        blending: THREE.AdditiveBlending
+      });
+      const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+      scene.add(particlesMesh);
+
+      camera.position.z = 6;
+
+      // Mouse tracking
+      let targetX = 0, targetY = 0;
+      document.addEventListener('mousemove', (e) => {
+        targetX = (e.clientX / window.innerWidth) * 2 - 1;
+        targetY = -(e.clientY / window.innerHeight) * 2 + 1;
+      });
+
+      const clock = new THREE.Clock();
+      
+      function animate() {
+        const elapsedTime = clock.getElapsedTime();
+        
+        // Animate background particles
+        particlesMesh.rotation.y = elapsedTime * 0.025;
+        particlesMesh.rotation.x = targetY * 0.15;
+        
+        // Camera subtle movement
+        camera.position.x += (targetX * 0.3 - camera.position.x) * 0.02;
+        camera.position.y += (targetY * 0.3 - camera.position.y) * 0.02;
+        camera.lookAt(scene.position);
+        
+        renderer.render(scene, camera);
+        requestAnimationFrame(animate);
+      }
+      
+      animate();
+
+      // Handle resize
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      return { scene, camera, renderer };
+    }
+
+    // ===== PROJECT CARDS 3D EFFECTS =====
+    function initCardEffects() {
+      const cards = document.querySelectorAll('.project-card');
+      
+      cards.forEach(card => {
+        const canvas = card.querySelector('.card-canvas');
+        if(!canvas) return;
+        
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        renderer.setSize(card.offsetWidth, card.offsetHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(50, card.offsetWidth/card.offsetHeight, 0.1, 100);
+        camera.position.z = 5;
+        
+        // Particles for card
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particleCount = 200;
+        const positions = new Float32Array(particleCount * 3);
+        for(let i = 0; i < particleCount * 3; i++) {
+          positions[i] = (Math.random() - 0.5) * 4;
         }
-
-        // Navbar scroll effect
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 50) {
-                document.querySelector('.navbar').classList.add('scrolled');
-            } else {
-                document.querySelector('.navbar').classList.remove('scrolled');
-            }
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        
+        const particlesMaterial = new THREE.PointsMaterial({
+          size: 0.03, color: 0xff0040, transparent: true, opacity: 0,
+          blending: THREE.AdditiveBlending
         });
-
-        // Smooth scroll pour les liens de navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
+        const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particles);
+        
+        // Mouse tracking for card
+        let cardMouseX = 0, cardMouseY = 0;
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          cardMouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+          cardMouseY = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+          particlesMaterial.opacity = 0.8;
         });
-       
-
-        // Validation du formulaire de contact
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Ajoutez ici votre logique de validation et d'envoi du formulaire
-            alert('Message envoyé avec succès!');
-            this.reset();
+        
+        card.addEventListener('mouseleave', () => {
+          particlesMaterial.opacity = 0;
         });
-
-
-
-
-        class SkillBar {
-            constructor(element) {
-                this.element = element;
-                this.skillValue = parseInt(element.dataset.progress);
-                this.progressBar = element.querySelector('.progress-bar');
-                this.animated = false;
-                this.init();
-            }
-
-            init() {
-                // Configuration de l'observateur d'intersection
-                const options = {
-                    root: null,
-                    rootMargin: '0px',
-                    threshold: 0.5
-                };
-
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting && !this.animated) {
-                            this.animate();
-                            this.animated = true;
-                        }
-                    });
-                }, options);
-
-                observer.observe(this.element);
-
-                // Ajout des événements hover
-                this.element.addEventListener('mouseenter', () => this.onHover());
-                this.element.addEventListener('mouseleave', () => this.onLeave());
-            }
-
-            animate() {
-                // Animation initiale
-                this.progressBar.style.width = `${this.skillValue}%`;
-                
-                // Animation du compteur
-                let counter = 0;
-                const percentage = this.element.querySelector('.skill-percentage');
-                
-                const interval = setInterval(() => {
-                    if (counter >= this.skillValue) {
-                        clearInterval(interval);
-                    } else {
-                        counter++;
-                        percentage.textContent = `${counter}%`;
-                    }
-                }, 20);
-            }
-
-            onHover() {
-                // Effet de surbrillance supplémentaire
-                this.progressBar.style.filter = 'brightness(1.2)';
-                
-                // Animation pulse
-                this.element.style.animation = 'pulse 2s infinite';
-            }
-
-            onLeave() {
-                this.progressBar.style.filter = 'brightness(1)';
-                this.element.style.animation = 'none';
-            }
-        }
-
-        // Initialisation des barres de compétences
-        document.addEventListener('DOMContentLoaded', () => {
-            const skills = [
-    { name: 'HTML5', progress: 85, icon: 'fab fa-html5', details: 'Structure sémantique, Formulaires, Médias' },
-    { name: 'CSS3', progress: 85, icon: 'fab fa-css3-alt', details: 'Flexbox, Grid, Animations' },
-    { name: 'Java', progress: 90, icon: 'fab fa-java', details: 'Programmation orientée objet, Concurrence, Collections' },
-    { name: 'Spring Framework', progress: 85, icon: 'fab fa-leaf', details: 'Spring Boot, Spring Security, Spring Data' },
-    { name: 'Spring Boot', progress: 85, icon: 'fab fa-leaf', details: 'Développement rapide d’applications web' },
-    { name: 'Spring Security', progress: 80, icon: 'fas fa-shield-alt', details: 'Authentification, Autorisation, JWT' },
-    { name: 'Spring Data', progress: 80, icon: 'fas fa-database', details: 'JPA, Requêtes personnalisées' },
-    { name: 'Maven', progress: 80, icon: 'fas fa-cogs', details: 'Gestion des dépendances, Construction de projet' },
-    { name: 'Bootstrap', progress: 80, icon: 'fab fa-bootstrap', details: 'Responsive Design, Composants UI' },
-    { name: 'RESTful API', progress: 85, icon: 'fas fa-network-wired', details: 'Endpoints, Méthodes HTTP, JSON' },
-    { name: 'Mockito', progress: 70, icon: 'fas fa-vial', details: 'Tests unitaires, Mocking, Stubbing' },
-    { name: 'Hibernate', progress: 75, icon: 'fas fa-database', details: 'Mapping objet-relationnel (ORM), HQL' },
-    { name: 'Microservices', progress: 75, icon: 'fas fa-cloud', details: 'Architecture distribuée, Communication inter-services' },
-    { name: 'JavaScript', progress: 70, icon: 'fab fa-js', details: 'ES6+, DOM, Async/Await' },
-    { name: 'Angular', progress: 65, icon: 'fab fa-angular', details: 'Components, Services, RxJS' },
-    { name: 'Docker', progress: 65, icon: 'fab fa-docker', details: 'Containers, Docker-compose' },
-    { name: 'MySQL', progress: 70, icon: 'fas fa-database', details: 'Queries, Optimization' },
-    { name: 'Postman', progress: 73, icon: 'fas fa-paper-plane', details: 'API Testing, Collections, Automation' },
-    { name: 'Jenkins', progress: 60, icon: 'fas fa-cogs', details: 'CI/CD, Pipelines, Automation' },
-    { name: 'SonarQube', progress: 60, icon: 'fas fa-shield-alt', details: 'Code Quality, Static Analysis, Metrics' },
-    { name: 'JUnit', progress: 70, icon: 'fas fa-asterisk', details: 'Unit Testing, Test Cases, Assertions' },
-    { name: 'Spring', progress: 80, icon: 'fas fa-leaf', details: 'Spring Boot, Spring Security, Spring MVC, Spring Data, RESTful APIs' },
-    { name: 'Figma', progress: 85, icon: 'fab fa-figma', details: 'Prototyping, UI Design, Collaboration' },
-];
-
-
-            const container = document.querySelector('.skills-container');
+        
+        const clock = new THREE.Clock();
+        function animate() {
+          const elapsed = clock.getElapsedTime();
+          
+          if(particlesMaterial.opacity > 0) {
+            particles.rotation.y = elapsed * 0.3 + cardMouseX * 0.2;
+            particles.rotation.x = cardMouseY * 0.3;
             
-            skills.forEach(skill => {
-                const skillCard = document.createElement('div');
-                skillCard.className = 'skill-card';
-                skillCard.setAttribute('data-progress', skill.progress);
-                
-                skillCard.innerHTML = `
-                    <div class="skill-icon">
-                        <i class="${skill.icon}"></i>
-                    </div>
-                    <div class="skill-name">
-                        ${skill.name}
-                        <span class="skill-percentage">0%</span>
-                    </div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar"></div>
-                    </div>
-                    <div class="details-container">
-                        <p class="skill-details">${skill.details}</p>
-                    </div>
-                `;
-
-                container.appendChild(skillCard);
-                new SkillBar(skillCard);
-            });
+            card.style.transform = `
+              perspective(1000px) 
+              rotateX(${-cardMouseY * 3}deg) 
+              rotateY(${cardMouseX * 3}deg) 
+              translateY(-6px)
+            `;
+          }
+          
+          renderer.render(scene, camera);
+          requestAnimationFrame(animate);
+        }
+        animate();
+        
+        // Handle resize
+        const resizeObserver = new ResizeObserver(() => {
+          renderer.setSize(card.offsetWidth, card.offsetHeight);
+          camera.aspect = card.offsetWidth / card.offsetHeight;
+          camera.updateProjectionMatrix();
         });
+        resizeObserver.observe(card);
+      });
+    }
 
+    // ===== SCROLL ANIMATIONS =====
+    const fadeElements = document.querySelectorAll('.fade-in, .timeline-item');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.15 });
+    fadeElements.forEach(el => observer.observe(el));
 
+    // ===== STATS ANIMATION =====
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.stat-number').forEach(stat => {
+            const target = parseInt(stat.dataset.target);
+            if (target && !stat.dataset.animated) {
+              let count = 0;
+              const increment = target / 40;
+              const timer = setInterval(() => {
+                count += increment;
+                if (count >= target) {
+                  stat.textContent = target;
+                  clearInterval(timer);
+                } else {
+                  stat.textContent = Math.floor(count);
+                }
+              }, 25);
+              stat.dataset.animated = 'true';
+            }
+          });
+        }
+      });
+    });
+    const statsSection = document.querySelector('.stats');
+    if (statsSection) statsObserver.observe(statsSection);
 
-    </script>
+    // ===== SKILLS =====
+    const skills = [
+      { name: 'Java', progress: 90, icon: 'fab fa-java', details: 'OOP, Collections, Streams, Concurrency' },
+      { name: 'Spring Boot', progress: 85, icon: 'fas fa-leaf', details: 'REST APIs, Security, Data JPA, Cloud' },
+      { name: 'Angular', progress: 75, icon: 'fab fa-angular', details: 'Components, Services, RxJS, Routing' },
+      { name: 'MySQL', progress: 80, icon: 'fas fa-database', details: 'Queries, Optimization, Design Patterns' },
+      { name: 'Docker', progress: 70, icon: 'fab fa-docker', details: 'Containers, Dockerfile, Compose' },
+      { name: 'Git/GitHub', progress: 90, icon: 'fab fa-github', details: 'Versioning, Branching, CI/CD' },
+      { name: 'REST APIs', progress: 85, icon: 'fas fa-network-wired', details: 'Design, Documentation, Testing' },
+      { name: 'JUnit/Mockito', progress: 75, icon: 'fas fa-vial', details: 'Unit Testing, TDD, Integration' },
+      { name: 'HTML/CSS', progress: 90, icon: 'fab fa-html5', details: 'Semantic, Flexbox, Grid, Animations' },
+      { name: 'JavaScript/TS', progress: 80, icon: 'fab fa-js', details: 'ES6+, Async/Await, TypeScript' },
+      { name: 'Jenkins', progress: 65, icon: 'fas fa-cogs', details: 'CI/CD Pipelines, Automation' },
+      { name: 'SonarQube', progress: 70, icon: 'fas fa-shield-alt', details: 'Code Quality, Static Analysis' }
+    ];
 
+    const skillsContainer = document.getElementById('skillsContainer');
+    skills.forEach((skill, index) => {
+      const card = document.createElement('div');
+      card.className = 'skill-card fade-in';
+      card.style.transitionDelay = `${index * 50}ms`;
+      card.innerHTML = `
+        <div class="skill-header">
+          <div class="skill-name"><i class="${skill.icon}"></i><span>${skill.name}</span></div>
+          <span class="skill-percent">${skill.progress}%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-progress" data-progress="${skill.progress}"></div></div>
+        <div class="skill-details">${skill.details}</div>
+      `;
+      skillsContainer.appendChild(card);
+      observer.observe(card);
+    });
+
+    const skillObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const bar = entry.target.querySelector('.skill-progress');
+          if (bar && bar.style.width === '') bar.style.width = bar.dataset.progress + '%';
+        }
+      });
+    }, { threshold: 0.6 });
+    document.querySelectorAll('.skill-card').forEach(card => skillObserver.observe(card));
+
+    // ===== CONTACT FORM =====
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const btn = e.target.querySelector('button[type="submit"]');
+      const originalHTML = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Envoi...';
+      btn.disabled = true;
+      
+      setTimeout(() => {
+        btn.innerHTML = '<i class="fas fa-check me-2"></i>Message envoyé !';
+        btn.style.background = '#4ade80';
+        btn.style.borderColor = '#4ade80';
+        btn.style.color = '#0a0a0a';
+        setTimeout(() => {
+          btn.innerHTML = originalHTML;
+          btn.disabled = false;
+          btn.style.background = '';
+          btn.style.borderColor = '';
+          btn.style.color = '';
+          e.target.reset();
+        }, 2500);
+      }, 1500);
+    });
+
+    // ===== NAVBAR & SMOOTH SCROLL =====
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) navbar.classList.add('scrolled');
+      else navbar.classList.remove('scrolled');
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          const collapse = document.querySelector('.navbar-collapse');
+          if (collapse.classList.contains('show')) collapse.classList.remove('show');
+        }
+      });
+    });
+
+    const sections = document.querySelectorAll('section[id]');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        if (scrollY >= sectionTop) current = section.getAttribute('id');
+      });
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
+      });
+    });
+
+    // ===== EASTER EGG: KONAMI CODE =====
+    const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+    let konamiIndex = 0;
+    document.addEventListener('keydown', (e) => {
+      if (e.key === konami[konamiIndex]) {
+        konamiIndex++;
+        if (konamiIndex === konami.length) {
+          document.body.classList.toggle('samurai-mode');
+          const msg = document.body.classList.contains('samurai-mode') 
+            ? '🥷 Mode Samurai ACTIVÉ !' : '🗡️ Mode Samurai DÉSACTIVÉ';
+          const toast = document.createElement('div');
+          toast.style.cssText = `position:fixed;bottom:30px;right:30px;background:var(--accent);color:#fff;padding:12px 24px;border-radius:4px;font-weight:600;z-index:10000;animation:slideIn 0.3s ease;`;
+          toast.textContent = msg;
+          document.body.appendChild(toast);
+          setTimeout(() => toast.remove(), 3000);
+          konamiIndex = 0;
+        }
+      } else konamiIndex = 0;
+    });
+
+    // ===== INIT =====
+    document.addEventListener('DOMContentLoaded', () => {
+      initThreeJS();
+      initCardEffects();
+      setTimeout(() => {
+        document.querySelectorAll('.fade-in').forEach(el => {
+          if (el.getBoundingClientRect().top < window.innerHeight * 0.9) el.classList.add('visible');
+        });
+      }, 1500);
+    });
+  </script>
 </body>
-
 </html>
