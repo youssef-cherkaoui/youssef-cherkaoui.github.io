@@ -11,6 +11,15 @@
   <link href="https://fonts.cdnfonts.com/css/callahan-2" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
   
+  <!-- Vue.js -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  
+  <!-- OGL Library for Liquid Text Effect -->
+  <script src="https://cdn.jsdelivr.net/npm/ogl@1.0.7/build/ogl.module.min.js"></script>
+  
   <style>
     /* ===== VARIABLES ===== */
     :root {
@@ -316,7 +325,7 @@
     }
 
     .hero-image::after {
-      content: 'DEV SAMURAI';
+      content: 'CYBER SAMURAI';
       position: absolute;
       top: 15%;
       left: -60%;
@@ -341,67 +350,47 @@
       50% { transform: translateX(15%) rotate(-25deg); }
     }
 
-    /* ===== RESPONSIVE NAVBAR (RED THEME) ===== */
-@media (max-width: 991px) {
-  /* Dropdown background & border */
-  .navbar-collapse {
-    background: rgba(10, 10, 15, 0.95);
-    border-top: 2px solid var(--accent);
-    border-bottom: 1px solid rgba(255, 0, 64, 0.3);
-    margin-top: 0.5rem;
-    padding: 0.8rem 0;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  }
-
-  /* Hamburger button */
-  .navbar-toggler {
-    border: 1px solid var(--accent);
-    padding: 0.4rem 0.7rem;
-    transition: var(--transition);
-    background: transparent;
-  }
-  .navbar-toggler:hover {
-    background: rgba(255, 0, 64, 0.15);
-    box-shadow: 0 0 15px rgba(255, 0, 64, 0.3);
-  }
-  .navbar-toggler:focus {
-    box-shadow: 0 0 0 3px rgba(255, 0, 64, 0.4);
-    border-color: #ff3366;
-  }
-
-  /* Red hamburger icon */
-  .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23ff0040' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.5' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-  }
-
-  /* Links styling */
-  .navbar-nav .nav-link {
-    color: var(--text-primary) !important;
-    padding: 0.9rem 1.5rem !important;
-    border-left: 2px solid transparent;
-    transition: var(--transition);
-  }
-  .navbar-nav .nav-link:hover,
-  .navbar-nav .nav-link.active {
-    color: var(--accent) !important;
-    border-left-color: var(--accent);
-    background: rgba(255, 0, 64, 0.08);
-  }
-
-  /* Hide desktop underline on mobile */
-  .navbar-nav .nav-link::after {
-    display: none;
-  }
-}
-
     /* ===== MANIFESTO SECTION ===== */
     .manifesto {
+      position: relative;
       padding: 150px 0;
       text-align: center;
-      background: linear-gradient(180deg, transparent, rgba(255,0,64,0.02), transparent);
+      background: transparent;
+      overflow: hidden;
+      min-height: 600px;
     }
-    
+
+    .manifesto-shader-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: all;
+    }
+
+    .manifesto-shader-bg canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .manifesto-content {
+      position: relative;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .manifesto-content .manifesto-title,
+    .manifesto-content .manifesto-quote-wrapper,
+    .manifesto-content .manifesto-principles {
+      pointer-events: auto;
+    }
+
     .manifesto-title {
       display: flex; align-items: center; justify-content: center;
       gap: 2rem; margin-bottom: 3rem;
@@ -415,32 +404,119 @@
       color: var(--text-secondary);
     }
     
-    .manifesto-quote {
-      font-size: clamp(1.3rem, 3vw, 2rem);
-      max-width: 800px;
+    /* ===== LIQUID TEXT EFFECT ===== */
+    .manifesto-quote-wrapper {
+      position: relative;
+      max-width: 900px;
       margin: 0 auto 4rem;
+      z-index: 3;
+    }
+
+    .liquid-text-container {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    #liquidTextCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .text-mask {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 95%;
+      height: auto;
+      z-index: 2;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    .quote-fallback {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: clamp(1.1rem, 2.5vw, 1.8rem);
       line-height: 1.7;
       font-style: italic;
+      color: var(--text-primary);
+      text-align: center;
+      z-index: 1;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+      padding: 20px;
+      background: rgba(10, 10, 15, 0.4);
+      border-radius: 8px;
+      backdrop-filter: blur(2px);
+      display: inline-block;
     }
-    .manifesto-quote em {
-      color: var(--accent);
-      font-style: normal;
-      font-weight: 600;
+
+    @supports (canvas) {
+      .quote-fallback {
+        opacity: 0;
+        pointer-events: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .liquid-text-container {
+        height: auto;
+        min-height: 200px;
+        background: rgba(20, 20, 30, 0.6);
+        border: 1px solid rgba(255, 0, 64, 0.3);
+      }
+      #liquidTextCanvas { display: none; }
+      .text-mask { display: none; }
+      .quote-fallback {
+        position: relative;
+        transform: none;
+        top: auto;
+        left: auto;
+        opacity: 1 !important;
+        font-size: 1.2rem;
+      }
+    }
+
+    .liquid-text-container {
+      animation: fadeInUp 0.8s ease-out 0.3s both;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     
+    .manifesto-quote {
+      position: relative;
+      z-index: 3;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.8), 0 0 40px rgba(10,10,15,0.9);
+    }
+
     .manifesto-principles {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 2rem;
       max-width: 1000px;
       margin: 0 auto;
+      position: relative;
+      z-index: 3;
     }
     
     .principle {
       padding: 2rem;
       border: 1px solid rgba(255, 0, 64, 0.2);
       transition: var(--transition);
-      background: rgba(20, 20, 30, 0.5);
+      background: rgba(20, 20, 30, 0.85);
+      backdrop-filter: blur(8px);
     }
     .principle:hover {
       border-color: var(--accent);
@@ -604,94 +680,217 @@
       position: relative;
       z-index: 1;
     }
-    
-    .project-card {
-      background: var(--bg-card);
-      border: 1px solid rgba(255, 0, 64, 0.2);
-      border-radius: 4px;
-      overflow: hidden;
-      transition: var(--transition);
-      position: relative;
+
+    /* ===== 3D TILT CARDS ===== */
+    .card-wrap {
+      margin: 10px;
+      transform: perspective(1200px);
       transform-style: preserve-3d;
-      perspective: 1000px;
+      cursor: pointer;
+      width: 100%;
     }
-    
-    .project-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-6px) rotateX(2deg);
-      box-shadow: 0 20px 50px rgba(255, 0, 64, 0.3);
+
+    .card-wrap:hover .card-info { transform: translateY(0); }
+    .card-wrap:hover .card-info p { opacity: 1; }
+    .card-wrap:hover .card-info,
+    .card-wrap:hover .card-info p {
+      transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
     }
-    
-    .project-image {
-      height: 220px; overflow: hidden;
-      position: relative;
-    }
-    .project-image img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform 0.6s ease;
-    }
-    .project-card:hover .project-image img { transform: scale(1.05); }
-    
-    .card-canvas {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .project-card:hover .card-canvas {
+    .card-wrap:hover .card-info:after {
+      transition: 3s cubic-bezier(0.23, 1, 0.32, 1);
       opacity: 1;
+      transform: translateY(0);
     }
-    
-    .project-content { 
-      padding: 1.8rem; 
+    .card-wrap:hover .card-bg {
+      transition: 0.5s cubic-bezier(0.445, 0.05, 0.55, 0.95), opacity 4s cubic-bezier(0.23, 1, 0.32, 1);
+      opacity: 0.85;
+      transform: scale(1.05);
+    }
+    .card-wrap:hover .card {
+      transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      box-shadow:
+        0 30px 60px rgba(0,0,0,0.6),
+        inset rgba(255, 0, 64, 0.4) 0 0 0 2px,
+        inset rgba(255, 255, 255, 0.2) 0 0 0 3px;
+    }
+
+    .card {
       position: relative;
+      width: 100%;
+      height: 380px;
+      background: var(--bg-card);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow:
+        0 20px 40px rgba(0,0,0,0.4),
+        inset rgba(255, 0, 64, 0.2) 0 0 0 1px;
+      transition: 0.8s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+      border: 1px solid rgba(255, 0, 64, 0.2);
+    }
+
+    .card-bg {
+      opacity: 0.4;
+      position: absolute;
+      top: -20px; left: -20px;
+      width: calc(100% + 40px);
+      height: calc(100% + 40px);
+      padding: 20px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      transition: 0.8s cubic-bezier(0.445, 0.05, 0.55, 0.95), opacity 4s 0.8s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+      pointer-events: none;
+      filter: brightness(0.7) contrast(1.1);
+    }
+
+    .card-info {
+      padding: 24px;
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      color: #fff;
+      transform: translateY(30%);
+      transition: 0.6s 1.6s cubic-bezier(0.215, 0.61, 0.355, 1);
       z-index: 2;
-      transform: translateZ(30px);
+      background: linear-gradient(to top, rgba(10,10,15,0.95), transparent);
     }
-    
-    .project-title {
-      font-size: 1.3rem; margin-bottom: 0.8rem;
-      display: flex; align-items: center; gap: 0.5rem;
-    }
-    .project-title .jp {
-      font-family: 'Noto Sans JP', sans-serif;
-      font-size: 0.9rem; color: var(--accent); opacity: 0.7;
-    }
-    .project-desc {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      margin-bottom: 1.5rem;
-      line-height: 1.6;
-    }
-    
-    .project-tech {
-      display: flex; flex-wrap: wrap; gap: 0.5rem;
-      margin-bottom: 1.5rem;
-    }
-    .tech-tag {
-      font-size: 0.75rem;
-      padding: 4px 12px;
-      background: rgba(255, 0, 64, 0.15);
-      color: var(--accent);
-      border-radius: 20px;
-      letter-spacing: 0.5px;
-      border: 1px solid rgba(255, 0, 64, 0.3);
-    }
-    
-    .project-links {
-      display: flex; gap: 1rem;
-    }
-    .project-links a {
+
+    .card-info p {
+      opacity: 0;
+      text-shadow: rgba(0,0,0,0.8) 0 2px 4px;
+      transition: 0.6s 1.6s cubic-bezier(0.215, 0.61, 0.355, 1);
       color: var(--text-secondary);
       font-size: 0.9rem;
+      margin: 8px 0 16px;
+      line-height: 1.5;
+    }
+
+    .card-info * { position: relative; z-index: 2; }
+
+    .card-info:after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent 0%, rgba(10,10,15,0.9) 100%);
+      opacity: 0;
+      transform: translateY(100%);
+      transition: 5s 1s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+    }
+
+    .card-info h3 {
+      font-family: 'Callahan', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-shadow: rgba(0,0,0,0.5) 0 4px 8px;
+      margin: 0 0 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-info h3 .jp {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.9rem;
+      color: var(--accent);
+      opacity: 0.9;
+    }
+
+    .card-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 12px 0;
+    }
+
+    .card-tech .tech-tag {
+      font-size: 0.7rem;
+      padding: 3px 10px;
+      background: rgba(255, 0, 64, 0.2);
+      color: var(--accent);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 0, 64, 0.3);
+      font-weight: 500;
+    }
+
+    .card-links {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .card-links a {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
       text-decoration: none;
       transition: var(--transition);
-      display: flex; align-items: center; gap: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 500;
     }
-    .project-links a:hover { color: var(--accent); }
+
+    .card-links a:hover { color: var(--accent); }
+
+    @media (min-width: 992px) {
+      .project-card .project-image,
+      .project-card .project-content { display: none; }
+      .project-card .card-wrap { display: block; }
+    }
+
+    @media (max-width: 991px) {
+      .card-wrap { transform: none !important; }
+      .card { transform: none !important; height: auto; min-height: 380px; }
+      .card-bg { opacity: 0.3 !important; transform: none !important; }
+      .card-info { transform: translateY(0) !important; position: relative; background: transparent; }
+      .card-info:after { display: none; }
+      .card-info p { opacity: 1 !important; }
+    }
+
+    /* ===== RESPONSIVE NAVBAR ===== */
+    @media (max-width: 991px) {
+      .navbar-collapse {
+        background: rgba(10, 10, 15, 0.95);
+        border-top: 2px solid var(--accent);
+        border-bottom: 1px solid rgba(255, 0, 64, 0.3);
+        margin-top: 0.5rem;
+        padding: 0.8rem 0;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      }
+      .navbar-toggler {
+        border: 1px solid var(--accent);
+        padding: 0.4rem 0.7rem;
+        transition: var(--transition);
+        background: transparent;
+      }
+      .navbar-toggler:hover {
+        background: rgba(255, 0, 64, 0.15);
+        box-shadow: 0 0 15px rgba(255, 0, 64, 0.3);
+      }
+      .navbar-toggler:focus {
+        box-shadow: 0 0 0 3px rgba(255, 0, 64, 0.4);
+        border-color: #ff3366;
+      }
+      .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23ff0040' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.5' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+      }
+      .navbar-nav .nav-link {
+        color: var(--text-primary) !important;
+        padding: 0.9rem 1.5rem !important;
+        border-left: 2px solid transparent;
+        transition: var(--transition);
+      }
+      .navbar-nav .nav-link:hover,
+      .navbar-nav .nav-link.active {
+        color: var(--accent) !important;
+        border-left-color: var(--accent);
+        background: rgba(255, 0, 64, 0.08);
+      }
+      .navbar-nav .nav-link::after { display: none; }
+    }
 
     /* ===== SKILLS SECTION ===== */
     .skills {
@@ -885,7 +1084,6 @@
       .marquee-content span { font-size: 0.75rem; gap: 1.5rem; }
       .section-header .jp { font-size: 2rem; }
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .card-canvas { display: none; }
     }
 
     /* ===== UTILITIES ===== */
@@ -922,7 +1120,107 @@
       0% { opacity: 0; transform: translateY(30px); }
       100% { opacity: 1; transform: translateY(0); }
     }
+  
+    /* ===== TECH SLIDER ===== */
+    .tech-slider {
+      padding: 80px 0;
+      background: linear-gradient(180deg, rgba(15, 15, 25, 0.8), rgba(10, 10, 15, 0.95));
+      border-top: 1px solid rgba(255, 0, 64, 0.2);
+      border-bottom: 1px solid rgba(255, 0, 64, 0.2);
+      overflow: hidden;
+    }
+
+    .slider-header {
+      display: flex; align-items: center; justify-content: center;
+      gap: 2rem; margin-bottom: 3rem;
+    }
+    .slider-header .jp {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 2.5rem; color: var(--accent); opacity: 0.5;
+    }
+    .slider-header .en {
+      font-size: 1rem; letter-spacing: 6px; text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .slider {
+      background: transparent;
+      height: 120px;
+      margin: auto;
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+    }
+
+    .slider::before,
+    .slider::after {
+      background: linear-gradient(to right, rgba(10, 10, 15, 1) 0%, rgba(10, 10, 15, 0) 100%);
+      content: "";
+      height: 120px;
+      position: absolute;
+      width: 150px;
+      z-index: 2;
+    }
+
+    .slider::after {
+      right: 0;
+      top: 0;
+      transform: rotateZ(180deg);
+    }
+
+    .slider::before {
+      left: 0;
+      top: 0;
+    }
+
+    .slide-track {
+      animation: scroll 30s linear infinite;
+      display: flex;
+      width: calc(120px * 22);
+      gap: 40px;
+      align-items: center;
+    }
+
+    .slide {
+      height: 80px;
+      width: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      filter: grayscale(0.3) brightness(0.9);
+    }
+
+    .slide:hover {
+      filter: grayscale(0) brightness(1.2);
+      transform: scale(1.15);
+    }
+
+    .slide img {
+      max-height: 80px;
+      max-width: 80px;
+      object-fit: contain;
+      transition: var(--transition);
+    }
+
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(calc(-120px * 11)); }
+    }
+
+    @media (max-width: 768px) {
+      .slider::before, .slider::after { width: 60px; }
+      .slide { height: 60px; width: 60px; }
+      .slide img { max-height: 60px; max-width: 60px; }
+      .slide-track { width: calc(100px * 22); gap: 20px; }
+      @keyframes scroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(calc(-100px * 11)); }
+      }
+    }
   </style>
+  <base target="_blank">
 </head>
 <body>
 
@@ -1017,18 +1315,31 @@
     </div>
   </section>
 
-  <!-- Manifesto Section -->
+  <!-- Manifesto Section with Liquid Text -->
   <section id="manifesto" class="manifesto">
-    <div class="container">
+    <!-- Three.js Liquid Shader Background -->
+    <div class="manifesto-shader-bg" id="manifestoShader">
+      <canvas id="shaderCanvas"></canvas>
+    </div>
+
+    <div class="container manifesto-content">
       <div class="manifesto-title">
         <span class="jp">哲学</span>
         <span class="en">Philosophy</span>
       </div>
-      <blockquote class="manifesto-quote">
-        "Je code comme un Samurai forge son katana — 
-        <em>lent, obsessionnel, un peu dramatique.</em><br>
-        Chaque ligne est une promesse. Chaque pixel, un honneur."
-      </blockquote>
+      
+      <!-- Liquid Text Quote -->
+      <div class="manifesto-quote-wrapper">
+        <div class="liquid-text-container">
+          <canvas id="liquidTextCanvas"></canvas>
+          <span class="quote-fallback">
+            "Je code comme un Samurai forge son katana — 
+            <em>lent, obsessionnel, un peu dramatique.</em><br>
+            Chaque ligne est une promesse. Chaque pixel, un honneur."
+          </span>
+        </div>
+      </div>
+      
       <div class="manifesto-principles">
         <div class="principle fade-in">
           <span class="principle-num">一</span>
@@ -1110,121 +1421,102 @@
     </div>
   </section>
 
-  <!-- Projects Section -->
+  <!-- Projects Section with 3D Tilt Cards -->
   <section id="projects" class="projects">
     <div class="container">
       <div class="section-header">
         <span class="jp">作品</span>
         <span class="en">Projects</span>
       </div>
-      <div class="projects-grid">
+      
+      <div id="projects-grid" class="projects-grid">
         
-        <!-- Project 1 -->
-        <div class="project-card fade-in">
-          <canvas class="card-canvas"></canvas>
-          <div class="project-image">
-            <img src="leo5.jpg" alt="Donneur de Sang" onerror="this.src='https://via.placeholder.com/400x220/0a0a0a/ff0040?text=Blood+Donation'">
-          </div>
-          <div class="project-content">
-            <h3 class="project-title">
-              <span class="jp">献血</span>
-              Plateforme Dons de Sang
-            </h3>
-            <p class="project-desc">Application web pour connecter donneurs et centres de collecte, avec gestion des rendez-vous et suivi en temps réel.</p>
-            <div class="project-tech">
-              <span class="tech-tag">Angular</span>
-              <span class="tech-tag">Spring Boot</span>
-              <span class="tech-tag">MySQL</span>
-              <span class="tech-tag">Docker</span>
-            </div>
-            <div class="project-links">
-              <a href="#" data-bs-toggle="modal" data-bs-target="#project1Modal"><i class="fas fa-eye"></i> Détails</a>
-              <a href="https://github.com/youssef-cherkaoui" target="_blank"><i class="fab fa-github"></i> Code</a>
-            </div>
-          </div>
-        </div>
+        <!-- Project 1: Blood Donation -->
+        <tilt-card 
+          data-image="leo5.jpg"
+          jp="献血"
+          :tech="['Angular', 'Spring Boot', 'MySQL', 'Docker']"
+          github="https://github.com/youssef-cherkaoui"
+          modal-target="project1Modal">
+          <template #header>Plateforme Dons de Sang</template>
+          <template #content>Application web pour connecter donneurs et centres de collecte, avec gestion des rendez-vous et suivi en temps réel.</template>
+        </tilt-card>
 
-        <!-- Project 2 -->
-        <div class="project-card fade-in">
-          <canvas class="card-canvas"></canvas>
-          <div class="project-image">
-            <img src="IT-Support-Services-Detailed-IT-Services.jpg" alt="IT Support" onerror="this.src='https://via.placeholder.com/400x220/0a0a0a/ff0040?text=IT+Support'">
-          </div>
-          <div class="project-content">
-            <h3 class="project-title">
-              <span class="jp">支援</span>
-              Gestion Équipements IT
-            </h3>
-            <p class="project-desc">Système de gestion des équipements, tickets support et génération de rapports analytiques pour optimiser l'infrastructure.</p>
-            <div class="project-tech">
-              <span class="tech-tag">Spring Boot</span>
-              <span class="tech-tag">Angular 16</span>
-              <span class="tech-tag">JUnit</span>
-              <span class="tech-tag">SonarQube</span>
-            </div>
-            <div class="project-links">
-              <a href="#" data-bs-toggle="modal" data-bs-target="#project2Modal"><i class="fas fa-eye"></i> Détails</a>
-              <a href="https://github.com/youssef-cherkaoui/IT_Support_App" target="_blank"><i class="fab fa-github"></i> Code</a>
-            </div>
-          </div>
-        </div>
+        <!-- Project 2: IT Support -->
+        <tilt-card 
+          data-image="IT-Support-Services-Detailed-IT-Services.jpg"
+          jp="支援"
+          :tech="['Spring Boot', 'Angular 16', 'JUnit', 'SonarQube']"
+          github="https://github.com/youssef-cherkaoui/IT_Support_App"
+          modal-target="project2Modal">
+          <template #header>Gestion Équipements IT</template>
+          <template #content>Système de gestion des équipements, tickets support et génération de rapports analytiques pour optimiser l'infrastructure.</template>
+        </tilt-card>
 
-        <!-- Project 3 -->
-        <div class="project-card fade-in">
-          <canvas class="card-canvas"></canvas>
-          <div class="project-image">
-            <img src="farm-management-software.jpg.webp" alt="FreshFarm" onerror="this.src='https://via.placeholder.com/400x220/0a0a0a/ff0040?text=FreshFarm'">
-          </div>
-          <div class="project-content">
-            <h3 class="project-title">
-              <span class="jp">農場</span>
-              FreshFarm AgriTech
-            </h3>
-            <p class="project-desc">Backend intelligent pour la gestion agricole : suivi des récoltes, calcul de productivité, optimisation des ventes.</p>
-            <div class="project-tech">
-              <span class="tech-tag">Java</span>
-              <span class="tech-tag">Spring Boot</span>
-              <span class="tech-tag">MySQL</span>
-              <span class="tech-tag">Jenkins</span>
-            </div>
-            <div class="project-links">
-              <a href="#" data-bs-toggle="modal" data-bs-target="#project3Modal"><i class="fas fa-eye"></i> Détails</a>
-              <a href="https://github.com/youssef-cherkaoui/freshTree.git" target="_blank"><i class="fab fa-github"></i> Code</a>
-            </div>
-          </div>
-        </div>
+        <!-- Project 3: FreshFarm -->
+        <tilt-card 
+          data-image="farm-management-software.jpg.webp"
+          jp="農場"
+          :tech="['Java', 'Spring Boot', 'MySQL', 'Jenkins']"
+          github="https://github.com/youssef-cherkaoui/freshTree.git"
+          modal-target="project3Modal">
+          <template #header>FreshFarm AgriTech</template>
+          <template #content>Backend intelligent pour la gestion agricole : suivi des récoltes, calcul de productivité, optimisation des ventes.</template>
+        </tilt-card>
 
-        <!-- Project 4 -->
-        <div class="project-card fade-in">
-          <canvas class="card-canvas"></canvas>
-          <div class="project-image">
-            <img src="OCPExpedition.png" alt="OCP Expedition" onerror="this.src='https://via.placeholder.com/400x220/0a0a0a/ff0040?text=OCP+Analytics'">
-          </div>
-          <div class="project-content">
-            <h3 class="project-title">
-              <span class="jp">分析</span>
-              OCP Expedition Analytics
-            </h3>
-            <p class="project-desc">Plateforme Web & Mobile pour la planification et l'analyse des expéditions de phosphate avec statistiques avancées.</p>
-            <div class="project-tech">
-              <span class="tech-tag">Spring Boot</span>
-              <span class="tech-tag">Angular</span>
-              <span class="tech-tag">Docker</span>
-              <span class="tech-tag">Charts.js</span>
-            </div>
-            <div class="project-links">
-              <a href="#" data-bs-toggle="modal" data-bs-target="#project4Modal"><i class="fas fa-eye"></i> Détails</a>
-              <a href="#" target="_blank"><i class="fab fa-github"></i> Code</a>
-            </div>
-          </div>
-        </div>
+        <!-- Project 4: OCP Expedition -->
+        <tilt-card 
+          data-image="OCPExpedition.png"
+          jp="分析"
+          :tech="['Spring Boot', 'Angular', 'Docker', 'Charts.js']"
+          github="#"
+          modal-target="project4Modal">
+          <template #header>OCP Expedition Analytics</template>
+          <template #content>Plateforme Web & Mobile pour la planification et l'analyse des expéditions de phosphate avec statistiques avancées.</template>
+        </tilt-card>
 
       </div>
     </div>
   </section>
 
-  <!-- Skills Section -->
-  <section id="skills" class="skills">
+
+  <!-- Tech Stack Slider -->
+  <section class="tech-slider">
+    <div class="container-fluid">
+      <div class="slider-header">
+        <span class="jp">技術</span>
+        <span class="en">Tech Stack</span>
+      </div>
+      <div class="slider">
+        <div class="slide-track">
+          <div class="slide"><img src="https://cdn-icons-png.flaticon.com/512/226/226777.png" height="80" width="80" alt="Java" title="Java"/></div>
+          <div class="slide"><img src="https://static.vecteezy.com/system/resources/previews/027/127/463/non_2x/javascript-logo-javascript-icon-transparent-free-png.png" height="80" width="80" alt="JavaScript" title="JavaScript"/></div>
+          <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/960px-Typescript_logo_2020.svg.png" height="80" width="80" alt="TypeScript" title="TypeScript"/></div>
+          <div class="slide"><img src="https://static.vecteezy.com/system/resources/previews/001/416/673/non_2x/angular-emblem-white-letter-on-red-vector.jpg" height="80" width="80" alt="Angular" title="Angular"/></div>
+          <div class="slide"><img src="https://thumbnail.imgbin.com/17/23/16/spring-boot-spring-boot-logo-for-java-framework-qyzyQTC4_t.jpg" height="80" width="80" alt="Spring Boot" title="Spring Boot"/></div>
+          <div class="slide"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968313.png" height="80" width="80" alt="MySQL" title="MySQL"/></div>
+          <div class="slide"><img src="https://www.docker.com/app/uploads/2026/02/Docker_Logo_Scale_660x400.png" height="80" width="80" alt="Docker" title="Docker"/></div>
+          <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Git-logo.svg/1280px-Git-logo.svg.png" height="80" width="80" alt="Git" title="Git"/></div>
+          <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/500px-HTML5_logo_and_wordmark.svg.png" height="80" width="80" alt="HTML5" title="HTML5"/></div>
+          <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Bootstrap_logo.svg/960px-Bootstrap_logo.svg.png" height="80" width="80" alt="Bootstrap" title="Bootstrap"/></div>
+          <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/CSS3_logo.svg/960px-CSS3_logo.svg.png" height="80" width="80" alt="CSS3" title="CSS3"/></div>
+          <div class="slide"><img src="https://cdn-icons-png.flaticon.com/512/226/226777.png" height="80" width="80" alt="Java" title="Java"/></div>
+          <div class="slide"><img src="https://static.vecteezy.com/system/resources/previews/027/127/463/non_2x/javascript-logo-javascript-icon-transparent-free-png.png" height="80" width="80" alt="JavaScript" title="JavaScript"/></div>
+          <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/960px-Typescript_logo_2020.svg.png" height="80" width="80" alt="TypeScript" title="TypeScript"/></div>
+          <div class="slide"><img src="https://static.vecteezy.com/system/resources/previews/001/416/673/non_2x/angular-emblem-white-letter-on-red-vector.jpg" height="80" width="80" alt="Angular" title="Angular"/></div>
+          <div class="slide"><img src="https://thumbnail.imgbin.com/17/23/16/spring-boot-spring-boot-logo-for-java-framework-qyzyQTC4_t.jpg" height="80" width="80" alt="Spring Boot" title="Spring Boot"/></div>
+          <div class="slide"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968313.png" height="80" width="80" alt="MySQL" title="MySQL"/></div>
+          <div class="slide"><img src="https://www.docker.com/app/uploads/2026/02/Docker_Logo_Scale_660x400.png" height="80" width="80" alt="Docker" title="Docker"/></div>
+          <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Git-logo.svg/1280px-Git-logo.svg.png" height="80" width="80" alt="Git" title="Git"/></div>
+          <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/500px-HTML5_logo_and_wordmark.svg.png" height="80" width="80" alt="HTML5" title="HTML5"/></div>
+          <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Bootstrap_logo.svg/960px-Bootstrap_logo.svg.png" height="80" width="80" alt="Bootstrap" title="Bootstrap"/></div>
+          <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/CSS3_logo.svg/960px-CSS3_logo.svg.png" height="80" width="80" alt="CSS3" title="CSS3"/></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section id="skills" class="skills">
     <div class="container">
       <div class="section-header">
         <span class="jp">技能</span>
@@ -1289,7 +1581,7 @@
         <a href="https://www.linkedin.com/in/youssef-cherkaoui-4008b12ab/" target="_blank"><i class="fab fa-linkedin"></i></a>
         <a href="CHERKAOUI ELMEKNASSI Youssef Essaddik.pdf" download><i class="fas fa-file-pdf"></i></a>
       </div>
-      <p>&copy; 2026 <strong class="text-primary">Youssef Cherkaoui</strong>. Crafted with honor.</p>
+      <p>&copy; 2025 <strong class="text-primary">Youssef Cherkaoui</strong>. Crafted with honor.</p>
       <p style="margin-top: 0.5rem; font-size: 0.8rem;">
         <a href="#home"><i class="fas fa-arrow-up me-1"></i>Retour en haut</a>
       </p>
@@ -1396,8 +1688,7 @@
     </div>
   </div>
 
-  <!-- Scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
@@ -1442,7 +1733,6 @@
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       container.appendChild(renderer.domElement);
 
-      // Lights
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.25);
       scene.add(ambientLight);
       
@@ -1450,7 +1740,6 @@
       pointLight.position.set(3, 3, 3);
       scene.add(pointLight);
 
-      // Background particles
       const particlesGeometry = new THREE.BufferGeometry();
       const particlesCount = 1200;
       const posArray = new Float32Array(particlesCount * 3);
@@ -1467,7 +1756,6 @@
 
       camera.position.z = 6;
 
-      // Mouse tracking
       let targetX = 0, targetY = 0;
       document.addEventListener('mousemove', (e) => {
         targetX = (e.clientX / window.innerWidth) * 2 - 1;
@@ -1478,105 +1766,20 @@
       
       function animate() {
         const elapsedTime = clock.getElapsedTime();
-        
-        // Animate background particles
         particlesMesh.rotation.y = elapsedTime * 0.025;
         particlesMesh.rotation.x = targetY * 0.15;
-        
-        // Camera subtle movement
         camera.position.x += (targetX * 0.3 - camera.position.x) * 0.02;
         camera.position.y += (targetY * 0.3 - camera.position.y) * 0.02;
         camera.lookAt(scene.position);
-        
         renderer.render(scene, camera);
         requestAnimationFrame(animate);
       }
-      
       animate();
 
-      // Handle resize
       window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
-      });
-
-      return { scene, camera, renderer };
-    }
-
-    // ===== PROJECT CARDS 3D EFFECTS =====
-    function initCardEffects() {
-      const cards = document.querySelectorAll('.project-card');
-      
-      cards.forEach(card => {
-        const canvas = card.querySelector('.card-canvas');
-        if(!canvas) return;
-        
-        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-        renderer.setSize(card.offsetWidth, card.offsetHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(50, card.offsetWidth/card.offsetHeight, 0.1, 100);
-        camera.position.z = 5;
-        
-        // Particles for card
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particleCount = 200;
-        const positions = new Float32Array(particleCount * 3);
-        for(let i = 0; i < particleCount * 3; i++) {
-          positions[i] = (Math.random() - 0.5) * 4;
-        }
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        
-        const particlesMaterial = new THREE.PointsMaterial({
-          size: 0.03, color: 0xff0040, transparent: true, opacity: 0,
-          blending: THREE.AdditiveBlending
-        });
-        const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particles);
-        
-        // Mouse tracking for card
-        let cardMouseX = 0, cardMouseY = 0;
-        card.addEventListener('mousemove', (e) => {
-          const rect = card.getBoundingClientRect();
-          cardMouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-          cardMouseY = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-          particlesMaterial.opacity = 0.8;
-        });
-        
-        card.addEventListener('mouseleave', () => {
-          particlesMaterial.opacity = 0;
-        });
-        
-        const clock = new THREE.Clock();
-        function animate() {
-          const elapsed = clock.getElapsedTime();
-          
-          if(particlesMaterial.opacity > 0) {
-            particles.rotation.y = elapsed * 0.3 + cardMouseX * 0.2;
-            particles.rotation.x = cardMouseY * 0.3;
-            
-            card.style.transform = `
-              perspective(1000px) 
-              rotateX(${-cardMouseY * 3}deg) 
-              rotateY(${cardMouseX * 3}deg) 
-              translateY(-6px)
-            `;
-          }
-          
-          renderer.render(scene, camera);
-          requestAnimationFrame(animate);
-        }
-        animate();
-        
-        // Handle resize
-        const resizeObserver = new ResizeObserver(() => {
-          renderer.setSize(card.offsetWidth, card.offsetHeight);
-          camera.aspect = card.offsetWidth / card.offsetHeight;
-          camera.updateProjectionMatrix();
-        });
-        resizeObserver.observe(card);
       });
     }
 
@@ -1666,7 +1869,6 @@
       const originalHTML = btn.innerHTML;
       btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Envoi...';
       btn.disabled = true;
-      
       setTimeout(() => {
         btn.innerHTML = '<i class="fas fa-check me-2"></i>Message envoyé !';
         btn.style.background = '#4ade80';
@@ -1735,10 +1937,501 @@
       } else konamiIndex = 0;
     });
 
+    // ===== VUE 3D TILT CARD COMPONENT =====
+    Vue.component("tilt-card", {
+      template: `
+        <div class="card-wrap"
+          @mousemove="handleMouseMove"
+          @mouseenter="handleMouseEnter"
+          @mouseleave="handleMouseLeave"
+          ref="card">
+          <div class="card" :style="cardStyle">
+            <div class="card-bg" :style="[cardBgTransform, cardBgImage]"></div>
+            <div class="card-info">
+              <h3>
+                <span v-if="jp" class="jp">{{ jp }}</span>
+                <slot name="header"></slot>
+              </h3>
+              <p><slot name="content"></slot></p>
+              <div class="card-tech" v-if="tech">
+                <span v-for="(tag, i) in tech" :key="i" class="tech-tag">{{ tag }}</span>
+              </div>
+              <div class="card-links">
+                <a v-if="modalTarget" href="#" @click.prevent="openModal" class="modal-trigger">
+                  <i class="fas fa-eye"></i> Détails
+                </a>
+                <a v-if="github" :href="github" target="_blank">
+                  <i class="fab fa-github"></i> Code
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>`,
+      
+      props: ["dataImage", "jp", "tech", "github", "modalTarget"],
+      
+      data: () => ({
+        width: 0, height: 0, mouseX: 0, mouseY: 0, mouseLeaveDelay: null
+      }),
+
+      mounted() {
+        this.updateSize();
+        window.addEventListener('resize', this.updateSize);
+      },
+      
+      beforeDestroy() {
+        window.removeEventListener('resize', this.updateSize);
+      },
+
+      computed: {
+        mousePX() { return this.mouseX / this.width; },
+        mousePY() { return this.mouseY / this.height; },
+        cardStyle() {
+          const rX = this.mousePX * 25;
+          const rY = this.mousePY * -25;
+          return { transform: `rotateY(${rX}deg) rotateX(${rY}deg)` };
+        },
+        cardBgTransform() {
+          const tX = this.mousePX * -50;
+          const tY = this.mousePY * -50;
+          return { transform: `translateX(${tX}px) translateY(${tY}px)` };
+        },
+        cardBgImage() {
+          return { backgroundImage: `url(${this.dataImage})` };
+        }
+      },
+
+      methods: {
+        updateSize() {
+          if (this.$refs.card) {
+            this.width = this.$refs.card.offsetWidth;
+            this.height = this.$refs.card.offsetHeight;
+          }
+        },
+        handleMouseMove(e) {
+          const rect = this.$refs.card.getBoundingClientRect();
+          this.mouseX = e.pageX - rect.left - this.width / 2;
+          this.mouseY = e.pageY - rect.top - this.height / 2;
+        },
+        handleMouseEnter() { clearTimeout(this.mouseLeaveDelay); },
+        handleMouseLeave() {
+          this.mouseLeaveDelay = setTimeout(() => {
+            this.mouseX = 0; this.mouseY = 0;
+          }, 800);
+        },
+        openModal() {
+          if (this.modalTarget) {
+            const modal = new bootstrap.Modal(document.getElementById(this.modalTarget));
+            modal.show();
+          }
+        }
+      }
+    });
+
+    // ===== MANIFESTO THREE.JS LIQUID SHADER =====
+    (function() {
+      var manifestoSection = document.getElementById('manifestoShader');
+      if (!manifestoSection) return;
+
+      var canvas = document.getElementById('shaderCanvas');
+      var scene = new THREE.Scene();
+      var camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+      var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false });
+
+      function resize() {
+        var rect = manifestoSection.getBoundingClientRect();
+        renderer.setSize(rect.width, rect.height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+      }
+      resize();
+
+      var mouse = { x: 0.5, y: 0.5 };
+      var prevMouse = { x: 0.5, y: 0.5 };
+      var velocity = { x: 0, y: 0 };
+      var isMoving = false;
+      var moveTimeout;
+
+      manifestoSection.addEventListener('mousemove', function(e) {
+        var rect = manifestoSection.getBoundingClientRect();
+        mouse.x = (e.clientX - rect.left) / rect.width;
+        mouse.y = 1.0 - (e.clientY - rect.top) / rect.height;
+        isMoving = true;
+        clearTimeout(moveTimeout);
+        moveTimeout = setTimeout(function() { isMoving = false; }, 100);
+      });
+
+      var uniforms = {
+        uTime: { value: 0 },
+        uMouse: { value: new THREE.Vector2(0.5, 0.5) },
+        uVelocity: { value: new THREE.Vector2(0, 0) },
+        uResolution: { value: new THREE.Vector2(1, 1) },
+        uTexture: { value: null }
+      };
+
+      var vertexShader = `
+        varying vec2 vUv;
+        void main() {
+          vUv = uv;
+          gl_Position = vec4(position, 0.0, 1.0);
+        }
+      `;
+
+      var fragmentShader = `
+        precision highp float;
+        uniform float uTime;
+        uniform vec2 uMouse;
+        uniform vec2 uVelocity;
+        uniform vec2 uResolution;
+        uniform sampler2D uTexture;
+        varying vec2 vUv;
+
+        vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+        vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+        vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
+
+        float snoise(vec2 v) {
+          const vec4 C = vec4(0.211324865405187, 0.366025403784439,
+                             -0.577350269189626, 0.024390243902439);
+          vec2 i  = floor(v + dot(v, C.yy));
+          vec2 x0 = v -   i + dot(i, C.xx);
+          vec2 i1;
+          i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+          vec4 x12 = x0.xyxy + C.xxzz;
+          x12.xy -= i1;
+          i = mod289(i);
+          vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0))
+            + i.x + vec3(0.0, i1.x, 1.0));
+          vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy),
+            dot(x12.zw,x12.zw)), 0.0);
+          m = m*m;
+          m = m*m;
+          vec3 x = 2.0 * fract(p * C.www) - 1.0;
+          vec3 h = abs(x) - 0.5;
+          vec3 ox = floor(x + 0.5);
+          vec3 a0 = x - ox;
+          m *= 1.79284291400159 - 0.85373472095314 * (a0*a0 + h*h);
+          vec3 g;
+          g.x  = a0.x  * x0.x  + h.x  * x0.y;
+          g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+          return 130.0 * dot(m, g);
+        }
+
+        void main() {
+          vec2 uv = vUv;
+          vec2 mouseInfluence = uMouse - uv;
+          float mouseDist = length(mouseInfluence);
+          float mouseStrength = smoothstep(0.5, 0.0, mouseDist) * 0.15;
+          vec2 velocityDistortion = uVelocity * mouseStrength;
+          float time = uTime * 0.3;
+          float noise1 = snoise(uv * 3.0 + time) * 0.02;
+          float noise2 = snoise(uv * 5.0 - time * 0.7) * 0.01;
+          vec2 distortedUv = uv + velocityDistortion + vec2(noise1, noise2);
+
+          vec3 color1 = vec3(0.04, 0.04, 0.06);
+          vec3 color2 = vec3(0.15, 0.0, 0.05);
+          vec3 color3 = vec3(0.25, 0.02, 0.08);
+          vec3 color4 = vec3(1.0, 0.0, 0.25);
+
+          float flow = snoise(distortedUv * 2.0 + time * 0.5) * 0.5 + 0.5;
+          float flow2 = snoise(distortedUv * 4.0 - time * 0.3) * 0.5 + 0.5;
+          float flow3 = snoise(distortedUv * 1.5 + time * 0.2) * 0.5 + 0.5;
+
+          vec3 color = mix(color1, color2, flow);
+          color = mix(color, color3, flow2 * 0.4);
+          color = mix(color, color4, flow3 * mouseStrength * 3.0);
+
+          float glow = exp(-mouseDist * 8.0) * 0.3;
+          color += vec3(1.0, 0.1, 0.2) * glow * (0.5 + 0.5 * sin(time * 2.0));
+
+          float vignette = 1.0 - smoothstep(0.3, 1.2, length(uv - 0.5) * 1.5);
+          color *= 0.7 + vignette * 0.3;
+
+          gl_FragColor = vec4(color, 1.0);
+        }
+      `;
+
+      var geometry = new THREE.PlaneGeometry(2, 2);
+      var material = new THREE.ShaderMaterial({
+        vertexShader: vertexShader,
+        fragmentShader: fragmentShader,
+        uniforms: uniforms
+      });
+
+      var mesh = new THREE.Mesh(geometry, material);
+      scene.add(mesh);
+
+      var clock = new THREE.Clock();
+
+      function animate() {
+        requestAnimationFrame(animate);
+        var elapsedTime = clock.getElapsedTime();
+        uniforms.uTime.value = elapsedTime;
+        uniforms.uMouse.value.x += (mouse.x - uniforms.uMouse.value.x) * 0.05;
+        uniforms.uMouse.value.y += (mouse.y - uniforms.uMouse.value.y) * 0.05;
+
+        if (isMoving) {
+          velocity.x = (mouse.x - prevMouse.x) * 10.0;
+          velocity.y = (mouse.y - prevMouse.y) * 10.0;
+        } else {
+          velocity.x *= 0.95;
+          velocity.y *= 0.95;
+        }
+        prevMouse.x = mouse.x;
+        prevMouse.y = mouse.y;
+
+        uniforms.uVelocity.value.x += (velocity.x - uniforms.uVelocity.value.x) * 0.1;
+        uniforms.uVelocity.value.y += (velocity.y - uniforms.uVelocity.value.y) * 0.1;
+
+        renderer.render(scene, camera);
+      }
+
+      animate();
+      window.addEventListener('resize', resize);
+
+      if (typeof ResizeObserver !== 'undefined') {
+        var ro = new ResizeObserver(resize);
+        ro.observe(manifestoSection);
+      }
+    })();
+
+    // ===== LIQUID TEXT EFFECT (OGL) =====
+    (function initLiquidText() {
+      const canvas = document.getElementById('liquidTextCanvas');
+      const quoteWrapper = document.querySelector('.manifesto-quote-wrapper');
+      
+      if (!canvas || !window.OGL || window.innerWidth < 768) {
+        console.log('Liquid text effect: skipped (mobile or OGL not available)');
+        return;
+      }
+
+      try {
+        const { Renderer, Geometry, Program, Mesh, Texture, Flowmap, Vec2, Vec4 } = OGL;
+
+        const renderer = new Renderer({ 
+          canvas, 
+          alpha: true, 
+          dpr: Math.min(window.devicePixelRatio, 2) 
+        });
+        const gl = renderer.gl;
+        gl.clearColor(0, 0, 0, 0);
+
+        function resize() {
+          const rect = quoteWrapper.getBoundingClientRect();
+          renderer.setSize(rect.width, rect.height);
+          
+          const imageAspect = 205.1 / 1040;
+          const containerAspect = rect.height / rect.width;
+          let a1, a2;
+          
+          if (containerAspect < imageAspect) {
+            a1 = 1;
+            a2 = containerAspect / imageAspect;
+          } else {
+            a1 = rect.width / rect.height * imageAspect;
+            a2 = 1;
+          }
+          
+          if (program?.uniforms?.res) {
+            program.uniforms.res.value = new Vec4(rect.width, rect.height, a1, a2);
+          }
+        }
+
+        const flowmap = new Flowmap(gl, {
+          falloff: 0.25,
+          dissipation: 0.94,
+          alpha: 0.6
+        });
+
+        const geometry = new Geometry(gl, {
+          position: { size: 2, data: new Float32Array([-1, -1, 3, -1, -1, 3]) },
+          uv: { size: 2, data: new Float32Array([0, 0, 2, 0, 0, 2]) }
+        });
+
+        function createGradientTexture() {
+          const size = 512;
+          const c = document.createElement('canvas');
+          c.width = c.height = size;
+          const ctx = c.getContext('2d');
+          
+          const gradient = ctx.createLinearGradient(0, 0, size, size);
+          gradient.addColorStop(0, '#ff0040');
+          gradient.addColorStop(0.5, '#ff6b00');
+          gradient.addColorStop(1, '#64ffda');
+          
+          ctx.fillStyle = gradient;
+          ctx.fillRect(0, 0, size, size);
+          
+          const imageData = ctx.getImageData(0, 0, size, size);
+          for (let i = 0; i < imageData.data.length; i += 4) {
+            const noise = (Math.random() - 0.5) * 20;
+            imageData.data[i] = Math.min(255, Math.max(0, imageData.data[i] + noise));
+            imageData.data[i+1] = Math.min(255, Math.max(0, imageData.data[i+1] + noise));
+            imageData.data[i+2] = Math.min(255, Math.max(0, imageData.data[i+2] + noise));
+          }
+          ctx.putImageData(imageData, 0, 0);
+          
+          return c;
+        }
+
+        const texture = new Texture(gl, { 
+          minFilter: gl.LINEAR, 
+          magFilter: gl.LINEAR,
+          generateMipmaps: false 
+        });
+        texture.image = createGradientTexture();
+
+        const vertex = `
+          attribute vec2 uv;
+          attribute vec2 position;
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = vec4(position, 0, 1);
+          }
+        `;
+
+        const fragment = `
+          precision highp float;
+          uniform sampler2D tWater;
+          uniform sampler2D tFlow;
+          uniform float uTime;
+          uniform vec4 res;
+          varying vec2 vUv;
+
+          void main() {
+            vec3 flow = texture2D(tFlow, vUv).rgb;
+            vec2 uv = vUv;
+            vec2 correctedUV = (uv - 0.5) * res.zw + 0.5;
+            vec2 distortedUV = correctedUV - flow.xy * 0.12;
+            vec3 color = texture2D(tWater, distortedUV).rgb;
+            float pulse = sin(uTime * 2.0) * 0.02;
+            color += pulse;
+            float edgeFade = smoothstep(0.05, 0.95, uv.x) * smoothstep(0.05, 0.95, uv.y);
+            color *= edgeFade;
+            gl_FragColor = vec4(color, 1.0);
+          }
+        `;
+
+        const rect = quoteWrapper.getBoundingClientRect();
+        const imageAspect = 205.1 / 1040;
+        const containerAspect = rect.height / rect.width;
+        let a1, a2;
+        if (containerAspect < imageAspect) {
+          a1 = 1;
+          a2 = containerAspect / imageAspect;
+        } else {
+          a1 = rect.width / rect.height * imageAspect;
+          a2 = 1;
+        }
+
+        const program = new Program(gl, {
+          vertex,
+          fragment,
+          uniforms: {
+            uTime: { value: 0 },
+            tWater: { value: texture },
+            tFlow: flowmap.uniform,
+            res: { value: new Vec4(rect.width, rect.height, a1, a2) }
+          }
+        });
+
+        const mesh = new Mesh(gl, { geometry, program });
+
+        const mouse = new Vec2(-1);
+        const velocity = new Vec2();
+        let lastTime = 0;
+        let lastMouse = new Vec2();
+
+        function updateMouse(e) {
+          const rect = canvas.getBoundingClientRect();
+          const x = e.touches ? e.touches[0].clientX : e.clientX;
+          const y = e.touches ? e.touches[0].clientY : e.clientY;
+          
+          mouse.set(
+            (x - rect.left) / rect.width,
+            1.0 - (y - rect.top) / rect.height
+          );
+
+          if (!lastTime) {
+            lastTime = performance.now();
+            lastMouse.set(x, y);
+            return;
+          }
+
+          const time = performance.now();
+          const delta = Math.max(16, time - lastTime);
+          velocity.set(
+            (x - lastMouse.x) / delta * 10,
+            (y - lastMouse.y) / delta * 10
+          );
+          lastMouse.set(x, y);
+          lastTime = time;
+          velocity.needsUpdate = true;
+        }
+
+        const onMove = (e) => { e.preventDefault(); updateMouse(e); };
+        canvas.addEventListener('mousemove', onMove);
+        canvas.addEventListener('touchmove', onMove, { passive: false });
+        
+        canvas.addEventListener('mouseleave', () => {
+          mouse.set(-1);
+          velocity.set(0);
+        });
+
+        let animationId;
+        function update(t) {
+          animationId = requestAnimationFrame(update);
+          
+          if (!velocity.needsUpdate && mouse.x >= 0) {
+            velocity.lerp(new Vec2(0), 0.05);
+          }
+          velocity.needsUpdate = false;
+
+          flowmap.aspect = rect.width / rect.height;
+          flowmap.mouse.copy(mouse);
+          flowmap.velocity.lerp(velocity, velocity.len() > 0.01 ? 0.15 : 0.05);
+          flowmap.update();
+
+          program.uniforms.uTime.value = t * 0.001;
+          renderer.render({ scene: mesh });
+        }
+
+        resize();
+        window.addEventListener('resize', resize);
+        update(0);
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) {
+              if (animationId) cancelAnimationFrame(animationId);
+            } else {
+              animationId = requestAnimationFrame(update);
+            }
+          });
+        }, { threshold: 0.1 });
+        
+        observer.observe(quoteWrapper);
+
+        console.log('✓ Liquid text effect initialized');
+        
+      } catch (error) {
+        console.warn('Liquid text effect failed:', error);
+        const fallback = document.querySelector('.quote-fallback');
+        if (fallback) {
+          fallback.style.opacity = '1';
+          fallback.style.pointerEvents = 'auto';
+        }
+      }
+    })();
+
     // ===== INIT =====
     document.addEventListener('DOMContentLoaded', () => {
       initThreeJS();
-      initCardEffects();
+      
+      if (typeof Vue !== 'undefined') {
+        new Vue({ el: "#projects-grid" });
+      }
+      
       setTimeout(() => {
         document.querySelectorAll('.fade-in').forEach(el => {
           if (el.getBoundingClientRect().top < window.innerHeight * 0.9) el.classList.add('visible');
@@ -1746,5 +2439,6 @@
       }, 1500);
     });
   </script>
+
 </body>
 </html>
