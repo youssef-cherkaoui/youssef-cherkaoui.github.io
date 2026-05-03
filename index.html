@@ -19,6 +19,7 @@
       --bg-card: rgba(20, 20, 30, 0.9);
       --text-primary: #ffffff;
       --text-secondary: #8892b0;
+      --drops-color: #231d1c;
       --accent: #ff0040;
       --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -32,6 +33,104 @@
       cursor: none;
       line-height: 1.6;
     }
+
+    /* ===== SAMURAI REVEAL ===== */
+.samurai-reveal-section {
+  padding: 60px 0 50px;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a0a15 50%, #0a0a0a 100%);
+  border-top: 1px solid rgba(255, 0, 64, 0.2);
+  border-bottom: 1px solid rgba(255, 0, 64, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.sr-label {
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 5;
+}
+.sr-jp {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 2.5rem;
+  color: #8b0000;
+  opacity: 0.8;
+  display: block;
+}
+.sr-en {
+  font-size: 0.9rem;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: #4a5568;
+}
+.sr-wrap {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+.sr-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: all;
+}
+.sr-mask {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  background: #0a0a0a;
+  mix-blend-mode: screen;
+}
+.sr-mask svg {
+  width: 88%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  fill: white;
+}
+.sr-katana {
+  position: absolute;
+  width: 8px;
+  height: 280%;
+  background: linear-gradient(90deg, transparent 0%, #ff3333 20%, #ff6666 50%, #ff3333 80%, transparent 100%);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotateZ(-15deg);
+  z-index: 10;
+  animation: katanaSlash 2.5s ease-in-out infinite;
+  box-shadow: 0 0 20px rgba(255, 51, 51, 0.8), 0 0 40px rgba(255, 51, 51, 0.5);
+  filter: drop-shadow(0 0 10px rgba(255, 51, 51, 0.6));
+}
+@keyframes katanaSlash {
+  0% {
+    transform: translate(-50%, -50%) rotateZ(-15deg) scaleX(0);
+    opacity: 0;
+  }
+  20% {
+    transform: translate(-50%, -50%) rotateZ(-15deg) scaleX(1);
+    opacity: 1;
+  }
+  80% {
+    transform: translate(-50%, -50%) rotateZ(-15deg) scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) rotateZ(-15deg) scaleX(0);
+    opacity: 0;
+  }
+}
+@media (max-width: 768px) {
+  .sr-wrap { height: 130px; }
+  .sr-mask svg { width: 95%; }
+  .sr-katana { height: 200%; }
+}
     #loader {
       position: fixed; inset: 0;
       background: var(--bg-dark);
@@ -343,72 +442,182 @@
 
     /* ===== DROPPY SECTION ===== */
     .droppy-section {
-      padding: 80px 20px;
-      background: linear-gradient(180deg, rgba(15,15,25,0.9) 0%, rgba(10,10,15,0.95) 100%);
-      border-top: 1px solid rgba(255, 0, 64, 0.2);
-      border-bottom: 1px solid rgba(255, 0, 64, 0.2);
-      text-align: center;
+       padding: 60px 20px 50px;
+  background: linear-gradient(180deg, rgba(15,15,25,0.9) 0%, rgba(10,10,15,0.95) 100%);
+  border-top: 1px solid rgba(255, 0, 64, 0.2);
+  border-bottom: 1px solid rgba(255, 0, 64, 0.2);
+  text-align: center;
+  overflow: hidden;
     }
     .dt .jp {
-      font-family: 'Noto Sans JP', sans-serif;
-      font-size: 2.5rem; color: var(--accent); opacity: 0.5;
-      display: block; margin-bottom: 0.5rem;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 2.5rem;
+  color: var(--accent);
+  opacity: 0.5;
+  display: block;
+  margin-bottom: 0.5rem;
     }
     .dt .en {
-      font-size: 1rem; letter-spacing: 6px;
-      text-transform: uppercase; color: var(--text-secondary);
+      font-size: 1rem;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--text-secondary);
     }
     .dc {
-      position: relative; height: 160px;
-      margin: 24px auto 0; overflow: hidden;
-      max-width: 900px; 
-      overflow: visible;
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  margin: 30px auto 0;
+  max-width: 960px;
+}
+.dc--animated .puddle__letter {
+  animation-play-state: running;
+}
+    
+    .canvas {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--bg-dark);
+      margin: 24px auto 0;
+      max-width: 900px;
     }
-    .text-layer {
-      position: absolute; inset: 0;
-      pointer-events: none; z-index: 10;
+    .canvas--animated .puddle__letter {
+      animation-play-state: running;
     }
-    .drops-layer {
-      position: absolute; inset: 0;
-      pointer-events: none; z-index: 1;
-      filter: url(#df);
-      isolation: isolate;
+    .puddle {
+      position: absolute;
+  display: inline-flex;
+  flex-direction: row;
+  transform: rotate(var(--r, 0deg)) translate(calc(-50% + var(--ox, 0px)), -50%);
+  top: 50%;
+  left: 50%;
+  color: var(--text-primary);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 900;
+  white-space: pre;
+  font-family: 'Callahan', sans-serif;
+  letter-spacing: 4px;
     }
-    .word {
-      position: absolute; top: 50%; left: 50%;
-      display: flex; white-space: nowrap;
-      font-size: 2.6rem; font-weight: 900;
-      transform: translate(calc(-50% + var(--ox)), -50%) rotate(var(--r, 0deg));
-  transform-origin: center center;
-      letter-spacing: 4px; font-family: 'Callahan', sans-serif;
-      transform: translate(calc(-50% + var(--ox)), -50%) rotate(var(--r, 0deg));
+    .puddle__letter {
+       display: inline-block;
+  transform: translateY(300px);
+  will-change: transform;
+  animation: drop-letter 0.7s var(--delay, 0ms) ease-out forwards paused;
     }
-    .text-layer .word { color: #ff0040; }
-    .text-layer .word span {
-      display: inline-block;
-      transform: translateY(300px);
-      animation: drop 0.65s var(--d, 0ms) ease-out forwards paused;
+  
+    .combined-puddles {
+       position: absolute;
+  inset: 0;
+  z-index: 1;
+  filter: url(#dc-filter);
+  user-select: none;
+  pointer-events: none;
     }
-    .drops-layer .word { color: #ff0040; }
-    .drops-layer .word span {
-      display: inline-block;
-      background: #ff0040; color: #ff0040;
+    .combined-puddles .puddle {
+  color: #ff0040;
+}
+    .combined-puddles .puddle__letter {
       border-radius: 50%;
-      width: 0.7em; height: 0.7em;
-      margin: 0 0.05em;
-      transform: translateY(300px);
-      animation: drop 0.65s var(--d, 0ms) ease-out forwards paused;
+  color: #ff0040;
+  background-color: currentColor;
+  width: 0.55em;
+  height: 0.55em;
+  margin: 0 0.04em;
     }
-    .dc.go .text-layer .word span,
-    .dc.go .drops-layer .word span { animation-play-state: running; }
-    @keyframes drop {
-      0%   { transform: translateY(300px); }
-      82%  { transform: translateY(-8px); }
-      100% { transform: translateY(0); }
-    }
-    @media (max-width: 768px) {
-  .word { font-size: 1.4rem; }
-  .dc { overflow: hidden; }
+    .combined-puddles .puddle__letter--t-1 { box-shadow: -0.02em -0.01em 0 0.24em currentColor; }
+    .combined-puddles .puddle__letter--t-2 { box-shadow: 0.02em 0.01em 0 0.22em currentColor; }
+    .combined-puddles .puddle__letter--t-3 { box-shadow: -0.03em 0.02em 0 0.28em currentColor; }
+    .combined-puddles .puddle__letter--t-4 { box-shadow: 0.01em -0.03em 0 0.21em currentColor; }
+    .combined-puddles .puddle__letter--t-5 { box-shadow: -0.01em 0.03em 0 0.32em currentColor; }
+    .combined-puddles .puddle__letter--t-6 { box-shadow: 0.03em -0.02em 0 0.26em currentColor; }
+    .combined-puddles .puddle__letter--t-7 { box-shadow: -0.02em 0.03em 0 0.20em currentColor; }
+    .combined-puddles .puddle__letter--t-8 { box-shadow: 0.01em 0.02em 0 0.35em currentColor; }
+    .combined-puddles .puddle__letter--t-9 { box-shadow: -0.03em -0.01em 0 0.29em currentColor; }
+    .combined-puddles .puddle__letter--t-10 { box-shadow: 0.02em 0.03em 0 0.23em currentColor; }
+    .text-puddles {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.text-puddles .puddle {
+  color: #ff0040;
+}
+@keyframes drop-letter {
+  0%   { transform: translateY(300px); }
+  82%  { transform: translateY(-8px);  }
+  100% { transform: translateY(0);     }
+}
+@media (max-width: 768px) {
+  .dc { height: 160px; }
+  .puddle { font-size: clamp(1.2rem, 6vw, 1.8rem); }
+}
+
+
+/* ===== BRUSH PAINT SECTION ===== */
+.brush-section {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 0, 64, 0.2);
+  border-bottom: 1px solid rgba(255, 0, 64, 0.2);
+  background: #0a0a0a;
+  cursor: crosshair;
+}
+.brush-canvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: block;
+}
+.brush-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
+}
+.brush-jp {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 3rem;
+  color: rgba(255, 0, 64, 0.15);
+  letter-spacing: 12px;
+  user-select: none;
+}
+.brush-title {
+  font-family: 'Callahan', sans-serif;
+  font-size: clamp(1.8rem, 5vw, 3.5rem);
+  color: rgba(255, 255, 255, 0.08);
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  user-select: none;
+  margin: 0.5rem 0;
+}
+.brush-hint {
+  font-size: 0.72rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(255, 0, 64, 0.35);
+  margin-top: 1rem;
+  animation: blink-hint 3s ease-in-out infinite;
+  pointer-events: all;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+@keyframes blink-hint {
+  0%, 100% { opacity: 0.35; }
+  50%       { opacity: 0.9;  }
+}
+@media (max-width: 768px) {
+  .brush-section { height: 300px; }
+  .brush-jp { font-size: 2rem; }
 }
   </style>
   <base target="_blank">
@@ -526,6 +735,53 @@
     </div>
   </section>
 
+  <!-- ===== SAMURAI REVEAL SECTION ===== -->
+<!-- ===== SAMURAI REVEAL ===== -->
+<section class="samurai-reveal-section">
+  <div class="sr-label">
+    <span class="sr-jp">創造的侍</span>
+    <span class="sr-en">Creative Samurai</span>
+  </div>
+
+  <div class="sr-wrap" id="srWrap">
+    <canvas class="sr-canvas" id="srCanvas"></canvas>
+    <div class="sr-katana"></div>
+    <div class="sr-mask">
+      <svg viewBox="0 0 1040 205.1" xmlns="http://www.w3.org/2000/svg" fill="white">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M108.7,155.2l24.8,23.3c-2.1,3.1-4.9,6.2-8.3,9.2c-10.2,8.8-26.2,16.4-48.5,16.4C33.4,204.1,1,174.8,1,131.2
+          c0-43.3,32.4-72.6,75.7-72.6c29.8,0,48.4,13.2,56.8,25.5l-28.7,26.7c-5.5-8-14.3-13.2-26.1-13.2c-18.3,0-32.4,12.6-32.4,33.6
+          c0,3.7,0.4,7.2,1.3,10.4c1.5,5.9,4.4,10.8,8.2,14.5c5,4.9,11.6,8,19.1,8.7c1.2,0.1,2.5,0.2,3.8,0.2c10.5,0,18.7-4.6,24.2-11.1
+          c0.7-0.8,1.3-1.6,1.8-2.4L108.7,155.2z"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M239.9,59.4v42.5c-2.6-0.6-6.3-1.2-10.9-1.2c-11.5,0-26.7,4.9-32.4,12.6v88.3h-44.2V63.1h44.2V80
+          C205.8,68.8,223.3,59.4,239.9,59.4z"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M539.8,92.8c-8.7-26-34.4-34.1-61.4-34.1c-21.2,0-45,6.3-62.8,21.5l7.2,12.6l8.6,15.2
+          c11.2-9.5,25.5-14.6,39.3-14.6c17.8,0,28.1,8,28.1,20.1v16.6c-8.3-10.3-24.7-16.1-43-16.1c-7.1,0-14.8,1.2-21.9,4.1
+          c-14,5.7-25.7,18-25.7,40.3c0,24.8,16.7,39,34.1,43.8c0.7,0.2,1.4,0.4,2.1,0.5c3.8,0.9,7.7,1.3,11.4,1.3c4.3,0,8.5-0.4,12.5-1.2
+          c1.8-0.3,3.5-0.7,5.2-1.2c10.6-2.8,19.6-8.1,25.2-14.9v13.8h44.1V114C542.9,105.9,541.8,98.8,539.8,92.8z M498.8,165.1
+          c-4.6,6.6-14.9,10-24.7,10c-11.8,0-22.1-5.2-22.1-16.1c0-10.9,10.3-16.1,22.1-16.1c9.8,0,20.1,3.4,24.7,9.8V165.1z"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M656.2,101.5h-28.1v19.6c-1.4-0.1-2.8-0.2-4.2-0.2c-18.2,0-33.7,11.5-39.6,27.5v-46.9h-22.9V63.1h22.9V25.2
+          h43.9v37.9h28.1V101.5z"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M725.5,26.2c0,14-11.2,25.5-25.2,25.5s-25.2-11.5-25.2-25.5S686.3,1,700.3,1S725.5,12.2,725.5,26.2z"/>
+        <polygon fill-rule="evenodd" clip-rule="evenodd" points="891.5,63.1 879.4,93.8 873.7,108.5 837,201.6 790,201.6 760.2,125.9 747.6,93.8 735.6,63.1 782,63.1 792.9,93.8 802.1,119.5 813.2,150.9 825.8,115.8 833.8,93.8 844.8,63.1"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M939.8,116.6c1.4-8,6.3-18.3,18-22.2c3-1,6.5-1.6,10.4-1.6c20.3,0,27.5,14.1,28.7,23.8H939.8z M968.2,204l2,0
+          c21.2,0,44.1-6,57.9-18.4l-18.6-27.5c-7.7,7.5-24.6,11.8-34.4,11.8c-20.1,0-32.1-11.8-34.7-24.7h98.6v-9.5
+          c0-47-29.8-77.2-70.8-77.2c-28.1,0-50.7,13.6-63.2,34.1c-2,3.3-3.8,6.8-5.2,10.5c-3.4,8.6-5.3,18-5.3,27.9
+          c0,44.3,31.8,71.9,73.5,72.8L968.2,204z"/>
+        <polyline fill-rule="evenodd" clip-rule="evenodd" points="678.2,201.4 678.2,63.1 722.3,63.1 722.3,201.4"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M395.3,135.8c0-10-1.3-19.2-3.8-27.5c-1.7-5.6-3.9-10.8-6.6-15.5c-12.1-21.6-33.9-34.1-60.4-34.1
+          c-9.1,0-17.7,1.4-25.5,4.1c-25.9,11.5-43.9,37.5-43.9,67.8c0,37.8,28.1,69,64.5,73.5c3,0.4,6,0.5,9,0.5c6.4,0,12.7-0.8,18.6-2.4
+          c13.3-3.5,25.2-10.7,34.5-20.4l-15.9-23.5c-7.7,7.5-24.7,11.8-34.4,11.8c-20.1,0-32.1-11.8-34.7-24.7h98.6V135.8z M296.1,116.6
+          c1.7-10,9.2-23.8,28.4-23.8c6.4,0,11.5,1.4,15.5,3.6c8.7,4.8,12.4,13.5,13.1,20.2H296.1z"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M658.1,187.8c-6.7,9.3-17.1,15.8-29.1,17.2h0c-1.7,0.2-3.4,0.3-5.2,0.3c-6.6,0-12.9-1.5-18.5-4.2
+          c-5.5-2.7-10.3-6.5-14.1-11.1c0,0,0,0-0.1-0.1c-4.6-6.5-7-15.1-7-25.6v-15.9c6-16.1,21.4-27.5,39.6-27.5c1.4,0,2.8,0.1,4.2,0.2V152
+          c0,7.1,3.6,12.6,9.8,13.8c0.8,0.1,1.6,0.2,2.5,0.2c4.9,0,9.7-1.7,11.2-3.4l1.9,7.4L658.1,187.8z"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="sr-hint">• move your cursor through the letters •</div>
+</section>
+
   <section class="stats">
     <div class="container">
       <div class="stats-title">
@@ -613,13 +869,22 @@
   </section>
 
   <!-- DROPPY SECTION -->
-  <section class="droppy-section">
-    <div class="dt">
-      <span class="jp">技術</span>
-      <span class="en">Tech </span>
-    </div>
-    <div class="dc" id="dc"></div>
-  </section>
+<!-- DROPPY SECTION -->
+<section class="droppy-section">
+  <div class="dt">
+    <span class="jp">技術</span>
+    <span class="en">Tech Stack</span>
+  </div>
+  <div class="dc" id="dc">
+    <svg style="display:none;">
+      <filter id="dc-filter" x="-50%" width="200%" y="-50%" height="200%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur"/>
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -8" result="cm"/>
+      </filter>
+    </svg>
+    <!-- les mots sont injectés par JS -->
+  </div>
+</section>
 
   <section class="tech-slider">
     <div class="container-fluid">
@@ -666,6 +931,230 @@
     </div>
   </section>
 
+  <!-- ===== BRUSH PAINT SECTION ===== -->
+<section class="brush-section" id="brushSection">
+  <canvas class="brush-canvas" id="brushCanvas"></canvas>
+
+  <div class="brush-overlay">
+    <span class="brush-jp">刀</span>
+    <span class="brush-title">Code With Honor</span>
+    <span class="brush-hint" id="brushClean">✦ dessiner avec la souris · cliquer pour effacer ✦</span>
+  </div>
+
+  <!-- Vertex Shader -->
+  <script id="brushVertexShader" type="x-shader/x-vertex">
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = vec4(position, 1.0);
+    }
+  </script>
+
+  <!-- Fragment Shader -->
+  <script id="brushFragmentShader" type="x-shader/x-fragment">
+  precision highp float;
+uniform sampler2D u_texture;
+uniform vec2 u_point;
+uniform float u_moving;
+uniform float u_speed;
+uniform float u_stop_time;
+uniform vec2 u_stop_randomizer;
+uniform float u_clean;
+uniform float u_ratio;
+varying vec2 vUv;
+
+#define PI 3.14159265359
+#define TWO_PI 6.28318530718
+
+float rand(vec2 n) {
+  return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453);
+}
+
+float noise(vec2 p) {
+  vec2 ip = floor(p);
+  vec2 u  = fract(p);
+  u = u * u * (3.0 - 2.0 * u);
+  return mix(
+    mix(rand(ip), rand(ip+vec2(1,0)), u.x),
+    mix(rand(ip+vec2(0,1)), rand(ip+vec2(1,1)), u.x), u.y
+  );
+}
+
+float fbm(vec2 p) {
+  float v = 0.0, a = 0.5;
+  for (int i = 0; i < 4; i++) {
+    v += a * noise(p);
+    p *= 2.0; a *= 0.5;
+  }
+  return v;
+}
+
+// ===== PETALE =====
+float petal(vec2 uv, float angle, float size, float len) {
+  float c = cos(angle), s = sin(angle);
+  vec2 r = vec2(c*uv.x + s*uv.y, -s*uv.x + c*uv.y);
+  // forme ovale allongée
+  r.x /= size;
+  r.y = (r.y - len * 0.5) / len;
+  float d = length(r);
+  return smoothstep(0.52, 0.28, d);
+}
+
+// ===== WARDA (rose) =====
+vec3 drawFlower(vec2 uv, vec2 center, float scale, float seed) {
+  vec2 p = (uv - center) / scale;
+  p.x *= u_ratio;
+
+  float angle0 = seed * TWO_PI;
+  vec3 col = vec3(0.0);
+
+  // distorsion organique
+  float twist = fbm(p * 3.0 + seed) * 0.4;
+  float r_dist = length(p);
+
+  // ===== PETALES EXTERNES (7 petales) =====
+  float petals_outer = 0.0;
+  for (int i = 0; i < 7; i++) {
+    float ang = angle0 + float(i) * TWO_PI / 7.0 + twist * 0.3;
+    float sz  = 0.28 + 0.04 * noise(vec2(float(i), seed));
+    float ln  = 0.55 + 0.05 * noise(vec2(seed, float(i)));
+    vec2 off  = vec2(cos(ang), sin(ang)) * 0.32;
+    petals_outer += petal(p - off, ang + PI * 0.5, sz, ln);
+  }
+  petals_outer = clamp(petals_outer, 0.0, 1.0);
+
+  // couleur petale externe: rouge sang profond
+  vec3 c_outer = mix(
+    vec3(0.55, 0.0, 0.05),   // rouge sombre bords
+    vec3(0.92, 0.02, 0.12),  // rouge vif centre
+    smoothstep(0.4, 0.0, r_dist)
+  );
+  // variation noise sur les petales
+  float pNoise = fbm(p * 6.0 + seed * 2.0);
+  c_outer *= (0.75 + 0.25 * pNoise);
+  col = mix(col, c_outer, petals_outer);
+
+  // ===== PETALES INTERNES (5 petales) =====
+  float petals_inner = 0.0;
+  for (int i = 0; i < 5; i++) {
+    float ang = angle0 + float(i) * TWO_PI / 5.0 + PI / 5.0 - twist * 0.2;
+    float sz  = 0.18 + 0.03 * noise(vec2(float(i) * 1.3, seed));
+    float ln  = 0.32 + 0.04 * noise(vec2(seed * 1.5, float(i)));
+    vec2 off  = vec2(cos(ang), sin(ang)) * 0.16;
+    petals_inner += petal(p - off, ang + PI * 0.5, sz, ln);
+  }
+  petals_inner = clamp(petals_inner, 0.0, 1.0);
+
+  vec3 c_inner = mix(
+    vec3(0.72, 0.0, 0.08),
+    vec3(1.0, 0.05, 0.18),
+    smoothstep(0.2, 0.0, r_dist)
+  );
+  float iNoise = fbm(p * 9.0 + seed);
+  c_inner *= (0.8 + 0.2 * iNoise);
+  col = mix(col, c_inner, petals_inner * 0.95);
+
+  // ===== CENTRE (pistil) =====
+  float centre_d = smoothstep(0.12, 0.04, length(p + vec2(twist * 0.05)));
+  // couleur centre: rouge très sombre / bordeaux
+  vec3 c_centre = mix(
+    vec3(0.3, 0.0, 0.04),
+    vec3(0.55, 0.01, 0.08),
+    fbm(p * 12.0 + seed)
+  );
+  col = mix(col, c_centre, centre_d);
+
+  // ===== STAMENS (étamines) =====
+  float stamens = 0.0;
+  for (int i = 0; i < 8; i++) {
+    float ang = angle0 + float(i) * TWO_PI / 8.0;
+    vec2 sOff = vec2(cos(ang), sin(ang)) * 0.07;
+    stamens += smoothstep(0.028, 0.008, length(p - sOff));
+  }
+  stamens = clamp(stamens, 0.0, 1.0);
+  col = mix(col, vec3(0.85, 0.65, 0.05), stamens * 0.7); // jaune doré
+
+  // masque global de la fleur
+  float flower_mask = clamp(petals_outer + petals_inner + centre_d, 0.0, 1.0);
+
+  return col * flower_mask;
+}
+
+// ===== TIGE =====
+vec3 drawStem(vec2 uv, vec2 center, float scale) {
+  vec2 p = (uv - center) / scale;
+  p.x *= u_ratio;
+
+  // tige courbe
+  float stemX = p.x - 0.02 * sin(p.y * 3.0);
+  float stem   = smoothstep(0.035, 0.01, abs(stemX)) * smoothstep(-0.1, 0.0, p.y) * smoothstep(1.2, 0.5, p.y);
+
+  // feuilles
+  vec2 leaf1 = p - vec2(0.08, 0.45);
+  float l1 = petal(leaf1, -0.6, 0.12, 0.22);
+  vec2 leaf2 = p - vec2(-0.07, 0.72);
+  float l2 = petal(leaf2, PI + 0.5, 0.10, 0.18);
+
+  vec3 green = vec3(0.08, 0.38, 0.06);
+  vec3 green2 = vec3(0.05, 0.28, 0.04);
+
+  vec3 col = vec3(0.0);
+  col += green  * stem;
+  col += green  * l1;
+  col += green2 * l2;
+  return col;
+}
+
+void main() {
+  vec2 uv      = vUv;
+  vec2 ratio_uv = vec2(uv.x * u_ratio, uv.y);
+  vec2 point   = vec2(u_point.x * u_ratio, u_point.y);
+
+  float dist      = distance(ratio_uv, point);
+  float brushSize = 0.22 + u_speed * 0.04;
+  float brush_alpha = smoothstep(brushSize, brushSize * 0.1, dist);
+
+  // noise organique sur le brush
+  float n = noise(ratio_uv * 12.0 + u_stop_randomizer * 5.0);
+  brush_alpha *= (0.5 + 0.5 * n);
+
+  // seed unique par fleur (basé sur position + randomizer)
+  float seed = u_stop_randomizer.x * 6.28 + u_stop_randomizer.y * 3.14;
+
+  // dessiner la fleur centrée sur le curseur
+  vec3 flower = drawFlower(uv, u_point, brushSize * 0.9, seed);
+
+  // tige en dessous
+  vec2 stemCenter = u_point + vec2(0.0, -0.18);
+  vec3 stem = drawStem(uv, stemCenter, brushSize * 1.1);
+
+  // masque flower global
+  float flower_mask_total = clamp(length(flower) * 3.0, 0.0, 1.0);
+
+  // previous frame
+  vec3 base = texture2D(u_texture, uv).rgb;
+
+  // fade
+  vec3 faded = base * (u_clean > 0.5 ? 0.993 : 0.0);
+
+  // combine
+  vec3 newDraw = flower + stem;
+  vec3 color   = faded * (1.0 - flower_mask_total * 0.3) + newDraw;
+  color        = clamp(color, 0.0, 1.0);
+
+  if (u_moving > 0.5) {
+    gl_FragColor = vec4(color, 1.0);
+  } else {
+    // repos: diffusion douce
+    float sp = noise(ratio_uv * 5.0 + u_stop_time * 0.15) * 0.002;
+    vec2 sUv = clamp(uv + sp * (u_stop_randomizer - 0.5), 0.0, 1.0);
+    vec3 spread = texture2D(u_texture, sUv).rgb;
+    gl_FragColor = vec4(mix(faded, spread, 0.08), 1.0);
+  }
+}
+  </script>
+</section>
+
   <section id="contact" class="contact">
     <div class="container">
       <div class="section-header">
@@ -699,7 +1188,7 @@
         <a href="https://www.linkedin.com/in/youssef-cherkaoui-4008b12ab/" target="_blank"><i class="fab fa-linkedin"></i></a>
         <a href="CHERKAOUI ELMEKNASSI Youssef Essaddik.pdf" download><i class="fas fa-file-pdf"></i></a>
       </div>
-      <p>&copy; 2025 <strong class="text-primary">Youssef Cherkaoui</strong>. Crafted with honor.</p>
+      <p>&copy; 2026 <strong class="text-primary">Youssef Cherkaoui</strong>. Crafted with honor.</p>
       <p style="margin-top: 0.5rem; font-size: 0.8rem;"><a href="#home"><i class="fas fa-arrow-up me-1"></i>Retour en haut</a></p>
     </div>
   </footer>
@@ -764,58 +1253,89 @@
     </div></div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+  class Droppy {
+    DEFAULT_OPTIONS = {
+      canvasSelector: ".canvas",
+      textSelector: ".puddle",
+      letterClassName: "puddle__letter",
+      dropsClassName: "combined-puddles",
+      delayBetweenDrops: 95,
+      dropTypes: 10,
+      wordAngleRange: [-3, 3]
+    };
 
-    // ===== DROPPY =====
-    (function initDroppy() {
-      const WORDS = [
-          { t: 'JAVA',    ox: '-340px' },
-  { t: 'ANGULAR', ox: '-110px' },
-  { t: 'SPRING',  ox:  '130px' },
-  { t: 'DOCKER',  ox:  '340px' },
-      ];
-      const dc = document.getElementById('dc');
-      if (!dc) return;
+    constructor(opts) {
+      this.opts = { ...this.DEFAULT_OPTIONS, ...opts };
+      this.$textSelector = document.querySelectorAll(this.opts.textSelector);
+      this.$canvas = document.querySelector(this.opts.canvasSelector);
+      this.init();
+    }
 
-      const textLayer  = document.createElement('div');
-      textLayer.className = 'text-layer';
-      const dropsLayer = document.createElement('div');
-      dropsLayer.className = 'drops-layer';
+    init() {
+      this.injectSVGFilter();
+      this.wrapLetters();
+      this.addDelayToEachLetter();
+      this.createDrops();
+      this.startAnimation();
+    }
 
-      let delay = 0;
-      WORDS.forEach(({ t, ox }) => {
-        const angle = (Math.random() * 6 - 3).toFixed(1);
-        [textLayer, dropsLayer].forEach((layer, li) => {
-          const word = document.createElement('div');
-          word.className = 'word';
-          word.style.cssText = `--ox:${ox}; --r:${angle}deg;`;
-          let d = delay;
-          Array.from(t).forEach(ch => {
-            const span = document.createElement('span');
-            span.textContent = ch;
-            span.style.setProperty('--d', d + 'ms');
-            word.appendChild(span);
-            d += 85;
-          });
-          layer.appendChild(word);
+    getRandomInt = (min, max) => {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+
+    startAnimation() {
+      this.$canvas.classList.add("canvas--animated");
+    }
+
+    wrapLetters() {
+      this.$textSelector.forEach(($word) => {
+        const letters = Array.from($word.innerText).map((letter) => {
+          const dropType = this.getRandomInt(1, this.opts.dropTypes);
+          const className = `${this.opts.letterClassName} ${this.opts.letterClassName}--t-${dropType}`;
+          return `<div class="${className}">${letter}</div>`;
         });
-        delay += t.length * 85 + 100;
+        const angle = this.getRandomInt(
+          this.opts.wordAngleRange[0],
+          this.opts.wordAngleRange[1]
+        );
+
+        $word.style.cssText += `--r:${angle}deg`;
+        $word.innerHTML = letters.join("");
       });
+    }
 
-      dc.appendChild(dropsLayer);
-      dc.appendChild(textLayer);
+    addDelayToEachLetter() {
+      const letters = document.querySelectorAll(`.${this.opts.letterClassName}`);
 
-      const obs = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            setTimeout(() => dc.classList.add('go'), 300);
-            obs.disconnect();
-          }
-        });
-      }, { threshold: 0.3 });
-      obs.observe(dc);
-    })();
+      Array.from(letters, ($letter, index) => {
+        const delay = index * this.opts.delayBetweenDrops;
+        $letter.style.cssText += `--delay:${delay}ms`;
+      });
+    }
+
+    createDrops() {
+      const $drops = document.createElement("div");
+      $drops.className = this.opts.dropsClassName;
+
+      Array.from(this.$textSelector, ($word) =>
+        $drops.appendChild($word.cloneNode(true))
+      );
+
+      this.$canvas.appendChild($drops);
+    }
+
+    injectSVGFilter() {
+      const filter =
+        '<svg style="display:none;"><filter id="drops-filter" x="-50%" width="200%" y="-50%" height="200%" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" /><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -7" result="cm" /></filter></svg>';
+      this.$canvas.insertAdjacentHTML("beforeend", filter);
+    }
+  }
+
+  new Droppy();
+  </script>
+
+  <script>
 
     // ===== LOADER =====
     window.addEventListener('load', () => {
@@ -1197,6 +1717,315 @@
         });
       }, 1500);
     });
+
+
+
+    // ===== SAMURAI REVEAL LIQUID =====
+(function initSamuraiReveal() {
+  const wrap = document.getElementById('srWrap');
+  const canvas = document.getElementById('srCanvas');
+  if (!wrap || !canvas || typeof THREE === 'undefined') return;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+
+  const VERT = `varying vec2 vUv; void main(){vUv=uv;gl_Position=vec4(position,1.);}`;
+  const FRAG = `
+    precision highp float;
+    varying vec2 vUv;
+    uniform float uTime;
+    uniform vec2 uMouse;
+    uniform vec2 uVel;
+    uniform float uAspect;
+    void main(){
+      vec2 uv=vUv; uv.x*=uAspect;
+      vec2 m=uMouse; m.x*=uAspect;
+      float dist=length(uv-m);
+      float ripple=sin(dist*18.-uTime*3.)*exp(-dist*4.)*length(uVel)*3.;
+      float w1=sin(uv.x*4.+uTime*0.7+uv.y*2.)*0.5+0.5;
+      float w2=sin(uv.y*5.-uTime*0.5+uv.x*3.)*0.5+0.5;
+      float base=w1*w2+ripple;
+      vec3 c1=vec3(1.,0.,0.25);
+      vec3 c2=vec3(0.5,0.,0.12);
+      vec3 c3=vec3(0.05,0.03,0.03);
+      vec3 col=mix(c3,mix(c2,c1,base*0.7),clamp(base+0.2,0.,1.));
+      gl_FragColor=vec4(col,1.);
+    }
+  `;
+
+  const mat = new THREE.ShaderMaterial({
+    vertexShader: VERT, fragmentShader: FRAG,
+    uniforms: {
+      uTime:   { value: 0 },
+      uMouse:  { value: new THREE.Vector2(0.5, 0.5) },
+      uVel:    { value: new THREE.Vector2(0, 0) },
+      uAspect: { value: 1 }
+    }
+  });
+
+  scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), mat));
+
+  function resize() {
+    const w = wrap.offsetWidth, h = wrap.offsetHeight;
+    renderer.setSize(w, h);
+    mat.uniforms.uAspect.value = w / h;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  let lastM = { x: 0.5, y: 0.5 }, lastT = 0;
+  const vel = { x: 0, y: 0 };
+
+  wrap.addEventListener('mousemove', e => {
+    const r = wrap.getBoundingClientRect();
+    const nx = (e.clientX - r.left) / r.width;
+    const ny = 1 - (e.clientY - r.top) / r.height;
+    const now = performance.now();
+    const dt = Math.max(16, now - lastT);
+    vel.x = (nx - lastM.x) / dt * 60;
+    vel.y = (ny - lastM.y) / dt * 60;
+    lastM = { x: nx, y: ny }; lastT = now;
+    mat.uniforms.uMouse.value.set(nx, ny);
+    mat.uniforms.uVel.value.set(vel.x, vel.y);
+  });
+  wrap.addEventListener('mouseleave', () => {
+    vel.x = 0; vel.y = 0;
+    mat.uniforms.uVel.value.set(0, 0);
+  });
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) requestAnimationFrame(loop); });
+  }, { threshold: 0.1 });
+  obs.observe(wrap);
+
+  let animId;
+  function loop(t) {
+    animId = requestAnimationFrame(loop);
+    mat.uniforms.uTime.value = t * 0.001;
+    vel.x *= 0.92; vel.y *= 0.92;
+    mat.uniforms.uVel.value.set(vel.x, vel.y);
+    renderer.render(scene, camera);
+  }
+  requestAnimationFrame(loop);
+})();
+
+// ===== DROPPY =====
+(function initDroppy() {
+  const WORDS = [
+    { text: 'JAVA',    ox: '-340px' },
+    { text: 'ANGULAR', ox: '-105px' },
+    { text: 'SPRING',  ox:  '135px' },
+    { text: 'DOCKER',  ox:  '360px' },
+  ];
+
+  const dc = document.getElementById('dc');
+  if (!dc) return;
+
+  const DROP_TYPES = 10;
+  const DELAY_STEP = 80;
+
+  function randInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  // crée les deux layers
+  const dropsLayer = document.createElement('div');
+  dropsLayer.className = 'combined-puddles';
+
+  const textLayer = document.createElement('div');
+  textLayer.className = 'text-puddles';
+
+  let globalDelay = 0;
+
+  WORDS.forEach(({ text, ox }) => {
+    const angle = (Math.random() * 8 - 4).toFixed(1);
+
+    [dropsLayer, textLayer].forEach((layer, li) => {
+      const word = document.createElement('div');
+      word.className = 'puddle';
+      word.style.cssText = `--ox:${ox}; --r:${angle}deg;`;
+
+      let d = globalDelay;
+      Array.from(text).forEach(ch => {
+        const span = document.createElement('span');
+        const t = randInt(1, DROP_TYPES);
+        span.className = `puddle__letter puddle__letter--t-${t}`;
+        span.style.setProperty('--delay', d + 'ms');
+        if (li === 1) span.textContent = ch; // text layer = lettres visibles
+        d += DELAY_STEP;
+        word.appendChild(span);
+      });
+
+      layer.appendChild(word);
+    });
+
+    globalDelay += text.length * DELAY_STEP + 120;
+  });
+
+  dc.appendChild(dropsLayer);
+  dc.appendChild(textLayer);
+
+  // déclenche l'animation quand la section est visible
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setTimeout(() => dc.classList.add('dc--animated'), 200);
+        obs.disconnect();
+      }
+    });
+  }, { threshold: 0.3 });
+  obs.observe(dc);
+})();
+
+
+// ===== BRUSH PAINT SECTION =====
+(function initBrushSection() {
+  const section   = document.getElementById('brushSection');
+  const canvasEl  = document.getElementById('brushCanvas');
+  const cleanBtn  = document.getElementById('brushClean');
+  if (!section || !canvasEl || typeof THREE === 'undefined') return;
+
+  const W = () => section.offsetWidth;
+  const H = () => section.offsetHeight;
+
+  const ptr = {
+    x: 0.5, y: 0.5,
+    moved: false,
+    speed: 0,
+    vanish: false,
+    active: true,
+  };
+
+  // renderer
+  const renderer = new THREE.WebGLRenderer({ canvas: canvasEl, alpha: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setSize(W(), H());
+
+  const sceneShader = new THREE.Scene();
+  const sceneBasic  = new THREE.Scene();
+  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 10);
+  const clock  = new THREE.Clock();
+
+  let rts = [
+    new THREE.WebGLRenderTarget(W(), H()),
+    new THREE.WebGLRenderTarget(W(), H()),
+  ];
+
+  const geo = new THREE.PlaneGeometry(2, 2);
+
+  const shaderMat = new THREE.ShaderMaterial({
+    uniforms: {
+      u_stop_time:       { value: 0 },
+      u_point:           { value: new THREE.Vector2(0.5, 0.5) },
+      u_moving:          { value: 0 },
+      u_speed:           { value: 0 },
+      u_stop_randomizer: { value: new THREE.Vector2(Math.random(), Math.random()) },
+      u_clean:           { value: 1 },
+      u_ratio:           { value: W() / H() },
+      u_texture:         { value: null },
+    },
+    vertexShader:   document.getElementById('brushVertexShader').textContent,
+    fragmentShader: document.getElementById('brushFragmentShader').textContent,
+  });
+
+
+const basicMat = new THREE.MeshBasicMaterial({ transparent: false });
+
+  sceneShader.add(new THREE.Mesh(geo, shaderMat));
+  sceneBasic.add(new THREE.Mesh(geo, basicMat));
+
+  // pointer events — scoped à la section uniquement
+  section.addEventListener('mousemove', e => {
+    if (!ptr.active) return;
+    const r  = section.getBoundingClientRect();
+    const nx = (e.clientX - r.left) / r.width;
+    const ny = (e.clientY - r.top)  / r.height;
+    const dx = 12 * (nx - ptr.x);
+    const dy = 12 * (ny - ptr.y);
+    ptr.x = nx; ptr.y = ny;
+    ptr.moved = true;
+ptr.speed = Math.min(1.5, dx * dx + dy * dy);
+  });
+
+  section.addEventListener('mouseleave', () => { ptr.moved = false; });
+
+  section.addEventListener('touchmove', e => {
+    e.preventDefault();
+    const r  = section.getBoundingClientRect();
+    const t  = e.targetTouches[0];
+    const nx = (t.clientX - r.left) / r.width;
+    const ny = (t.clientY - r.top)  / r.height;
+    const dx = 5 * (nx - ptr.x);
+    const dy = 5 * (ny - ptr.y);
+    ptr.x = nx; ptr.y = ny;
+    ptr.moved = true;
+    ptr.speed = Math.min(2, 20 * (dx * dx + dy * dy));
+  }, { passive: false });
+
+  cleanBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    ptr.vanish = true;
+    setTimeout(() => { ptr.vanish = false; }, 50);
+  });
+
+  // resize
+  window.addEventListener('resize', () => {
+    renderer.setSize(W(), H());
+    shaderMat.uniforms.u_ratio.value = W() / H();
+    rts.forEach(rt => rt.setSize(W(), H()));
+  });
+
+  // render loop
+  function loop() {
+    requestAnimationFrame(loop);
+
+    shaderMat.uniforms.u_clean.value   = ptr.vanish ? 0 : 1;
+    shaderMat.uniforms.u_point.value   = new THREE.Vector2(ptr.x, 1 - ptr.y);
+    shaderMat.uniforms.u_texture.value = rts[0].texture;
+    shaderMat.uniforms.u_ratio.value   = W() / H();
+
+    if (ptr.moved) {
+      shaderMat.uniforms.u_moving.value          = 1;
+      shaderMat.uniforms.u_stop_randomizer.value = new THREE.Vector2(Math.random(), Math.random());
+      shaderMat.uniforms.u_stop_time.value       = 0;
+      ptr.moved = false;
+    } else {
+      shaderMat.uniforms.u_moving.value = 0;
+    }
+
+    shaderMat.uniforms.u_stop_time.value += clock.getDelta();
+    shaderMat.uniforms.u_speed.value      = ptr.speed;
+
+    renderer.setRenderTarget(rts[1]);
+    renderer.render(sceneShader, camera);
+
+    basicMat.map = rts[1].texture;
+    renderer.setRenderTarget(null);
+    renderer.render(sceneBasic, camera);
+
+    const tmp = rts[0]; rts[0] = rts[1]; rts[1] = tmp;
+  }
+
+  // démarre seulement quand visible
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      ptr.active = e.isIntersecting;
+      if (e.isIntersecting) loop();
+    });
+  }, { threshold: 0.1 });
+  obs.observe(section);
+
+  // init: draw une trace de départ
+  setTimeout(() => {
+  ptr.x = 0.35; ptr.y = 0.45; ptr.moved = true;
+  setTimeout(() => { ptr.x = 0.38; ptr.y = 0.43; ptr.moved = true; }, 200);
+  setTimeout(() => { ptr.x = 0.65; ptr.y = 0.55; ptr.moved = true; }, 500);
+  setTimeout(() => { ptr.x = 0.62; ptr.y = 0.52; ptr.moved = true; }, 700);
+}, 800);
+})();
+
   </script>
 </body>
 </html>
